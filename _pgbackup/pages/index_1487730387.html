@@ -142,7 +142,7 @@
         <script src="../dist/js/sb-admin-2.js"></script>
         <script>
             function checkUser() {
-                if(Kinvey.User.getActiveUser() == null) {
+                if(Kinvey.User == null) {
                     alert("Not loggged in"<br>"Sending to Login Page");
                 	location.href = "login.html";
             }

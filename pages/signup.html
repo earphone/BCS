@@ -29,29 +29,51 @@
                 <div class="col-md-4 col-md-offset-4">
                     <div class="login-panel panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Please Sign In</h3>
+                            <h3 class="panel-title"><h4>Please provide the information below for a new employee!</h4></h3>
                         </div>
-                        <div class="panel-body" id="login-form">
+                        <div class="panel-body">
                             <form role="form">
                                 <fieldset>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus id="email">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Password" name="password" type="password" value="" id="password">
+                                        <input class="form-control" placeholder="First Name" name="name-first" type="text" value="" id="name-first">
                                     </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Last Name" name="name-last" type="text" value="" id="name-last">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="password" type="text" value="" id="name-initials" placeholder="Initials ex: EL">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="ID #" name="employee-id" type="number" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value="">
+                                    </div>
+                                    <div>
+                                        <label id="journeyman" class="checkbox-inline"> 
+                                            <input class="control-label" type="checkbox" value="">        Journeyman       
+                                        </label>
+                                        <label id="apprentice" class="checkbox-inline"> 
+                                            <input class="control-label" type="checkbox" value="">        Apprentice     
                                         </label>
                                     </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Step (Enter 0 for none)" name="company" type="number" value id="apprentice-step">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    </div>
                                     <!-- Change this to a button or input when using this as a form -->
-                                    <a href="index.html" class="btn btn-lg btn-success btn-block" id="login-button">LOGIN</a>
+                                    <a href="index.html" class="btn btn-lg btn-success btn-block">Create New Employee</a>
                                 </fieldset>
                             </form>
-                            <h5 id="forgot-password">Forgot Password?</h5>
-                            <a href="signup.html"><h5 id="sign-up">
-                                Sign Up!</h5></a>
+                            <a href="login.html"><h5 class="text-center">Back to Login</h5></a>
                         </div>
                     </div>
                 </div>

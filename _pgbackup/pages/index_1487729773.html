@@ -24,7 +24,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     </head>
-    <body onload="checkUser()">
+    <body>
         <div id="wrapper">
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -140,12 +140,5 @@
         <script src="../data/morris-data.js"></script>
         <!-- Custom Theme JavaScript -->
         <script src="../dist/js/sb-admin-2.js"></script>
-        <script>
-            function checkUser() {
-                if(Kinvey.User.getActiveUser() == null) {
-                    alert("Not loggged in"<br>"Sending to Login Page");
-                	location.href = "login.html";
-            }
-        </script>
     </body>
 </html>

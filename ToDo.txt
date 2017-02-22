@@ -1,0 +1,13 @@
+Add in appKey and Secret to js/app.js
+	http://devcenter.kinvey.com/html5/guides/getting-started
+	https://github.com/KinveyApps/HTML5-Starter/blob/master/www/js/app.js
+Redirect HTML if not logged in
+	http://stackoverflow.com/questions/19333043/redirect-html-page-if-not-login
+	https://www.w3schools.com/jsref/event_onload.asp
+User font awesome throughout!!
+	http://fontawesome.io/icons/
+
+Notes:
+	Add personal history for each person in profile page (possibly do reload without going to a new page)
+	dpr and dtr pages are only for new
+	do reload in admin section rather than a new page each time
