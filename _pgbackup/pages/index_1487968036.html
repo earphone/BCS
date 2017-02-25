@@ -24,6 +24,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     </head>
+    <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-html5-sdk-3.4.1.min.js"></script>
     <body onload="checkUser()">
         <div id="wrapper">
             <!-- Navigation -->
@@ -128,8 +129,6 @@
             <!-- /#page-wrapper -->
         </div>
         <!-- /#wrapper -->
-        <!-- Kinvey -->
-        <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-html5-sdk-3.4.1.min.js"></script>
         <!-- jQuery -->
         <script src="../vendor/jquery/jquery.min.js"></script>
         <!-- Bootstrap Core JavaScript -->
@@ -144,9 +143,8 @@
         <script src="../dist/js/sb-admin-2.js"></script>
         <script>
             function checkUser() {
-                alert("Checking user");
-                //if(Kinvey.User.getActiveUser() == null) {
-                //    alert("Not loggged in"<br>"Sending to Login Page");
+                if(Kinvey.User.getActiveUser() == null) {
+                    alert("Not loggged in"<br>"Sending to Login Page");
                 	location.href = "login.html";
             }
         </script>

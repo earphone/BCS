@@ -145,8 +145,8 @@
         <script>
             function checkUser() {
                 alert("Checking user");
-                //if(Kinvey.User.getActiveUser() == null) {
-                //    alert("Not loggged in"<br>"Sending to Login Page");
+                if(Kinvey.User.getActiveUser() == null) {
+                    alert("Not loggged in"<br>"Sending to Login Page");
                 	location.href = "login.html";
             }
         </script>
