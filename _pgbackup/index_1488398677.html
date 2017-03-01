@@ -24,7 +24,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->         
     </head>     
-    <body onload="checkUser()"> 
+    <body onload="sendToMain()"> 
         <div id="wrapper"> 
             <!-- Navigation -->             
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"> 
@@ -143,17 +143,8 @@
         <!-- Custom Theme JavaScript -->         
         <script src="../dist/js/sb-admin-2.js"></script>         
         <script>
-            function checkUser() {
-                alert("Checking user");
-                //if(Kinvey.User.getActiveUser() == null) {
-                //    alert("Not loggged in"<br>"Sending to Login Page");
-                var promise = Kinvey.ping();
-                promise.then(function(response) {
-                    alert('Kinvey Ping Success. Kinvey Service is alive, version: ' + response.version + ', response: ' + response.kinvey);
-                }).catch(function(error) {
-                    alert('Kinvey Ping Failed. Response: ' + error.message);
-                });
-                	location.href = "login.html";
+            function sendToMain() {
+                location.href = "login.html";
             }
         </script>         
     </body>     
