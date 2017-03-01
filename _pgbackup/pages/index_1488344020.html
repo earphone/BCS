@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>SB Admin 2 - Bootstrap Admin Theme</title>
+        <title>BCS Webapp/title>
         <!-- Bootstrap Core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- MetisMenu CSS -->
@@ -56,11 +56,11 @@
                             </li>
                             <li>
                                 <a href="admin.html"><i class="fa fa-gamepad fa-fw"></i> Admin</a>
-                            </li>                             
+                            </li>
                             <!-- fa-institution -->
                             <li>
                                 <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                            </li>                             
+                            </li>
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->
@@ -147,12 +147,6 @@
                 alert("Checking user");
                 //if(Kinvey.User.getActiveUser() == null) {
                 //    alert("Not loggged in"<br>"Sending to Login Page");
-                var promise = Kinvey.ping();
-                promise.then(function(response) {
-                    alert('Kinvey Ping Success. Kinvey Service is alive, version: ' + response.version + ', response: ' + response.kinvey);
-                }).catch(function(error) {
-                    alert('Kinvey Ping Failed. Response: ' + error.message);
-                });
                 	location.href = "login.html";
             }
         </script>
