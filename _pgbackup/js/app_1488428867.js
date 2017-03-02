@@ -26,8 +26,8 @@ var app = {
 
 // Initialize Kinvey
 Kinvey.initialize({
-  appKey: 'kid_ByrZLAIwl',
-  appSecret: '1c72c49283e14ca5a4191490a6ba4414'
+  appKey: '',
+  appSecret: ''
 })
   .then(function(activeUser) {
     if (!activeUser && authorizedHrefs.indexOf(location.pathname) !== -1) {
