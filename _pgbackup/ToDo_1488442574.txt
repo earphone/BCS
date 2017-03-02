@@ -6,8 +6,6 @@ Redirect HTML if not logged in
 	https://www.w3schools.com/jsref/event_onload.asp
 User font awesome throughout!!
 	http://fontawesome.io/icons/
-Minimal needed to initialize Kinvey
-	https://gist.github.com/vseventer/2781874
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)

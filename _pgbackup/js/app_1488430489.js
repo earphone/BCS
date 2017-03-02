@@ -1,4 +1,4 @@
-x// based off of https://github.com/KinveyApps/HTML5-Starter/blob/master/www/js/app.js
+// based off of https://github.com/KinveyApps/HTML5-Starter/blob/master/www/js/app.js
 var app = {
 	events: {
 		// Login
@@ -21,4 +21,6 @@ var app = {
 				$('#login-form').append('<p id="login-error" class="text-danger" style="margin-top: 10px;">' + error.message + '</p>');
 			});
 	}//,
+	
 };
+

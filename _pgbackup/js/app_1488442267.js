@@ -22,3 +22,23 @@ var app = {
 			});
 	}//,
 };
+
+// Initialize Kinvey
+Kinvey.initialize({
+  appKey: 'kid_ByrZLAIwl',
+  appSecret: '1c72c49283e14ca5a4191490a6ba4414'
+})
+  .then(function(activeUser) {
+    if (!activeUser && authorizedHrefs.indexOf(location.pathname) !== -1) {
+      location.replace('/login.html');
+    } else {
+     return bindEvents();
+    }
+  })
+  .then(function() {
+    $('#loading-modal').modal('hide');
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
