@@ -1,6 +1,6 @@
 // based off of https://github.com/KinveyApps/HTML5-Starter/blob/master/www/js/app.js
 var app = {
-	/*events: {
+	events: {
 		// Login
 		'#login-button submit': 'login'
 	},
@@ -11,5 +11,5 @@ var app = {
 		
 		// Remove the login-error
 		$('#login-error').remove();
-	}*/
+	}
 };

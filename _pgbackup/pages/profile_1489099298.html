@@ -283,7 +283,7 @@
         <!-- Checks if user is logged in. If not,  redirects to Login page -->
         <script>
         function checkUser() {
-            console.log("Checking User!");
+            alert("Checking User!");
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");

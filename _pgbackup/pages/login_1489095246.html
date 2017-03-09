@@ -73,7 +73,8 @@
         <!-- Firebase Create User -->         
         <script>
         function loginUser() {
-            console.log("Hello: " + "email: " + email.value + " pw: " + password.value);
+            console.log("Hello: ");
+            alert("email: " + email.value + " pw: " + password.value);
             firebase.auth().signInWithEmailAndPassword(email.value, password.value).catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
@@ -85,7 +86,7 @@
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
-                console.log("user: " + user);
+                console.log(user);
                 window.location = 'index.html';
               }
             });

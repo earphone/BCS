@@ -86,9 +86,9 @@
         <!-- Metis Menu Plugin JavaScript -->         
         <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
         <!-- Custom Theme JavaScript -->         
-        <script src="../dist/js/sb-admin-2.js"></script>         
-        <!-- Firebase Initialization -->         
-        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
+        <script src="../dist/js/sb-admin-2.js"></script>
+        <!-- Firebase Initialization -->
+        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -99,8 +99,8 @@
                 messagingSenderId: "664106049370"
             };
             firebase.initializeApp(config);
-        </script>         
-        <!-- Firebase Create User -->         
+        </script>
+        <!-- Firebase Create User -->
         <script>
         function createEmployee() {
             firebase.auth().createUserWithEmailAndPassword(email.value, password.value).catch(function(error) {
@@ -113,11 +113,10 @@
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
-              	
                 window.location = 'index.html';
               }
             });
         }
-        </script>         
+        </script>
     </body>     
 </html>

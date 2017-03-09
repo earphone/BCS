@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <meta name="description" content=""> 
         <meta name="author" content=""> 
-        <title>BCS Webapp DTR</title>         
+        <title>BCS Webapp DPR</title>         
         <!-- Bootstrap Core CSS -->         
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
         <!-- MetisMenu CSS -->         
@@ -57,7 +57,7 @@
                             </li>                             
                             <!-- fa-institution -->                             
                             <li> 
-                                <a href="login.html" id="logout" onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
+                                <a href="login.html" onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
                             </li>                             
                         </ul>                         
                     </div>                     
@@ -70,7 +70,7 @@
                 <div class="container-fluid"> 
                     <div class="row"> 
                         <div class="col-lg-12"> 
-                            <h1 class="page-header">Daily&nbsp;Technician Report</h1> 
+                            <h1 class="page-header">Daily Progress Report</h1> 
                         </div>                         
                         <!-- /.col-lg-12 -->                         
                     </div>                     
@@ -80,7 +80,7 @@
             </div>             
             <!-- /#page-wrapper -->             
         </div>         
-        <!-- /#wrapper -->
+        <!-- /#wrapper -->         
         <!-- Firebase Initialization -->         
         <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
         <script>
@@ -107,7 +107,7 @@
         <!-- Checks if user is logged in. If not,  redirects to Login page -->
         <script>
         function checkUser() {
-            console.log("Checking User!");
+            alert("Checking User!");
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");

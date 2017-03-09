@@ -46,7 +46,7 @@
                                         </label>                                         
                                     </div>                                     
                                     <!-- Change this to a button or input when using this as a form -->                                     
-                                    <p class="btn btn-lg btn-success btn-block" id="login-button" onclick="loginUser()">LOGIN</p> 
+                                    <a href="index.html" class="btn btn-lg btn-success btn-block" id="login-button" onclick="login()">LOGIN</a> 
                                 </fieldset>                                 
                             </form>                             
                             <h5 id="forgot-password">Forgot Password?</h5> 
@@ -57,8 +57,8 @@
                 </div>                 
             </div>             
         </div>         
-        <!-- Firebase Initialization -->         
-        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
+        <!-- Firebase Initialization -->
+        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -69,28 +69,26 @@
                 messagingSenderId: "664106049370"
             };
             firebase.initializeApp(config);
-        </script>         
-        <!-- Firebase Create User -->         
+        </script>
+        <!-- Firebase Create User -->
         <script>
-        function loginUser() {
-            console.log("Hello: " + "email: " + email.value + " pw: " + password.value);
+        function login() {
             firebase.auth().signInWithEmailAndPassword(email.value, password.value).catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
               // ...
-              alert("The following error occured: " + errorMessage);
+              alert("An error occurred: " + error.message);
             });
-            
+        }
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
-                console.log("user: " + user);
                 window.location = 'index.html';
               }
             });
         }
-        </script>         
+        </script>
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         

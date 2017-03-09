@@ -85,7 +85,7 @@
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
-                console.log("user: " + user);
+                alert(user);
                 window.location = 'index.html';
               }
             });
