@@ -3,6 +3,7 @@ var app = {
 	events: {
 		// Login
 		'#login-button submit': 'login'
+        '#create-employee-button submit': 'create_employee'
 	},
 	
 	login: function(event) {
