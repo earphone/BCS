@@ -59,7 +59,7 @@
                             </li>                             
                             <!-- fa-institution -->                             
                             <li> 
-                                <a href="login.html" id="logout" onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
+                                <a href="login.html" id="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
                             </li>                             
                         </ul>                         
                     </div>                     
@@ -128,37 +128,6 @@
             <!-- /#page-wrapper -->             
         </div>         
         <!-- /#wrapper -->         
-        <!-- Firebase Initialization -->
-        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
-        <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyA55RJ8kvG-n-UClBQSNjnjLK3dvb1vwd8",
-                authDomain: "bcs-webapp.firebaseapp.com",
-                databaseURL: "https://bcs-webapp.firebaseio.com",
-                storageBucket: "bcs-webapp.appspot.com",
-                messagingSenderId: "664106049370"
-            };
-            firebase.initializeApp(config);
-        </script>
-        <!-- Firebase Create User -->
-        <script>
-        function logout() {
-            firebase.auth().signOut().then(function() {
-                // Sign-out successful.
-            }, function(error) {
-                // An error happened.
-                alert("An error occurred: " + error.message);
-            });
-        }
-            // Send User to index when logged in
-            firebase.auth().onAuthStateChanged(user => {
-              if(user) {
-                window.location = 'index.html';
-              }
-            });
-        }
-        </script>
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         

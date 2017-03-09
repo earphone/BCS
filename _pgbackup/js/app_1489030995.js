@@ -4,7 +4,7 @@ var app = {
 		// Login
 		'#login-button submit': 'login'
         '#create-employee-button submit': 'create_employee'
-	},
+	}//,
 	
 	login: function(event) {
 		// Prevent the form from being submitted
@@ -12,5 +12,15 @@ var app = {
 		
 		// Remove the login-error
 		$('#login-error').remove();
-	}
+	},
+    
+    create_employee: function(event) {
+     	firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+			var errorMessage = error.message;
+            // ...
+            alert("The following error occured: " + errorMessage);
+        });
+    }
 };
