@@ -8,6 +8,8 @@ User font awesome throughout!!
 	http://fontawesome.io/icons/
 Minimal needed to initialize Kinvey
 	https://gist.github.com/vseventer/2781874
+Javascript PDF generation
+	https://github.com/MrRio/jsPDF
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)
