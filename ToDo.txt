@@ -10,6 +10,8 @@ Minimal needed to initialize Kinvey
 	https://gist.github.com/vseventer/2781874
 Javascript PDF generation
 	https://github.com/MrRio/jsPDF
+Random UId String
+	http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)
