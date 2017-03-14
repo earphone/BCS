@@ -113,7 +113,17 @@
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
-              	
+				// Set var for commonly used details
+                var userId = firebase.auth().currentUser.uid;
+              	var email = document.getElementById("email").value;
+                var nameFirst = document.getElementById("name-first").value;
+                var nameLast = document.getElementById("name-last").value;
+                var nameFull = nameFirst + " " + nameLast;
+                console.log("email: " + email + "\nName: " + nameFull);
+				firebase.database().ref('users/' + userId).set({
+					username: nameFull,
+					email: email,
+				});
                 window.location = 'index.html';
               }
             });
