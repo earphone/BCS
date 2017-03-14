@@ -119,11 +119,10 @@
                 var nameFirst = document.getElementById("name-first").value;
                 var nameLast = document.getElementById("name-last").value;
                 var nameFull = nameFirst + " " + nameLast;
-                console.log("Email: " + email + "\nName: " + nameFull + "\nUID: " + userId);
-                var employeesKey = firebase.database().ref().child("employees").push().key;
-                usersRef.set({
-               		"username": nameFull,
-                    "email": email
+                console.log("email: " + email + "\nName: " + nameFull);
+				firebase.database().ref('users/' + userId).set({
+					username: nameFull,
+					email: email,
 				});
                 window.location = 'index.html';
               }

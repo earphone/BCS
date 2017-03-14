@@ -12,6 +12,8 @@ Javascript PDF generation
 	https://github.com/MrRio/jsPDF
 Random UId String
 	http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+Firebase set
+	https://stackoverflow.com/questions/38923644/firebase-update-vs-set
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)

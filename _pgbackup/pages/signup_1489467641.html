@@ -120,10 +120,12 @@
                 var nameLast = document.getElementById("name-last").value;
                 var nameFull = nameFirst + " " + nameLast;
                 console.log("Email: " + email + "\nName: " + nameFull + "\nUID: " + userId);
-                var employeesKey = firebase.database().ref().child("employees").push().key;
-                usersRef.set({
-               		"username": nameFull,
-                    "email": email
+                var usersRef = firebase.database().ref("users/");
+				usersRef.set({
+                    userId: {
+						"username": nameFull,
+						"email": email
+                    }
 				});
                 window.location = 'index.html';
               }

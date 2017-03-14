@@ -142,7 +142,7 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
-                    firebase.database().ref("/employees/" + user.uid + "/email").on("value", function(snapshot) {
+                    firebase.database().ref("/users/" + user.uid + "/email").on("value", function(snapshot) {
                         console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
                         window.document.getElementById('dashboard-header').innerText = "Hello " + snapshot.val()
                     });
