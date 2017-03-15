@@ -253,43 +253,16 @@
                     <!-- /.row -->                     
                 </div>
                 <div>
-                    <div class="form-group"> 
-                        <label class="control-label">First Name</label>
-                        <input class="form-control" placeholder="First Name" name="name-first" type="text" value="" id="name-first"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">Last Name</label>
-                        <input class="form-control" placeholder="Last Name" name="name-last" type="text" value="" id="name-last"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">Initials</label>
-                        <input class="form-control" name="initials" type="text" value="" id="name-initials" placeholder="Initials ex: EL"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">Employee Id #</label>
-                        <input class="form-control" placeholder="ID #" name="employee-id" type="number" value="" id="id-num"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">First Name</label>
-                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value=""> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">Company</label>
-                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value=""> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">Class</label>
-                        <p></p>
-                        <label id="journeyman" class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="">        Journeyman
-                        </label>                         
-                        <label id="apprentice" class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="">        Apprentice
-                        </label>                         
-                    </div>                     
-                    <div class="form-group"> 
-                        <input class="form-control" placeholder="Step (Enter 0 for none)" name="company" type="number" value id="apprentice-step"> 
-                    </div>                     
+                    <label class="control-label">First Name</label>
+                    <input type="text" class="form-control" placeholder="Placeholder text" id="name-first">
+                    <label class="control-label">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Placeholder text" id="name-last">
+                    <label class="control-label">Email address</label>
+                    <input type="text" class="form-control" placeholder="Placeholder text">
+                    <label class="control-label">Email address</label>
+                    <input type="text" class="form-control" placeholder="Placeholder text">
+                    <label class="control-label">Email address</label>
+                    <input type="text" class="form-control" placeholder="Placeholder text">
                     <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Update!</button></p> 
                 </div>                 
                 <!-- /.container-fluid -->                 
@@ -327,8 +300,6 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
-                    window.document.getElementById("user-name").innerText = user.displayName;
-                    console.log(user);
                     // User is signed in.
                 } else {
                     // No user is signed in.
@@ -342,16 +313,14 @@
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
             var nameFull = nameFirst + " " + nameLast;
-            var user = firebase.auth().currentUser;
             console.log("First: " + nameFirst + "\nLast: " + nameLast + "\nUID: " + user.uid);
-            user.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName" + error.code + "\n" + error.message)});
-            firebase.database().ref('employees/' + user.uid).set({
-                nameFull: nameFull,
-                nameFirst: nameFirst,
-                nameLast: nameLast,
-                userId: user.uid
+            firebase.auth().currentUser.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName" + error.code + "\n" + error.message)});
+            firebase.database().ref('employees/' + userId).set({
+                username: nameFull,
+                email: email,
+                userId: userId,
+                idNum: idNum
             });
-			window.document.getElementById("user-name").innerText = nameFull;
         }            
         </script>
         <!-- jQuery -->         

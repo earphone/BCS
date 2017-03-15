@@ -144,7 +144,7 @@
                     console.log(user.uid + " is signed in");
                     firebase.database().ref("/employees/" + user.uid + "/email").on("value", function(snapshot) {
                         console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
-                        console.log(user);
+                        colsole.log(user.displayName);
                         window.document.getElementById('dashboard-header').innerText = "Hello " + snapshot.val();
                     });
                     // User is signed in.

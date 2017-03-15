@@ -38,10 +38,39 @@
                                         <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus id="email"> 
                                     </div>                                     
                                     <div class="form-group"> 
+                                        <input class="form-control" placeholder="First Name" name="name-first" type="text" value="" id="name-first"> 
+                                    </div>                                     
+                                    <div class="form-group"> 
+                                        <input class="form-control" placeholder="Last Name" name="name-last" type="text" value="" id="name-last"> 
+                                    </div>                                     
+                                    <div class="form-group"> 
+                                        <input class="form-control" name="password" type="text" value="" id="name-initials" placeholder="Initials ex: EL"> 
+                                    </div>                                     
+                                    <div class="form-group"> 
+                                        <input class="form-control" placeholder="ID #" name="employee-id" type="number" value="" id="id-num"> 
+                                    </div>                                     
+                                    <div class="form-group"> 
+                                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value=""> 
+                                    </div>                                     
+                                    <div class="form-group"> 
+                                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value=""> 
+                                    </div>                                     
+                                    <div> 
+                                        <label id="journeyman" class="checkbox-inline"> 
+                                            <input class="control-label" type="checkbox" value="">        Journeyman
+                                        </label>                                         
+                                        <label id="apprentice" class="checkbox-inline"> 
+                                            <input class="control-label" type="checkbox" value="">        Apprentice
+                                        </label>                                         
+                                    </div>                                     
+                                    <div class="form-group"> 
+                                        <input class="form-control" placeholder="Step (Enter 0 for none)" name="company" type="number" value id="apprentice-step"> 
+                                    </div>                                     
+                                    <div class="form-group"> 
                                         <input class="form-control" placeholder="Password" name="password" type="password" value="" id="password"> 
                                     </div>                                     
                                     <!-- Change this to a button or input when using this as a form -->                                     
-                                    <p class="btn btn-lg btn-block btn-success" id="create-employee-button" onclick="createEmployee()">Create New Employee</p> 
+                                    <p class="btn btn-lg btn-success btn-block" id="create-employee-button" onclick="createEmployee()">Create New Employee</p> 
                                 </fieldset>                                 
                             </form>                             
                             <a href="login.html"><h5 class="text-center">Back to Login</h5></a> 
@@ -84,6 +113,22 @@
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
+				// Set var for commonly used details
+                var userId = firebase.auth().currentUser.uid;
+              	var email = document.getElementById("email").value;
+                var nameFirst = document.getElementById("name-first").value;
+                var nameLast = document.getElementById("name-last").value;
+                var nameFull = nameFirst + " " + nameLast;
+                var idNum = document.getElementById("id-num").value;
+                console.log("Email: " + email + "\nName: " + nameFull + "\nUID: " + userId);
+                var employeesKey = firebase.database().ref().child("employees").push().key;
+                console.log("Employees Key: " + employeesKey);
+                firebase.database().ref().child('/employees/' + employeesKey).set({
+               		username: nameFull,
+                    email: email,
+                    userId: userId,
+                    idNum: idNum
+				});
                 window.location = 'index.html';
               }
             });
