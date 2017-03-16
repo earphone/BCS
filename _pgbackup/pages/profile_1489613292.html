@@ -76,7 +76,7 @@
                     <!-- /.row -->                     
                 </div>
                 <div>
-                    <h3>Please Provide the Information Below to Change it!<i class="fa fa-book fa-fw"></i></h3>
+                    <h3>Please Provide the Information Below!<i class="fa fa-book fa-fw"></i></h3>
                     <div class="form-group"> 
                         <label class="control-label">
                             First Name
@@ -96,21 +96,21 @@
                         <input class="form-control" placeholder="ID #" name="employee-id" type="number" value="" id="id-num"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">Cell #</label>
-                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value="" id="cell-num"> 
+                        <label class="control-label">First Name</label>
+                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value=""> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Company</label>
-                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value="" id="company"> 
+                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value=""> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Class</label>
                         <p></p>
-                        <label class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="" id="journeyman">        Journeyman
+                        <label id="journeyman" class="checkbox-inline"> 
+                            <input class="control-label" type="checkbox" value="">        Journeyman
                         </label>                         
-                        <label class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="" id="apprentice">        Apprentice
+                        <label id="apprentice" class="checkbox-inline"> 
+                            <input class="control-label" type="checkbox" value="">        Apprentice
                         </label>                         
                     </div>                     
                     <div class="form-group"> 
@@ -153,20 +153,7 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
-                    document.getElementById("user-name").innerText = user.displayName;
                     // User is signed in.
-					var userRef = firebase.database().ref('employees/employed/' + user.uid);
-					userRef.once('value', function(snapshot) {
-                      document.getElementById("name-first").value = snapshot.val().nameFirst;
-                      document.getElementById("name-last").value = snapshot.val().nameLast;
-                      document.getElementById("name-initials").value = snapshot.val().initials;
-                      document.getElementById("id-num").value = snapshot.val().idNum;
-                      document.getElementById("cell-num").value = snapshot.val().cellNum;
-                      document.getElementById("company").value = snapshot.val().company;
-                      document.getElementById("journeyman").checked = snapshot.val().journeyman;
-                      document.getElementById("apprentice").checked = snapshot.val().apprentice;
-                      document.getElementById("apprentice-step").value = snapshot.val().step;
-                    });
                 } else {
                     // No user is signed in.
                     window.location="login.html";
@@ -178,38 +165,17 @@
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
-            var initials = document.getElementById("name-initials").value;
-            var idNum = document.getElementById("id-num").value;
-            var cellNum = document.getElementById("cell-num").value;
-            var company = document.getElementById("company").value;
-            var journeyman = document.getElementById("journeyman").checked;
-            var apprentice = document.getElementById("apprentice").checked;
-            var apprenticeStep = document.getElementById("apprentice-step").value;
             var nameFull = nameFirst + " " + nameLast;
             var user = firebase.auth().currentUser;
             console.log("First: " + nameFirst + "\nLast: " + nameLast + "\nUID: " + user.uid);
             user.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName" + error.code + "\n" + error.message)});
-            firebase.database().ref('employees/employed/' + user.uid).update({
+            firebase.database().ref('employees/' + user.uid).set({
                 nameFull: nameFull,
                 nameFirst: nameFirst,
                 nameLast: nameLast,
-                userId: user.uid,
-                access: 4,
-                initials: initials,
-                email: user.email,
-                idNum: idNum,
-                cellNum: cellNum,
-                company: company,
-                journeyman: journeyman,
-                apprentice: apprentice,
-                step: apprenticeStep
-            })
-            .then(function() {
-                // If set correctly
-            })
-            .catch(function(error) {
-                alert("Something Happened when setting details: " + error.message);
-            })
+                userId: user.uid
+            });
+			window.document.getElementById("user-name").innerText = nameFull;
         }            
         </script>
         <!-- jQuery -->         

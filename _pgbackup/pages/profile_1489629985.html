@@ -97,20 +97,20 @@
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Cell #</label>
-                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value="" id="cell-num"> 
+                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value=""> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Company</label>
-                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value="" id="company"> 
+                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value=""> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Class</label>
                         <p></p>
-                        <label class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="" id="journeyman">        Journeyman
+                        <label id="journeyman" class="checkbox-inline"> 
+                            <input class="control-label" type="checkbox" value="">        Journeyman
                         </label>                         
-                        <label class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="" id="apprentice">        Apprentice
+                        <label id="apprentice" class="checkbox-inline"> 
+                            <input class="control-label" type="checkbox" value="">        Apprentice
                         </label>                         
                     </div>                     
                     <div class="form-group"> 
@@ -163,9 +163,9 @@
                       document.getElementById("id-num").value = snapshot.val().idNum;
                       document.getElementById("cell-num").value = snapshot.val().cellNum;
                       document.getElementById("company").value = snapshot.val().company;
-                      document.getElementById("journeyman").checked = snapshot.val().journeyman;
-                      document.getElementById("apprentice").checked = snapshot.val().apprentice;
-                      document.getElementById("apprentice-step").value = snapshot.val().step;
+                      document.getElementById("journeyman").value = snapshot.val().journeyman;
+                      document.getElementById("apprentice").value = snapshot.val().apprentice;
+                      document.getElementById("apprentice-step").value = snapshot.val().apprenticeStep;
                     });
                 } else {
                     // No user is signed in.
