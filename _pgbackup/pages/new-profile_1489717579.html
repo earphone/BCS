@@ -69,7 +69,7 @@
                 <div class="container-fluid"> 
                     <div class="row"> 
                         <div class="col-lg-12"> 
-                            <h1 class="page-header" id="user-name">Your name here!</h1> 
+                            <h1 class="page-header" id="user-name">Welcome First Timer!</h1> 
                         </div>                         
                         <!-- /.col-lg-12 -->                         
                     </div>                     
@@ -78,9 +78,7 @@
                 <div>
                     <h3>Please Provide the Information Below!<i class="fa fa-book fa-fw"></i></h3>
                     <div class="form-group"> 
-                        <label class="control-label">
-                            First Name
-</label>
+                        <label class="control-label">First Name</label>
                         <input class="form-control" placeholder="First Name" name="name-first" type="text" value="" id="name-first"> 
                     </div>                     
                     <div class="form-group"> 
@@ -96,21 +94,21 @@
                         <input class="form-control" placeholder="ID #" name="employee-id" type="number" value="" id="id-num"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">First Name</label>
-                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value=""> 
+                        <label class="control-label">Cell #</label>
+                        <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value="" id="cell-num"> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Company</label>
-                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value=""> 
+                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value="" id="company"> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Class</label>
                         <p></p>
-                        <label id="journeyman" class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="">        Journeyman
+                        <label class="checkbox-inline"> 
+                            <input id="journeyman" class="control-label" type="checkbox" value="">        Journeyman
                         </label>                         
-                        <label id="apprentice" class="checkbox-inline"> 
-                            <input class="control-label" type="checkbox" value="">        Apprentice
+                        <label class="checkbox-inline"> 
+                            <input id="apprentice" class="control-label" type="checkbox" value="">        Apprentice
                         </label>                         
                     </div>                     
                     <div class="form-group"> 
@@ -153,6 +151,8 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
+                    window.document.getElementById("user-name").innerText = user.displayName;
+                    console.log(user);
                     // User is signed in.
                 } else {
                     // No user is signed in.
@@ -165,17 +165,57 @@
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
+            var initials = document.getElementById("name-initials").value;
+            var idNum = document.getElementById("id-num").value;
+            var cellNum = document.getElementById("cell-num").value;
+            var company = document.getElementById("company").value;
+            var journeyman = document.getElementById("journeyman").checked;
+            var apprentice = document.getElementById("apprentice").checked;
+            var apprenticeStep = document.getElementById("apprentice-step").value;
             var nameFull = nameFirst + " " + nameLast;
             var user = firebase.auth().currentUser;
+            var pass = 0;
             console.log("First: " + nameFirst + "\nLast: " + nameLast + "\nUID: " + user.uid);
             user.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName" + error.code + "\n" + error.message)});
-            firebase.database().ref('employees/' + user.uid).set({
+            firebase.database().ref('employees/employed/' + user.uid).set({
                 nameFull: nameFull,
                 nameFirst: nameFirst,
                 nameLast: nameLast,
-                userId: user.uid
+                userId: user.uid,
+                access: 4,
+                initials: initials,
+                email: user.email,
+                idNum: idNum,
+                cellNum: cellNum,
+                company: company,
+                journeyman: journeyman,
+                apprentice: apprentice,
+                step: apprenticeStep
+            })
+            .then(function() {
+                pass++;
+            })
+            .catch(function(error) {
+                alert("Something Happened when setting details: " + error.message);
             });
-			window.document.getElementById("user-name").innerText = nameFull;
+            if(journeyman == true || apprentice == true) {
+                firebase.database().ref('employees/technicians/').set({
+                    name: nameFull
+                })
+                .then(function() {
+                    pass = pass+5;
+                })
+                .catch(function(error) {
+                    alert("Something Happened when setting details: " + error.message);
+                })
+            }
+            console.log(pass);
+            if(pass == 0 || pass == 5) {
+                pass = 0;
+            }
+            else { 
+                window.location="index.html";
+            }
         }            
         </script>
         <!-- jQuery -->         

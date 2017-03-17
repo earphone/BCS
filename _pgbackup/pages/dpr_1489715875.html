@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <meta name="description" content=""> 
         <meta name="author" content=""> 
-        <title>BCS Webapp Profile</title>         
+        <title>BCS Webapp DPR</title>         
         <!-- Bootstrap Core CSS -->         
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
         <!-- MetisMenu CSS -->         
@@ -35,6 +35,7 @@
                     </button>                     
                     <a class="navbar-brand" href="index.html"><b>BCS Webapp</b></a> 
                 </div>                 
+                <!-- /.navbar-header -->                 
                 <!-- /.navbar-top-links -->                 
                 <div class="navbar-default sidebar" role="navigation"> 
                     <div class="sidebar-nav navbar-collapse"> 
@@ -56,7 +57,7 @@
                             </li>                             
                             <!-- fa-institution -->                             
                             <li> 
-                                <a href="login.html" id="logout" onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
+                                <a href="login.html" onclick="logoutUser()" id="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
                             </li>                             
                         </ul>                         
                     </div>                     
@@ -69,25 +70,43 @@
                 <div class="container-fluid"> 
                     <div class="row"> 
                         <div class="col-lg-12"> 
-                            <h1 class="page-header" id="user-name">Welcome First Timer!</h1> 
+                            <h1 class="page-header">Daily Progress Report</h1> 
                         </div>                         
                         <!-- /.col-lg-12 -->                         
                     </div>                     
                     <!-- /.row -->                     
-                </div>
+                </div>                 
+                <!-- /.container-fluid -->                 
                 <div>
-                    <h3>Please Provide the Information Below!<i class="fa fa-book fa-fw"></i></h3>
+                    <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DPR!</h3> 
                     <div class="form-group"> 
-                        <label class="control-label">First Name</label>
-                        <input class="form-control" placeholder="First Name" name="name-first" type="text" value="" id="name-first"> 
+                        <label class="control-label">Job Number</label>
+                        <input class="form-control" placeholder="xx-xxx" name="job-num" type="text" value="" id="job-num"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">Last Name</label>
-                        <input class="form-control" placeholder="Last Name" name="name-last" type="text" value="" id="name-last"> 
+                        <label class="control-label">Job Name</label>
+                        <input class="form-control" placeholder="Job Name" name="job-name" type="text" value="" id="job-name"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">Initials</label>
-                        <input class="form-control" name="initials" type="text" value="" id="name-initials" placeholder="Initials ex: EL"> 
+                        <label class="control-label">Date</label>
+                        <br>
+                        <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01"> 
+                    </div>                     
+                    <div class="form-group"> 
+                        <label class="control-label">Contractor</label>
+                        <input class="form-control" placeholder="Contractor" name="contractor" type="text" value="" id="contractor"> 
+                    </div>                     
+                    <div class="form-group"> 
+                        <label class="control-label">Start Time</label>
+                        <input class="form-control" name="time-start" type="text" value="" id="time-start" placeholder="0000"> 
+                    </div>                     
+                    <div class="form-group"> 
+                        <label class="control-label">End Time</label>
+                        <input class="form-control" name="end-start" type="text" value="" id="end-start" placeholder="2400"> 
+                    </div>                     
+                    <div class="form-group"> 
+                        <label class="control-label">Submitted By</label>
+                        <input class="form-control" name="submittedBy" type="text" value="" id="submitted-by" placeholder="First Last"> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Employee Id #</label>
@@ -105,10 +124,10 @@
                         <label class="control-label">Class</label>
                         <p></p>
                         <label class="checkbox-inline"> 
-                            <input id="journeyman" class="control-label" type="checkbox" value="">        Journeyman
+                            <input class="control-label" type="checkbox" value="" id="journeyman">        Journeyman
                         </label>                         
                         <label class="checkbox-inline"> 
-                            <input id="apprentice" class="control-label" type="checkbox" value="">        Apprentice
+                            <input class="control-label" type="checkbox" value="" id="apprentice">        Apprentice
                         </label>                         
                     </div>                     
                     <div class="form-group"> 
@@ -116,7 +135,6 @@
                     </div>                     
                     <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Update!</button></p> 
                 </div>                 
-                <!-- /.container-fluid -->                 
             </div>             
             <!-- /#page-wrapper -->             
         </div>         
@@ -151,9 +169,8 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
-                    window.document.getElementById("user-name").innerText = user.displayName;
-                    console.log(user);
                     // User is signed in.
+                      document.getElementById("submitted-by").value = user.displayname;
                 } else {
                     // No user is signed in.
                     window.location="login.html";
@@ -165,7 +182,7 @@
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
-            var initials = document.getElementById("name-initials").value.toUpperCase();
+            var initials = document.getElementById("name-initials").value;
             var idNum = document.getElementById("id-num").value;
             var cellNum = document.getElementById("cell-num").value;
             var company = document.getElementById("company").value;
@@ -174,10 +191,9 @@
             var apprenticeStep = document.getElementById("apprentice-step").value;
             var nameFull = nameFirst + " " + nameLast;
             var user = firebase.auth().currentUser;
-            var pass = 0;
             console.log("First: " + nameFirst + "\nLast: " + nameLast + "\nUID: " + user.uid);
             user.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName" + error.code + "\n" + error.message)});
-            firebase.database().ref('employees/employed/' + user.uid).set({
+            firebase.database().ref('employees/employed/' + user.uid).update({
                 nameFull: nameFull,
                 nameFirst: nameFirst,
                 nameLast: nameLast,
@@ -193,29 +209,13 @@
                 step: apprenticeStep
             })
             .then(function() {
-                pass++;
-                console.log("data " + pass);
+                // If set correctly
+                alert("Data Updated Successfully!");
+                location.reload();
             })
             .catch(function(error) {
                 alert("Something Happened when setting details: " + error.message);
-            });
-            if(journeyman == true || apprentice == true) {
-                firebase.database().ref('employees/technicians/').set({
-                    name: nameFull
-                })
-                .then(function() {
-                    pass = pass+5;
-                    console.log("tech " + pass);
-                })
-                .catch(function(error) {
-                    alert("Something Happened when setting details: " + error.message);
-                })
-            }
-            console.log("end pass " + pass);
-            if(pass != 0 || pass != 5) {
-                window.location="index.html";
-            }
-            pass = 0;
+            })
         }            
         </script>
         <!-- jQuery -->         

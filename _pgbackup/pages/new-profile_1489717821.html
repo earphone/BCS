@@ -194,7 +194,7 @@
             })
             .then(function() {
                 pass++;
-                console.log("data " + pass);
+                console.log(pass);
             })
             .catch(function(error) {
                 alert("Something Happened when setting details: " + error.message);
@@ -205,17 +205,19 @@
                 })
                 .then(function() {
                     pass = pass+5;
-                    console.log("tech " + pass);
+                    console.log(pass);
                 })
                 .catch(function(error) {
                     alert("Something Happened when setting details: " + error.message);
                 })
             }
-            console.log("end pass " + pass);
-            if(pass != 0 || pass != 5) {
+            console.log(pass);
+            if(pass == 0 || pass == 5) {
+                pass = 0;
+            }
+            else { 
                 window.location="index.html";
             }
-            pass = 0;
         }            
         </script>
         <!-- jQuery -->         

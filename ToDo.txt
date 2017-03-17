@@ -6,14 +6,15 @@ Redirect HTML if not logged in
 	https://www.w3schools.com/jsref/event_onload.asp
 User font awesome throughout!!
 	http://fontawesome.io/icons/
-Minimal needed to initialize Kinvey
-	https://gist.github.com/vseventer/2781874
 Javascript PDF generation
 	https://github.com/MrRio/jsPDF
 Random UId String
+	https://www.firebase.com/docs/web/guide/saving-data.html#section-push
 	http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 Firebase set
 	https://stackoverflow.com/questions/38923644/firebase-update-vs-set
+Firebase forEach child
+	https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)

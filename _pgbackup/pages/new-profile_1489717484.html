@@ -165,7 +165,7 @@
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
-            var initials = document.getElementById("name-initials").value.toUpperCase();
+            var initials = document.getElementById("name-initials").value;
             var idNum = document.getElementById("id-num").value;
             var cellNum = document.getElementById("cell-num").value;
             var company = document.getElementById("company").value;
@@ -194,28 +194,26 @@
             })
             .then(function() {
                 pass++;
-                console.log("data " + pass);
             })
             .catch(function(error) {
                 alert("Something Happened when setting details: " + error.message);
             });
             if(journeyman == true || apprentice == true) {
-                firebase.database().ref('employees/technicians/').set({
-                    name: nameFull
-                })
-                .then(function() {
-                    pass = pass+5;
-                    console.log("tech " + pass);
-                })
-                .catch(function(error) {
-                    alert("Something Happened when setting details: " + error.message);
-                })
+            firebase.database().ref('employees/technicians/').set({
+                name: nameFull
+            })
+            .then(function() {
+                pass = pass+5;
+            })
+            .catch(function(error) {
+                alert("Something Happened when setting details: " + error.message);
+            })
+            if(pass == 0 || pass == 5) {
+                pass = 0;
             }
-            console.log("end pass " + pass);
-            if(pass != 0 || pass != 5) {
+            else { 
                 window.location="index.html";
             }
-            pass = 0;
         }            
         </script>
         <!-- jQuery -->         

@@ -158,14 +158,21 @@
 					var userRef = firebase.database().ref('employees/employed/' + user.uid);
 					userRef.once('value', function(snapshot) {
                       document.getElementById("name-first").value = snapshot.val().nameFirst;
+                      document.getElementById("name-first").placeholder = snapshot.val().nameFirst;
                       document.getElementById("name-last").value = snapshot.val().nameLast;
+                      document.getElementById("name-last").placeholder = snapshot.val().nameLast;
                       document.getElementById("name-initials").value = snapshot.val().initials;
+                      document.getElementById("name-initials").placeholder = snapshot.val().initials;
                       document.getElementById("id-num").value = snapshot.val().idNum;
+                      document.getElementById("id-num").placeholder = snapshot.val().idNum;
                       document.getElementById("cell-num").value = snapshot.val().cellNum;
+                      document.getElementById("cell-num").placeholder = snapshot.val().cellNum;
                       document.getElementById("company").value = snapshot.val().company;
+                      document.getElementById("company").placeholder = snapshot.val().company;
                       document.getElementById("journeyman").checked = snapshot.val().journeyman;
                       document.getElementById("apprentice").checked = snapshot.val().apprentice;
                       document.getElementById("apprentice-step").value = snapshot.val().step;
+                      document.getElementById("apprentice-step").placeholder = snapshot.val().step;
                     });
                 } else {
                     // No user is signed in.
@@ -206,6 +213,8 @@
             })
             .then(function() {
                 // If set correctly
+                alert("Data Updated Successfully!");
+                location.reload();
             })
             .catch(function(error) {
                 alert("Something Happened when setting details: " + error.message);

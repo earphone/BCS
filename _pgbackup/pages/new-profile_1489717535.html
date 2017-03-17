@@ -165,7 +165,7 @@
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
-            var initials = document.getElementById("name-initials").value.toUpperCase();
+            var initials = document.getElementById("name-initials").value;
             var idNum = document.getElementById("id-num").value;
             var cellNum = document.getElementById("cell-num").value;
             var company = document.getElementById("company").value;
@@ -194,7 +194,6 @@
             })
             .then(function() {
                 pass++;
-                console.log("data " + pass);
             })
             .catch(function(error) {
                 alert("Something Happened when setting details: " + error.message);
@@ -205,17 +204,17 @@
                 })
                 .then(function() {
                     pass = pass+5;
-                    console.log("tech " + pass);
                 })
                 .catch(function(error) {
                     alert("Something Happened when setting details: " + error.message);
                 })
             }
-            console.log("end pass " + pass);
-            if(pass != 0 || pass != 5) {
+            if(pass == 0 || pass == 5) {
+                pass = 0;
+            }
+            else { 
                 window.location="index.html";
             }
-            pass = 0;
         }            
         </script>
         <!-- jQuery -->         
