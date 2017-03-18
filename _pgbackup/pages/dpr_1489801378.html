@@ -110,7 +110,35 @@
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Technicians</label>
-                        <select class="form-control" name="techs" type="select" multiple="multiple" value="" id="techs" placeholder="First Last"></select>
+                        <select class="form-control" name="techs" type="select" multiple="multiple" value="" id="techs" placeholder="First Last">
+</select>
+                        <script>
+                        function () { 
+                            $('#techs').multiselect({ 
+                                buttonText: function(options, select) {
+                                    console.log(select[0].length);
+                                    if (options.length === 0) {
+                                        return 'None selected';
+                                    }
+                                    if (options.length === select[0].length) {
+                                        return 'All selected ('+select[0].length+')';
+                                    }
+                                    else if (options.length >= 4) {
+                                        return options.length + ' selected';
+                                    }
+                                    else {
+                                        var labels = [];
+                                        console.log(options);
+                                        options.each(function() {
+                                            labels.push($(this).val());
+                                        });
+                                        return labels.join(', ') + '';
+                                    }
+                                }
+
+                            });
+                        }
+                        </script>
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Employee Id #</label>
@@ -246,4 +274,5 @@
         <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
         <!-- Custom Theme JavaScript -->         
         <script src="../dist/js/sb-admin-2.js"></script>         
-    </body>
+    </body>     
+</html>

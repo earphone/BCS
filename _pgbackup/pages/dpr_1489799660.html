@@ -110,7 +110,8 @@
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Technicians</label>
-                        <select class="form-control" name="techs" type="select" multiple="multiple" value="" id="techs" placeholder="First Last"></select>
+                        <select class="form-control" name="techs" type="select" multiple="multiple" value="" id="techs" placeholder="First Last">
+</select>
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">Employee Id #</label>
@@ -176,8 +177,7 @@
                     // User is signed in.
                     // Display the name of the person submitting this form as the foreman
                     document.getElementById("foreman").value = user.displayName;
-                    console.log("FOREMAN: " + user.displayName);
-                    // Fill in Technicians list of all techs
+                    //
                     var techList = document.getElementById("techs");
                     var query = firebase.database().ref("employees/technicians/").orderByKey();
                     query.once("value")
@@ -188,7 +188,7 @@
                                 var option = document.createElement("option");
                                 option.text = key;
                                 console.log("adding: " + key);
-                                techList.add(option);
+                                techList.add(key);
                         	});
                     	});
                 } else {
@@ -246,4 +246,5 @@
         <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
         <!-- Custom Theme JavaScript -->         
         <script src="../dist/js/sb-admin-2.js"></script>         
-    </body>
+    </body>     
+</html>

@@ -15,6 +15,7 @@ Firebase set
 	https://stackoverflow.com/questions/38923644/firebase-update-vs-set
 Firebase forEach child
 	https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot
+	http://stackoverflow.com/questions/30493858/multiselect-checkbox-dropdown
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)

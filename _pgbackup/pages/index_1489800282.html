@@ -145,7 +145,7 @@
                     firebase.database().ref("/employees/employed/" + user.uid + "/email").on("value", function(snapshot) {
                         console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
                         console.log(user);
-                        window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
+                        window.document.getElementById('dashboard-header').innerText = "Hello " + snapshot.val();
                     });
                     // User is signed in.
                 } else {
