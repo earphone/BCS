@@ -219,7 +219,7 @@
                 }
             }
             // Set data for short DPR by Job #
-            firebase.database().ref('dpr/jobNum/' + jobNum + "/" + date).set({
+            firebase.database().ref('dpr/jobNum' + jobNum + "/" + date).set({
                 submittedBy: user.displayName,
                 userID: user.uid,
                 randomID: newDPRKey

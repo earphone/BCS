@@ -211,26 +211,12 @@
             var user = firebase.auth().currentUser;
             console.log(techs[0].selected + " and " + techs[1].selected + " of length " + techs.length);
             var newDPR = firebase.database().ref('dpr').child("randomId").push();
-            console.log("newDPR: " + newDPR);
-            var newDPRKey = newDPR.key;
+            var newDPRKey = newDPR.key();
             for(i=0; i<techs.length;i++) {
                 if(techs[i].selected) {
                 	techList=techList + techs[i].value  + "~";  
                 }
             }
-            // Set data for short DPR by Job #
-            firebase.database().ref('dpr/jobNum/' + jobNum + "/" + date).set({
-                submittedBy: user.displayName,
-                userID: user.uid,
-                randomID: newDPRKey
-            });
-            // Set data for short DPR by Date
-			firebase.database().ref('dpr/date/' + date + "/" + jobNum).set({
-                submittedBy: user.displayName,
-                userID: user.uid,
-                randomID: newDPRKey
-            });
-            // Set data for long DPR
             newDPR.set({
                 jobNum: jobNum,
                 jobName: jobName,
