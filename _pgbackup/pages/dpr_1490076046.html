@@ -137,7 +137,7 @@
                         </div>                         
                     </div>                     
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-info" id="work-more" onclick="workMore()">More Work Done?</button>                         
+                        <button type="button" class="btn btn-sm btn-success" id="work-more" onclick="workMore()">More Work Done?</button>                         
                     </div>                     
                     <label class="control-label">
                         <u>PROGRESS (% COMPLETED) Ex. 75</u>
@@ -169,9 +169,9 @@
                         </div>                         
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-info" id="progress-more" onclick="progressMore()">More Location Progress?</button>                         
+                        <button type="button" class="btn btn-sm btn-success" id="progress-more" onclick="progressMore()">More Location Progress?</button>                         
                     </div>                     
-                    <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
+                    <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Update!</button></p> 
                 </div>                 
             </div>             
             <!-- /#page-wrapper -->             
@@ -305,61 +305,6 @@
             newDiv.appendChild(workDiv);
             newDiv.appendChild(locationDiv);
             document.getElementById("work").appendChild(newDiv);
-        }
-        </script>         
-        <script>
-        function progressMore() {
-            var progressLocation = document.createElement("input");
-            var progressTR = document.createElement("input");
-            var progressPathway = document.createElement("input");
-            var progressRoughIn = document.createElement("input");
-            var progressTerminations = document.createElement("input");
-            var progressTesting = document.createElement("input");
-            var newDiv = document.createElement("div");
-            var locationDiv = document.createElement("div");
-            var trDiv = document.createElement("div");
-            var pathwayDiv = document.createElement("div");
-            var roughInDiv = document.createElement("div");
-            var terminationsDiv = document.createElement("div");
-            var testingDiv = document.createElement("div");
-            progressLocation.type = "text";
-            progressLocation.className = "form-control col-xs-2";
-            progressLocation.placeholder = "Location";
-            progressTR.type = "text";
-            progressTR.className = "form-control col-xs-2";
-            progressTR.placeholder = "TR";
-            progressPathway.type = "text";
-            progressPathway.className = "form-control col-xs-2";
-            progressPathway.placeholder = "Pathway";
-            progressRoughIn.type = "text";
-            progressRoughIn.className = "form-control col-xs-2";
-            progressRoughIn.placeholder = "Rough In";
-            progressTerminations.type = "text";
-            progressTerminations.className = "form-control col-xs-2";
-            progressTerminations.placeholder = "Terminations";
-            progressTesting.type = "text";
-            progressTesting.className = "form-control col-xs-2";
-            progressTesting.placeholder = "Testing";
-            locationDiv.className = "form-group col-xs-2";
-            trDiv.className = "form-group col-xs-2";
-            pathwayDiv.className = "form-group col-xs-2";
-            roughInDiv.className = "form-group col-xs-2";
-            terminationsDiv.className = "form-group col-xs-2";
-            testingDiv.className = "form-group col-xs-2";
-            newDiv.className = "row";
-            locationDiv.appendChild(progressLocation);
-            trDiv.appendChild(progressTR);
-            pathwayDiv.appendChild(progressPathway);
-            roughInDiv.appendChild(progressRoughIn);
-            terminationsDiv.appendChild(progressTerminations);
-            testingDiv.appendChild(progressTesting);
-            newDiv.appendChild(locationDiv);
-            newDiv.appendChild(trDiv);
-            newDiv.appendChild(pathwayDiv);
-            newDiv.appendChild(roughInDiv);
-            newDiv.appendChild(terminationsDiv);
-            newDiv.appendChild(testingDiv);
-            document.getElementById("progress").appendChild(newDiv);
         }
         </script>
         <!-- jQuery -->         

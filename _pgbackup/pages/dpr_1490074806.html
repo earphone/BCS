@@ -80,37 +80,37 @@
                 <div> 
                     <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DPR!</h3> 
                     <div class="form-group"> 
-                        <label class="control-label">JOB NUMBER</label>
+                        <label class="control-label">JOB NUMBER</label>                         
                         <input class="form-control" placeholder="xx-xxx" name="job-num" type="text" value="" id="job-num"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">JOB NAME</label>
+                        <label class="control-label">JOB NAME</label>                         
                         <input class="form-control" placeholder="Job Name" name="job-name" type="text" value="" id="job-name"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">DATE</label>
+                        <label class="control-label">DATE</label>                         
                         <br> 
                         <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">CONTRACTOR</label>
+                        <label class="control-label">CONTRACTOR</label>                         
                         <input class="form-control" placeholder="Contractor" name="contractor" type="text" value="" id="contractor"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">START TIME</label>
+                        <label class="control-label">START TIME</label>                         
                         <input class="form-control" name="time-start" type="text" value="" id="time-start" placeholder="0000"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">END TIME</label>
+                        <label class="control-label">END TIME</label>                         
                         <input class="form-control" name="time-end" type="text" value="" id="time-end" placeholder="2400"> 
                     </div>                     
                     <div class="form-group"> 
-                        <label class="control-label">FOREMAN</label>
+                        <label class="control-label">FOREMAN</label>                         
                         <input class="form-control" name="foreman" type="text" value="" id="foreman" placeholder="First Last"> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">TECHNICIANS</label>                         
-                        <select class="form-control" name="techs" type="select" multiple value="" id="techs" placeholder="First Last"></select>
+                        <select class="form-control" name="techs" type="select" multiple value="" id="techs" placeholder="First Last"></select>                         
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>                         
@@ -122,13 +122,13 @@
                             <input class="form-control" placeholder="Material Needed" name="materials-needed" type="text" value="" id="materials-needed"> 
                         </div>                         
                         <div class="form-group col-xs-4"> 
-                            <label class="control-label">DATE NEEDED BY</label>
+                            <label class="control-label">DATE NEEDED BY</label>                             
                             <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
                         </div>                         
                     </div>                     
                     <div class="row" id="work">
                         <div class="form-group col-xs-8"> 
-                            <label class="control-label">WORK PERFORMED</label>
+                            <label class="control-label">WORK PERFORMED</label>                             
                             <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-4"> 
@@ -136,42 +136,54 @@
                             <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
                         </div>                         
                     </div>                     
-                    <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-info" id="work-more" onclick="workMore()">More Work Done?</button>                         
-                    </div>                     
-                    <label class="control-label">
-                        <u>PROGRESS (% COMPLETED) Ex. 75</u>
-                    </label>                     
+                    <label class="control-label">PROGRESS (% COMPLETED)</label>                     
                     <div class="row" id="progress"> 
                         <div class="form-group col-xs-2"> 
-                            <label class="control-label">LOCATION</label>
-                            <input class="form-control" placeholder="Location" name="location" type="text" value="" id="location"> 
+                            <label class="control-label">LOCATION</label>                             
+                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-2"> 
-                            <label class="control-label">TR</label>
-                            <input class="form-control" placeholder="TR" name="tr" type="number" value="" id="tr"> 
+                            <label class="control-label">TR</label>                             
+                            <input class="form-control" placeholder="tr" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-2"> 
                             <label class="control-label">PATHWAY</label>                             
-                            <input class="form-control" placeholder="Pathway" name="pathway" type="number" value="" id="pathway"> 
+                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-2"> 
-                            <label class="control-label">ROUGH IN</label>
-                            <input class="form-control" placeholder="Rough In" name="rough-in" type="number" value="" id="rough-in"> 
+                            <label class="control-label">ROUGH IN</label>                             
+                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-2"> 
-                            <label class="control-label">TERMINATIONS</label>
-                            <input class="form-control" placeholder="Terminations" name="terminations" type="number" value="" id="terminations">
+                            <label class="control-label">TERMINATIONS</label>                             
+                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-2"> 
-                            <label class="control-label">TESTING</label>
-                            <input class="form-control" placeholder="Testing" name="testing" type="number" value="" id="testing">
+                            <label class="control-label">TESTING</label>                             
+                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
-                    </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-info" id="progress-more" onclick="progressMore()">More Location Progress?</button>                         
                     </div>                     
-                    <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
+                    <div class="form-group">
+                        <button type="button" class="btn btn-sm btn-success" id="work-more" onclick="workMore()">More Work Done?</button>                         
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label">COMPANY</label>                         
+                        <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value="" id="company"> 
+                    </div>                     
+                    <div class="form-group"> 
+                        <label class="control-label">Class</label>                         
+                        <p></p> 
+                        <label class="checkbox-inline"> 
+                            <input class="control-label" type="checkbox" value="" id="journeyman">        Journeyman
+                        </label>                         
+                        <label class="checkbox-inline"> 
+                            <input class="control-label" type="checkbox" value="" id="apprentice">        Apprentice
+                        </label>                         
+                    </div>                     
+                    <div class="form-group"> 
+                        <input class="form-control" placeholder="Step (Enter 0 for none)" name="company" type="number" value id="apprentice-step"> 
+                    </div>                     
+                    <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Update!</button></p> 
                 </div>                 
             </div>             
             <!-- /#page-wrapper -->             
@@ -304,62 +316,7 @@
             locationDiv.appendChild(inputLocation);
             newDiv.appendChild(workDiv);
             newDiv.appendChild(locationDiv);
-            document.getElementById("work").appendChild(newDiv);
-        }
-        </script>         
-        <script>
-        function progressMore() {
-            var progressLocation = document.createElement("input");
-            var progressTR = document.createElement("input");
-            var progressPathway = document.createElement("input");
-            var progressRoughIn = document.createElement("input");
-            var progressTerminations = document.createElement("input");
-            var progressTesting = document.createElement("input");
-            var newDiv = document.createElement("div");
-            var locationDiv = document.createElement("div");
-            var trDiv = document.createElement("div");
-            var pathwayDiv = document.createElement("div");
-            var roughInDiv = document.createElement("div");
-            var terminationsDiv = document.createElement("div");
-            var testingDiv = document.createElement("div");
-            progressLocation.type = "text";
-            progressLocation.className = "form-control col-xs-2";
-            progressLocation.placeholder = "Location";
-            progressTR.type = "text";
-            progressTR.className = "form-control col-xs-2";
-            progressTR.placeholder = "TR";
-            progressPathway.type = "text";
-            progressPathway.className = "form-control col-xs-2";
-            progressPathway.placeholder = "Pathway";
-            progressRoughIn.type = "text";
-            progressRoughIn.className = "form-control col-xs-2";
-            progressRoughIn.placeholder = "Rough In";
-            progressTerminations.type = "text";
-            progressTerminations.className = "form-control col-xs-2";
-            progressTerminations.placeholder = "Terminations";
-            progressTesting.type = "text";
-            progressTesting.className = "form-control col-xs-2";
-            progressTesting.placeholder = "Testing";
-            locationDiv.className = "form-group col-xs-2";
-            trDiv.className = "form-group col-xs-2";
-            pathwayDiv.className = "form-group col-xs-2";
-            roughInDiv.className = "form-group col-xs-2";
-            terminationsDiv.className = "form-group col-xs-2";
-            testingDiv.className = "form-group col-xs-2";
-            newDiv.className = "row";
-            locationDiv.appendChild(progressLocation);
-            trDiv.appendChild(progressTR);
-            pathwayDiv.appendChild(progressPathway);
-            roughInDiv.appendChild(progressRoughIn);
-            terminationsDiv.appendChild(progressTerminations);
-            testingDiv.appendChild(progressTesting);
-            newDiv.appendChild(locationDiv);
-            newDiv.appendChild(trDiv);
-            newDiv.appendChild(pathwayDiv);
-            newDiv.appendChild(roughInDiv);
-            newDiv.appendChild(terminationsDiv);
-            newDiv.appendChild(testingDiv);
-            document.getElementById("progress").appendChild(newDiv);
+            document.page-wrapper.getElementById("work").appendChild(newDiv);
         }
         </script>
         <!-- jQuery -->         
