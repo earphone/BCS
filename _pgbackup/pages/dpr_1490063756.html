@@ -126,7 +126,7 @@
                             <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
                         </div>                         
                     </div>                     
-                    <div class="row" id="work">
+                    <div class="row">
                         <div class="form-group col-xs-8"> 
                             <label class="control-label">WORK PERFORMED</label>                             
                             <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
@@ -136,6 +136,8 @@
                             <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
                         </div>                         
                     </div>                     
+                    <div class="form-group" id="extra-work">
+</div>
                     <div>
                         <button type="button" class="btn btn-sm btn-success" id="work-more" onclick="workMore()">More Work Done?</button>                         
                     </div>
@@ -275,7 +277,8 @@
             input.type = "text";
             input.className = "form-control";
             input.placeholder = "Work Done";
-            document.getElementById("work").appendChild(input);
+            
+            document.getElementById("extra-work").appendChild(input);
         }
         </script>
         <!-- jQuery -->         

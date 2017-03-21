@@ -126,14 +126,16 @@
                             <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
                         </div>                         
                     </div>                     
-                    <div class="row" id="work">
-                        <div class="form-group col-xs-8"> 
-                            <label class="control-label">WORK PERFORMED</label>                             
-                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
-                        </div>                         
-                        <div class="form-group col-xs-4"> 
-                            <label class="control-label">LOCATION (IDF# OR FLOOR)</label>                             
-                            <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
+                    <div class="row">
+                        <div class="form-group" id="work">
+                            <div class="form-group col-xs-8"> 
+                                <label class="control-label">WORK PERFORMED</label>                                 
+                                <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
+                            </div>                             
+                            <div class="form-group col-xs-4"> 
+                                <label class="control-label">LOCATION (IDF# OR FLOOR)</label>                                 
+                                <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
+                            </div>                             
                         </div>                         
                     </div>                     
                     <div>
@@ -274,8 +276,7 @@
             var input = document.createElement("input");
             input.type = "text";
             input.className = "form-control";
-            input.placeholder = "Work Done";
-            document.getElementById("work").appendChild(input);
+            container.appendChild(document.getElementById("work"));
         }
         </script>
         <!-- jQuery -->         

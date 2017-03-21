@@ -126,18 +126,16 @@
                             <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
                         </div>                         
                     </div>                     
-                    <div class="row" id="work">
+                    <div class="row">
                         <div class="form-group col-xs-8"> 
                             <label class="control-label">WORK PERFORMED</label>                             
                             <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                         </div>                         
                         <div class="form-group col-xs-4"> 
                             <label class="control-label">LOCATION (IDF# OR FLOOR)</label>                             
-                            <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
+                            <input class="form-control" type="text" placeholder="
+"Location"" name="work-location" id="work-location"> 
                         </div>                         
-                    </div>                     
-                    <div>
-                        <button type="button" class="btn btn-sm btn-success" id="work-more" onclick="workMore()">More Work Done?</button>                         
                     </div>
                     <div class="form-group"> 
                         <label class="control-label">COMPANY</label>                         
@@ -201,6 +199,7 @@
                     query.once("value")
                     	.then(function(snapshot) {
                         	snapshot.forEach(function(childSnapshot) {
+                            	// key will be "ada" the first time and "alan" the second time
                             	var key = childSnapshot.val().name;
                                 var option = document.createElement("option");
                                 option.text = key;
@@ -269,15 +268,6 @@
             })
         }            
         </script>         
-        <script>
-        function workMore() {
-            var input = document.createElement("input");
-            input.type = "text";
-            input.className = "form-control";
-            input.placeholder = "Work Done";
-            document.getElementById("work").appendChild(input);
-        }
-        </script>
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         

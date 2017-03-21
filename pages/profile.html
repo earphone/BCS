@@ -221,6 +221,14 @@
             })
             .then(function() {
                 // If set correctly
+            	if(journeyman == true || apprentice == true) {
+                    firebase.database().ref('employees/technicians/' + nameFull).update({
+                        name: nameFull,
+                    	journeyman: journeyman,
+                        apprentice: apprentice,
+                        step: apprenticeStep
+                    });
+                }
                 alert("Data Updated Successfully!");
                 location.reload();
             })
