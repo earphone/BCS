@@ -143,20 +143,22 @@
         </script>         
         <script>
         	function checkUser() {
-            console.log("Checking User!");
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (user) {
-                    console.log(user.uid + " is signed in");
-                    firebase.database().ref("/employees/employed/" + user.uid + "/email").on("value", function(snapshot) {
-                        console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
-                        console.log(user);
-                        window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
-                    // User is signed in.
-                } else {
-                    // No user is signed in.
-                    window.location="pages/login.html";
-                }
-            });
+                console.log("Checking User!");
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        console.log(user.uid + " is signed in");
+                        firebase.database().ref("/employees/employed/" + user.uid + "/email").on("value", function(snapshot) {
+                            console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
+                            console.log(user);
+                            window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
+                        // User is signed in.
+                    	});
+                    }
+                    else {
+                        // No user is signed in.
+                        window.location="pages/login.html";
+                    }
+                });
             }
         </script>         
         <!-- /#wrapper -->         
