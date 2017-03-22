@@ -67,16 +67,15 @@
             </nav>             
             <!-- Page Content -->             
             <div id="page-wrapper"> 
+                <!-- Div for Page Header -->
                 <div class="container-fluid"> 
                     <div class="row"> 
                         <div class="col-lg-12"> 
                             <h1 class="page-header">Daily Progress Report</h1> 
                         </div>                         
-                        <!-- /.col-lg-12 -->                         
                     </div>                     
-                    <!-- /.row -->                     
                 </div>                 
-                <!-- /.container-fluid -->                 
+                <!-- Main body Div -->
                 <div> 
                     <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DPR!</h3> 
                     <div class="form-group"> 
@@ -126,15 +125,17 @@
                             <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
                         </div>                         
                     </div>                     
-                    <div class="row" id="work"> 
-                        <div class="form-group col-xs-8"> 
-                            <label class="control-label">WORK PERFORMED</label>                             
-                            <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
-                        </div>                         
-                        <div class="form-group col-xs-4"> 
-                            <label class="control-label">LOCATION (IDF# OR FLOOR)</label>                             
-                            <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
-                        </div>                         
+                    <div id="work">
+                        <div class="row">
+                            <div class="form-group col-xs-8"> 
+                                <label class="control-label">WORK PERFORMED</label>                                 
+                                <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
+                            </div>                             
+                            <div class="form-group col-xs-4"> 
+                                <label class="control-label">LOCATION (IDF# OR FLOOR)</label>                                 
+                                <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
+                            </div>                             
+                        </div>
                     </div>                     
                     <div class="form-group"> 
                         <button type="button" class="btn btn-sm btn-info" id="work-more" onclick="workMore()">More Work Done?</button>                         
@@ -178,9 +179,7 @@
                     <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
                 </div>                 
             </div>             
-            <!-- /#page-wrapper -->             
         </div>         
-        <!-- /#wrapper -->         
         <!-- Firebase Initialization -->         
         <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
         <script>
@@ -220,10 +219,11 @@
                     query.once("value")
                     	.then(function(snapshot) {
                         	snapshot.forEach(function(childSnapshot) {
-                            	var key = childSnapshot.val().name;
+                            	var key = childSnapshot.val();
                                 var option = document.createElement("option");
-                                option.text = key;
-                                console.log("adding tech: " + key);
+                                option.text = key.name;
+                                option.value = key;
+                                console.log("adding tech: " + key.name);
                                 techList.add(option);
                         	});
                     	});
@@ -244,15 +244,18 @@
             var timeEnd = document.getElementById("time-end").value;
             var foreman = document.getElementById("foreman").value;
             var techs = document.getElementById("techs").options;
-            var techList = "";
+            var techList = new Array();
+            var iqr = document.getElementById("iqr").value;
+            var materialsNeeded = document.getElementById("materials-needed").value;
+            var materialsBy = document.getElementById("materials-by").value;
             var user = firebase.auth().currentUser;
-            console.log(techs[0].selected + " and " + techs[1].selected + " of length " + techs.length);
+            console.log("tech length: " + techs.length);
             var newDPR = firebase.database().ref('dpr').child("randomId").push();
             console.log("newDPR: " + newDPR);
             var newDPRKey = newDPR.key;
             for(i=0; i<techs.length;i++) {
                 if(techs[i].selected) {
-                	techList=techList + techs[i].value  + "~";  
+                	techList.push(techs[i].value.name);  // FIX THIS
                 }
             }
             // Set data for short DPR by Job #
@@ -329,8 +332,10 @@
             var terminationsDiv = document.createElement("div");
             var testingDiv = document.createElement("div");
             var newLabel = document.createElement("label");
+            var newLabelText = document.createTextNode("New Location Progress");
             newLabel.className = "control-label";
-            newLabel.value = "New Location Progress";
+            newLabel.type = "text";
+            newLabel.appendChild(newLabelText);
             progressLocation.type = "text";
             progressLocation.className = "form-control col-xs-9";
             progressLocation.placeholder = "Location";
@@ -349,7 +354,7 @@
             progressTesting.type = "text";
             progressTesting.className = "form-control col-xs-3";
             progressTesting.placeholder = "Testing";
-            locationDiv.className = "form-group col-xs-3";
+            locationDiv.className = "form-group col-xs-9";
             trDiv.className = "form-group col-xs-3";
             pathwayDiv.className = "form-group col-xs-3";
             roughInDiv.className = "form-group col-xs-3";
@@ -372,7 +377,6 @@
             newDiv.appendChild(newLabel);
             newDiv.appendChild(topDiv);
             newDiv.appendChild(bottomDiv);
-            console.log(newLabel);
             document.getElementById("progress").appendChild(newDiv);
         }
         </script>         
