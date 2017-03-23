@@ -109,7 +109,7 @@
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">TECHNICIANS</label>                         
-                        <select class="form-control" name="techs" type="select" multiple value="" id="techs" placeholder="First Last"></select>
+                        <select class="form-control" name="techs" type="select" multiple value="" id="techs" placeholder="First Last" onclick="techHours(value)"></select>
                     </div>                     
                     <div>
                         <label class="control-label">HOURS WORKED</label>
@@ -247,15 +247,10 @@
             var hoursDiv = document.getElementById("tech-hours");
             hoursDiv.innerHTML = "";
             for(i=0; i<techs.length;i++) {
-                if(techs[i].selected) {
-                    var inputElement = document.createElement("input");
-                    inputElement.className="form-control";
-                    inputElement.id="tech-hours-" + i;
-                    inputElement.type="number";
-                    hoursDiv.innerHTML += techs[i].value;
-                    hoursDiv.appendChild(inputElement);
-                }
-            }
+                        if(techs[i].selected) {
+                            hoursDiv.innerHTML += <input class="form-control" type="number">;
+                        }
+                    }
         }
         </script>
         <script>
@@ -287,20 +282,18 @@
         	});
             query.once("value").then(function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
-                    var val = childSnapshot.val();
-                    console.log(val);
+                    var name = childSnapshot.val().name;
+                    console.log(childSnapshot.val());
                     for(i=0; i<techs.length;i++) {
                         if(techs[i].selected) {
-							if(techs[i].value == val.name) {
-                                if(val.journeyman) {
+							if(techs[i].value == name) {
+                                if(childSnapshot.val().journeyman) {
                                     techClass = "Journeyman";
                                 }
                                 else {
-                                    techClass = "Apprentice Step " + val.step;
+                                    techClass = "Apprentice Step " + childSnapshot.val().step;
                                 }
-                                val.hours=document.getElementById("tech-hours-" + i).value;
-                                console.log(val);
-                                techList.push(val);
+                                techList.push(childSnapshot.val());
                                 techAdded++;
                             }
                         }
@@ -355,11 +348,9 @@
             inputWork.type = "text";
             inputWork.className = "form-control col-xs-8";
             inputWork.placeholder = "Work Done";
-            inputWork.id = "work-done";
             inputLocation.type = "text";
             inputLocation.className = "form-control col-xs-4";
             inputLocation.placeholder = "Location";
-            inputLocation.id = "work-location";
             workDiv.className = "form-group col-xs-8";
             locationDiv.className = "form-group col-xs-4";
             newDiv.className = "row";
@@ -396,27 +387,21 @@
             progressLocation.type = "text";
             progressLocation.className = "form-control col-xs-6";
             progressLocation.placeholder = "Location";
-            progressLocation.id = "location";
             progressTR.type = "number";
             progressTR.className = "form-control col-xs-6";
             progressTR.placeholder = "TR";
-            progressTR.id = "tr";
             progressPathway.type = "number";
             progressPathway.className = "form-control col-xs-6";
             progressPathway.placeholder = "Pathway";
-            progressPathway.id = "pathway";
             progressRoughIn.type = "number";
             progressRoughIn.className = "form-control col-xs-6";
             progressRoughIn.placeholder = "Rough In";
-            progressRoughIn.id = "rough-in";
             progressTerminations.type = "number";
             progressTerminations.className = "form-control col-xs-6";
             progressTerminations.placeholder = "Terminations";
-            progressTerminations.id = "terminations";
             progressTesting.type = "number";
             progressTesting.className = "form-control col-xs-6";
             progressTesting.placeholder = "Testing";
-            progressTesting.id = "testing";
             locationDiv.className = "form-group col-xs-6";
             trDiv.className = "form-group col-xs-6";
             pathwayDiv.className = "form-group col-xs-6";

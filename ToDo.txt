@@ -18,6 +18,8 @@ Firebase forEach child
 	https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot
 	http://stackoverflow.com/questions/30493858/multiselect-checkbox-dropdown
 	https://selectize.github.io/selectize.js/
+Get all elements of same id name
+	https://stackoverflow.com/questions/13339996/setting-dynamically-distinct-id-attribute-using-javascript-for-input-element
 
 Notes:
 	Add personal history for each person in profile page (possibly do reload without going to a new page)
