@@ -97,11 +97,11 @@
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">START TIME</label>                         
-                        <input class="form-control" name="time-start" type="text" value="" id="time-start" placeholder="0000"> 
+                        <input class="form-control" name="time-start" type="time" value="07:30" id="time-start" placeholder="0000"> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">END TIME</label>                         
-                        <input class="form-control" name="time-end" type="text" value="" id="time-end" placeholder="2400"> 
+                        <input class="form-control" name="time-end" type="time" value="15:30" id="time-end" placeholder="2400"> 
                     </div>                     
                     <div class="form-group"> 
                         <label class="control-label">FOREMAN</label>                         
@@ -117,11 +117,11 @@
                     </div>                     
                     <div class="row"> 
                         <div class="form-group col-xs-8"> 
-                            <label class="control-label">MATERIAL / EQUIPMENT NEEDED (NOTIFY PM ASAP)</label>                             
-                            <input class="form-control" placeholder="Material Needed" name="materials-needed" type="text" value="" id="materials-needed"> 
+                            <label class="control-label">MATERIAL / EQUIPMENT NEEDED</label>                             
+                            <input class="form-control" placeholder="Notify PM ASAP" name="materials-needed" type="text" value="" id="materials-needed"> 
                         </div>                         
                         <div class="form-group col-xs-4"> 
-                            <label class="control-label">DATE NEEDED BY</label>                             
+                            <label class="control-label">NEEDED BY</label>                             
                             <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
                         </div>                         
                     </div>                     
@@ -132,8 +132,8 @@
                                 <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
                             </div>                             
                             <div class="form-group col-xs-4"> 
-                                <label class="control-label">LOCATION (IDF# OR FLOOR)</label>                                 
-                                <input class="form-control" type="text" placeholder="Location" name="work-location" id="work-location"> 
+                                <label class="control-label">LOCATION</label>                                 
+                                <input class="form-control" type="text" placeholder="ID # / Floor" name="work-location" id="work-location"> 
                             </div>                             
                         </div>
                     </div>                     
@@ -145,29 +145,31 @@
                     </label>                     
                     <div id="progress"> 
                         <div class="row">
-                            <div class="form-group col-xs-9"> 
+                            <div class="form-group col-xs-6"> 
                                 <label class="control-label">LOCATION</label>                                 
                                 <input class="form-control" placeholder="Location" name="location" type="text" value="" id="location"> 
                             </div>                             
-                            <div class="form-group col-xs-3"> 
+                            <div class="form-group col-xs-6"> 
                                 <label class="control-label">TR</label>                                 
                                 <input class="form-control" placeholder="TR" name="tr" type="number" value="" id="tr"> 
                             </div>                             
                         </div>
                         <div class="row">
-                            <div class="form-group col-xs-3"> 
+                            <div class="form-group col-xs-6"> 
                                 <label class="control-label">PATHWAY</label>                                 
                                 <input class="form-control" placeholder="Pathway" name="pathway" type="number" value="" id="pathway"> 
                             </div>                             
-                            <div class="form-group col-xs-3"> 
+                            <div class="form-group col-xs-6"> 
                                 <label class="control-label">ROUGH IN</label>                                 
                                 <input class="form-control" placeholder="Rough In" name="rough-in" type="number" value="" id="rough-in"> 
                             </div>                             
-                            <div class="form-group col-xs-3"> 
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-xs-6"> 
                                 <label class="control-label">TERMINATIONS</label>                                 
                                 <input class="form-control" placeholder="Terminations" name="terminations" type="number" value="" id="terminations"> 
                             </div>                             
-                            <div class="form-group col-xs-3"> 
+                            <div class="form-group col-xs-6"> 
                                 <label class="control-label">TESTING</label>                                 
                                 <input class="form-control" placeholder="Testing" name="testing" type="number" value="" id="testing"> 
                             </div>                             
@@ -219,11 +221,8 @@
                     query.once("value")
                     	.then(function(snapshot) {
                         	snapshot.forEach(function(childSnapshot) {
-                            	var key = childSnapshot.val();
                                 var option = document.createElement("option");
-                                option.text = key.name;
-                                option.value = key;
-                                console.log("adding tech: " + key.name);
+                                option.text = childSnapshot.val().name;
                                 techList.add(option);
                         	});
                     	});
@@ -244,7 +243,7 @@
             var timeEnd = document.getElementById("time-end").value;
             var foreman = document.getElementById("foreman").value;
             var techs = document.getElementById("techs").options;
-            var techList = new Array();
+            var techList = [];
             var iqr = document.getElementById("iqr").value;
             var materialsNeeded = document.getElementById("materials-needed").value;
             var materialsBy = document.getElementById("materials-by").value;
@@ -253,11 +252,37 @@
             var newDPR = firebase.database().ref('dpr').child("randomId").push();
             console.log("newDPR: " + newDPR);
             var newDPRKey = newDPR.key;
-            for(i=0; i<techs.length;i++) {
-                if(techs[i].selected) {
-                	techList.push(techs[i].value);  
-                }
-            }
+            var query = firebase.database().ref("employees/technicians/").orderByKey();
+            var techClass;
+            var techAdded = 0;
+            query.once("value")
+                .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var name = childSnapshot.val().name;
+                    console.log(childSnapshot.val());
+                    for(i=0; i<techs.length;i++) {
+                        console.log("Name: " + name + " " + techs[i].value);
+                        if(techs[i].selected) {
+							if(techs[i].value == name) {
+                                if(childSnapshot.val().journeman) {
+                                    techClass = "Journeyman";
+                                    console.log("techClass: " + techClass);
+                                }
+                                else {
+                                    techClass = "Apprentice Step " + childSnapshot.val().step;
+                                    console.log("techClass: " + techClass);
+                                }
+                                techList.push(childSnapshot.val());
+								//techList[techAdded]=childSnapshot.val();
+                                //console.log(techList[techAdded]);
+                                techAdded++;
+                            }
+                        }
+                    }
+                console.log("Complete techList: "); console.log(JSON.stringify(techList));
+                });
+            });
+            console.log("Complete techList: "); console.log(JSON.stringify(techList));
             // Set data for short DPR by Job #
             firebase.database().ref('dpr/jobNum/' + jobNum + "/" + date).set({
                 submittedBy: user.displayName,
@@ -279,7 +304,10 @@
                 timeStart: timeStart,
                 timeEnd: timeEnd,
                 foreman: foreman,
-                techs: techList
+                techs: techList,
+                iqr: iqr,
+                needed: materialsNeeded,
+                by: materialsBy
             })
             .then(function() {
                 // If set correctly
@@ -324,6 +352,7 @@
             var progressTesting = document.createElement("input");
             var newDiv = document.createElement("div");
             var topDiv = document.createElement("div");
+            var midDiv = document.createElement("div");
             var bottomDiv = document.createElement("div");
             var locationDiv = document.createElement("div");
             var trDiv = document.createElement("div");
@@ -337,30 +366,31 @@
             newLabel.type = "text";
             newLabel.appendChild(newLabelText);
             progressLocation.type = "text";
-            progressLocation.className = "form-control col-xs-9";
+            progressLocation.className = "form-control col-xs-6";
             progressLocation.placeholder = "Location";
-            progressTR.type = "text";
-            progressTR.className = "form-control col-xs-3";
+            progressTR.type = "number";
+            progressTR.className = "form-control col-xs-6";
             progressTR.placeholder = "TR";
-            progressPathway.type = "text";
-            progressPathway.className = "form-control col-xs-3";
+            progressPathway.type = "number";
+            progressPathway.className = "form-control col-xs-6";
             progressPathway.placeholder = "Pathway";
-            progressRoughIn.type = "text";
-            progressRoughIn.className = "form-control col-xs-3";
+            progressRoughIn.type = "number";
+            progressRoughIn.className = "form-control col-xs-6";
             progressRoughIn.placeholder = "Rough In";
-            progressTerminations.type = "text";
-            progressTerminations.className = "form-control col-xs-3";
+            progressTerminations.type = "number";
+            progressTerminations.className = "form-control col-xs-6";
             progressTerminations.placeholder = "Terminations";
-            progressTesting.type = "text";
-            progressTesting.className = "form-control col-xs-3";
+            progressTesting.type = "number";
+            progressTesting.className = "form-control col-xs-6";
             progressTesting.placeholder = "Testing";
-            locationDiv.className = "form-group col-xs-9";
-            trDiv.className = "form-group col-xs-3";
-            pathwayDiv.className = "form-group col-xs-3";
-            roughInDiv.className = "form-group col-xs-3";
-            terminationsDiv.className = "form-group col-xs-3";
-            testingDiv.className = "form-group col-xs-3";
+            locationDiv.className = "form-group col-xs-6";
+            trDiv.className = "form-group col-xs-6";
+            pathwayDiv.className = "form-group col-xs-6";
+            roughInDiv.className = "form-group col-xs-6";
+            terminationsDiv.className = "form-group col-xs-6";
+            testingDiv.className = "form-group col-xs-6";
             topDiv.className = "row";
+            midDiv.className = "row";
             bottomDiv.className = "row";
             locationDiv.appendChild(progressLocation);
             trDiv.appendChild(progressTR);
@@ -370,12 +400,13 @@
             testingDiv.appendChild(progressTesting);
             topDiv.appendChild(locationDiv);
             topDiv.appendChild(trDiv);
-            bottomDiv.appendChild(pathwayDiv);
-            bottomDiv.appendChild(roughInDiv);
+            midDiv.appendChild(pathwayDiv);
+            midDiv.appendChild(roughInDiv);
             bottomDiv.appendChild(terminationsDiv);
             bottomDiv.appendChild(testingDiv);
             newDiv.appendChild(newLabel);
             newDiv.appendChild(topDiv);
+            newDiv.appendChild(midDiv);
             newDiv.appendChild(bottomDiv);
             document.getElementById("progress").appendChild(newDiv);
         }
