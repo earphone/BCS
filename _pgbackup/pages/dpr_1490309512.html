@@ -24,7 +24,7 @@
     </head>     
     <body onload="checkUser()"> 
         <div id="wrapper"> 
-            <!-- Navigation -->             
+            <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"> 
                 <div class="navbar-header"> 
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
@@ -32,9 +32,9 @@
                         <span class="icon-bar"></span> 
                         <span class="icon-bar"></span> 
                         <span class="icon-bar"></span> 
-                    </button>                     
+                    </button>
                     <a class="navbar-brand" href="index.html"><b>BCS Webapp</b></a> 
-                </div>                 
+                </div>
                 <!-- /.navbar-header -->                 
                 <!-- /.navbar-top-links -->                 
                 <div class="navbar-default sidebar" role="navigation"> 
@@ -42,20 +42,20 @@
                         <ul class="nav" id="side-menu"> 
                             <li> 
                                 <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> 
-                            </li>                             
+                            </li>
                             <li> 
                                 <a href="dpr.html"><i class="fa fa-list-alt fa-fw"></i> DPR</a> 
-                            </li>                             
+                            </li>
                             <li> 
                                 <a href="dtr.html"><i class="fa fa-list fa-fw"></i> DTR</a> 
-                            </li>                             
+                            </li>
                             <li> 
                                 <a href="profile.html"><i class="fa fa-user fa-fw"></i>&nbsp;Profile</a> 
-                            </li>                             
+                            </li>
                             <li> 
                                 <a href="admin.html"><i class="fa fa-gamepad fa-fw"></i> Admin</a> 
-                            </li>                             
-                            <!-- fa-institution -->                             
+                            </li>
+                            <!-- fa-institution -->
                             <li> 
                                 <a href="login.html" onclick="logoutUser()" id="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
                             </li>                             
@@ -67,129 +67,129 @@
             </nav>             
             <!-- Page Content -->             
             <div id="page-wrapper"> 
-                <!-- Div for Page Header -->
+                <!-- Div for Page Header -->                 
                 <div class="container-fluid"> 
                     <div class="row"> 
                         <div class="col-lg-12"> 
                             <h1 class="page-header">Daily Progress Report</h1> 
-                        </div>                         
-                    </div>                     
-                </div>                 
+                        </div>
+                    </div>
+                </div>
                 <!-- Main body Div -->
                 <div> 
                     <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DPR!</h3> 
                     <div class="form-group"> 
-                        <label class="control-label">JOB NUMBER</label>                         
-                        <input class="form-control" placeholder="xx-xxx" name="job-num" type="text" value="" id="job-num"> 
-                    </div>                     
+                        <label class="control-label">JOB NUMBER</label>
+                        <input class="form-control" placeholder="xx-xxx" name="job-num" type="number" value="" id="job-num"> 
+                    </div>
                     <div class="form-group"> 
-                        <label class="control-label">JOB NAME</label>                         
+                        <label class="control-label">JOB NAME</label>
                         <input class="form-control" placeholder="Job Name" name="job-name" type="text" value="" id="job-name"> 
-                    </div>                     
+                    </div>
                     <div class="form-group"> 
-                        <label class="control-label">DATE</label>                         
+                        <label class="control-label">DATE</label>
                         <br> 
                         <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">CONTRACTOR</label>                         
-                        <input class="form-control" placeholder="Contractor" name="contractor" type="text" value="" id="contractor"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">START TIME</label>                         
-                        <input class="form-control" name="time-start" type="time" value="07:30" id="time-start" placeholder="0000"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">END TIME</label>                         
-                        <input class="form-control" name="time-end" type="time" value="15:30" id="time-end" placeholder="2400"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">FOREMAN</label>                         
-                        <input class="form-control" name="foreman" type="text" value="" id="foreman" placeholder="First Last"> 
-                    </div>                     
-                    <div class="form-group"> 
-                        <label class="control-label">TECHNICIANS</label>                         
-                        <select class="form-control" name="techs" type="select" multiple value="" id="techs" placeholder="First Last"></select>
-                    </div>                     
-                    <div>
-                        <label class="control-label">HOURS WORKED</label>
-                        <div class="form-group" id="tech-hours">
-</div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label">CONTRACTOR</label>
+                        <input class="form-control" placeholder="Contractor" name="contractor" type="text" value="" id="contractor"> 
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label">START TIME</label>
+                        <input class="form-control" name="time-start" type="time" value="07:30" id="time-start" placeholder="0000"> 
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label">END TIME</label>
+                        <input class="form-control" name="time-end" type="time" value="15:30" id="time-end" placeholder="2400"> 
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label">FOREMAN</label>
+                        <input class="form-control" name="foreman" type="text" value="" id="foreman" placeholder="First Last"> 
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label">TECHNICIANS</label>
+                        <select class="form-control" name="techs" type="select" multiple value="" id="techs" placeholder="First Last"></select>
+                    </div>
+                    <div> 
+                        <label class="control-label">HOURS WORKED</label>
+                        <div class="form-group" id="tech-hours"> 
+</div>
+                    </div>
+                    <div class="form-group"> 
                         <button type="button" class="btn btn-sm btn-info" id="work-more" onclick="techHours()">Set Hours for Chosen Techs?</button>
                     </div>
                     <div class="form-group"> 
                         <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>
                         <input class="form-control" placeholder="ANY ISSUES SHOULD BE REPORTED IMMEDIATELY BY PHONE ALSO" name="iqr" type="text" value="" id="iqr"> 
-                    </div>                     
+                    </div>
                     <div class="row"> 
                         <div class="form-group col-xs-8"> 
-                            <label class="control-label">MATERIAL / EQUIPMENT NEEDED</label>                             
+                            <label class="control-label">MATERIAL / EQUIPMENT NEEDED</label>
                             <input class="form-control" placeholder="Notify PM ASAP" name="materials-needed" type="text" value="" id="materials-needed"> 
-                        </div>                         
-                        <div class="form-group col-xs-4"> 
-                            <label class="control-label">NEEDED BY</label>                             
-                            <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
-                        </div>                         
-                    </div>                     
-                    <div id="work">
-                        <div class="row">
-                            <div class="form-group col-xs-8"> 
-                                <label class="control-label">WORK PERFORMED</label>                                 
-                                <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done"> 
-                            </div>                             
-                            <div class="form-group col-xs-4"> 
-                                <label class="control-label">LOCATION</label>                                 
-                                <input class="form-control" type="text" placeholder="ID # / Floor" name="work-location" id="work-location"> 
-                            </div>                             
                         </div>
-                    </div>                     
+                        <div class="form-group col-xs-4"> 
+                            <label class="control-label">NEEDED BY</label>
+                            <input class="form-control" type="date" name="materials-by" id="materials-by" min="2016-01-01"> 
+                        </div>
+                    </div>
+                    <div id="work"> 
+                        <div class="row" id="work-row"> 
+                            <div class="form-group col-xs-8"> 
+                                <label class="control-label">WORK PERFORMED</label>
+                                <input class="form-control" placeholder="Work Done" name="work-done" type="text" value="" id="work-done-0"> 
+                            </div>
+                            <div class="form-group col-xs-4"> 
+                                <label class="control-label">LOCATION</label>
+                                <input class="form-control" type="text" placeholder="ID # / Floor" name="work-location" id="work-location-0"> 
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group"> 
-                        <button type="button" class="btn btn-sm btn-info" id="work-more" onclick="workMore()">More Work Done?</button>                         
-                    </div>                     
+                        <button type="button" class="btn btn-sm btn-info" id="work-more" onclick="workMore()">More Work Done?</button>
+                    </div>
                     <label class="control-label"> 
                         <u>PROGRESS (% COMPLETED) Ex. 75</u> 
-                    </label>                     
+                    </label>
                     <div id="progress"> 
-                        <div class="row">
+                        <div class="row"> 
                             <div class="form-group col-xs-6"> 
-                                <label class="control-label">LOCATION</label>                                 
+                                <label class="control-label">LOCATION</label>
                                 <input class="form-control" placeholder="Location" name="location" type="text" value="" id="location"> 
-                            </div>                             
+                            </div>
                             <div class="form-group col-xs-6"> 
-                                <label class="control-label">TR</label>                                 
+                                <label class="control-label">TR</label>
                                 <input class="form-control" placeholder="TR" name="tr" type="number" value="" id="tr"> 
-                            </div>                             
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row"> 
                             <div class="form-group col-xs-6"> 
-                                <label class="control-label">PATHWAY</label>                                 
+                                <label class="control-label">PATHWAY</label>
                                 <input class="form-control" placeholder="Pathway" name="pathway" type="number" value="" id="pathway"> 
-                            </div>                             
+                            </div>
                             <div class="form-group col-xs-6"> 
-                                <label class="control-label">ROUGH IN</label>                                 
+                                <label class="control-label">ROUGH IN</label>
                                 <input class="form-control" placeholder="Rough In" name="rough-in" type="number" value="" id="rough-in"> 
-                            </div>                             
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row"> 
                             <div class="form-group col-xs-6"> 
-                                <label class="control-label">TERMINATIONS</label>                                 
+                                <label class="control-label">TERMINATIONS</label>
                                 <input class="form-control" placeholder="Terminations" name="terminations" type="number" value="" id="terminations"> 
-                            </div>                             
+                            </div>
                             <div class="form-group col-xs-6"> 
-                                <label class="control-label">TESTING</label>                                 
+                                <label class="control-label">TESTING</label>
                                 <input class="form-control" placeholder="Testing" name="testing" type="number" value="" id="testing"> 
                             </div>                             
                         </div>
-                    </div>                     
+                    </div>
                     <div class="form-group"> 
                         <button type="button" class="btn btn-sm btn-info" id="progress-more" onclick="progressMore()">More Location Progress?</button>                         
-                    </div>                     
+                    </div>
                     <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
-                </div>                 
-            </div>             
-        </div>         
+                </div>
+            </div>
+        </div>
         <!-- Firebase Initialization -->         
         <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
         <script>
@@ -203,8 +203,8 @@
             };
             firebase.initializeApp(config);
         </script>         
-        <!-- Firebase Create User -->         
         <script>
+        // Script that logs out the user when logout button is clicked
         function logoutUser() {
             firebase.auth().signOut().then(function() {
               console.log('Signed Out');
@@ -213,8 +213,8 @@
             });
         }
         </script>         
-        <!-- Checks if user is logged in. If not,  redirects to Login page -->         
         <script>
+        // Script that checks if user is logged in. If not,  redirects to Login page.
         function checkUser() {
             console.log("Checking User!");
             firebase.auth().onAuthStateChanged(function(user) {
@@ -242,22 +242,25 @@
         }
         </script>         
         <script>
+        // Script to add the number selectors for selected techs
         function techHours() {
             var techs = document.getElementById("techs").options;
             var hoursDiv = document.getElementById("tech-hours");
             hoursDiv.innerHTML = "";
             for(i=0; i<techs.length;i++) {
                 if(techs[i].selected) {
-                    var inputElement = document.create("input");
+                    var inputElement = document.createElement("input");
                     inputElement.className="form-control";
-                    inputElement.id="tech-hours-"+i;
+                    inputElement.id="tech-hours-" + i;
                     inputElement.type="number";
-                    hoursDiv.innerHTML += techs[i].value + inputElement;
+                    hoursDiv.innerHTML += techs[i].value;
+                    hoursDiv.appendChild(inputElement);
                 }
             }
         }
-        </script>
+        </script>         
         <script>
+        // Script to submit all updated data to firebase database
         function updateData() {
             var jobNum = document.getElementById("job-num").value;
             var jobName = document.getElementById("job-name").value;
@@ -268,6 +271,8 @@
             var foreman = document.getElementById("foreman").value;
             var techs = document.getElementById("techs").options;
             var techList = [];
+            var workList = [];
+            var progressList = [];
             var iqr = document.getElementById("iqr").value;
             var materialsNeeded = document.getElementById("materials-needed").value;
             var materialsBy = document.getElementById("materials-by").value;
@@ -279,30 +284,43 @@
             var userInitials;
             var query = firebase.database().ref("employees/technicians/").orderByKey();
             var techClass;
-            var techAdded = 0;
+            // Get initials for user
             firebase.database().ref("employees/employed/" + user.uid + "/initials/").once('value').then(function(snapshot) {
             	userInitials = snapshot.val();
                 console.log("User Initials: " + userInitials);
         	});
+            // Get name, class, and hours for each tech and save to techList
             query.once("value").then(function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
-                    var name = childSnapshot.val().name;
-                    console.log(childSnapshot.val());
+                    var val = childSnapshot.val();
+                    console.log(val);
                     for(i=0; i<techs.length;i++) {
                         if(techs[i].selected) {
-							if(techs[i].value == name) {
-                                if(childSnapshot.val().journeyman) {
+							if(techs[i].value == val.name) {
+                                if(val.journeyman) {
                                     techClass = "Journeyman";
                                 }
                                 else {
-                                    techClass = "Apprentice Step " + childSnapshot.val().step;
+                                    techClass = "Apprentice Step " + val.step;
                                 }
-                                techList.push(childSnapshot.val());
-                                techAdded++;
+                                val.hours=document.getElementById("tech-hours-" + i).value;
+                                console.log(val);
+                                techList.push(val);
                             }
                         }
                     }
                 });
+                // Get work done and locations for all work and save to workList
+                var workDone = document.getElementById("work-done-0");
+                var workLocation = document.getElementById("work-location-0");
+                var i = 0;
+                while(workDone!=null) {
+                	workList.push({done: workDone.value, location: workLocation.value});
+                    i++;
+                    workDone = document.getElementById("work-done-"+i);
+                    workLocation = document.getElementById("work-location-"+i);
+                }
+                // Get progress percentages and save to progressList
                 // Set data for short DPR by Job #
                 firebase.database().ref('dpr/jobNum/' + jobNum + "/" + date).set({
                     submittedBy: user.displayName,
@@ -329,7 +347,9 @@
                     techs: techList,
                     iqr: iqr,
                     needed: materialsNeeded,
-                    by: materialsBy
+                    by: materialsBy,
+                    work: workList,
+                    progress: progressList
                 })
                 .then(function() {
                     // If set correctly
@@ -343,21 +363,31 @@
         }            
         </script>         
         <script>
+        // Script to add more input fields for work completed and location
         function workMore() {
             var inputWork = document.createElement("input");
             var inputLocation = document.createElement("input");
             var newDiv = document.createElement("div");
             var workDiv = document.createElement("div");
             var locationDiv = document.createElement("div");
+            var i = 0;
             inputWork.type = "text";
             inputWork.className = "form-control col-xs-8";
             inputWork.placeholder = "Work Done";
+            inputWork.id = "work-done";
             inputLocation.type = "text";
             inputLocation.className = "form-control col-xs-4";
             inputLocation.placeholder = "Location";
+            inputLocation.id = "work-location";
             workDiv.className = "form-group col-xs-8";
             locationDiv.className = "form-group col-xs-4";
             newDiv.className = "row";
+            newDiv.id = "work-row";
+            while(document.getElementById("work-done-" + i)!=null) {
+            	i++;
+                inputWork.id = "work-done-"+i;
+                inputLocation.id = "work-location-"+i;
+            }
             workDiv.appendChild(inputWork);
             locationDiv.appendChild(inputLocation);
             newDiv.appendChild(workDiv);
@@ -366,6 +396,7 @@
         }
         </script>         
         <script>
+        // Script for creating more Location Progress % Complete input fields
         function progressMore() {
             var progressLocation = document.createElement("input");
             var progressTR = document.createElement("input");
@@ -391,21 +422,27 @@
             progressLocation.type = "text";
             progressLocation.className = "form-control col-xs-6";
             progressLocation.placeholder = "Location";
+            progressLocation.id = "location";
             progressTR.type = "number";
             progressTR.className = "form-control col-xs-6";
             progressTR.placeholder = "TR";
+            progressTR.id = "tr";
             progressPathway.type = "number";
             progressPathway.className = "form-control col-xs-6";
             progressPathway.placeholder = "Pathway";
+            progressPathway.id = "pathway";
             progressRoughIn.type = "number";
             progressRoughIn.className = "form-control col-xs-6";
             progressRoughIn.placeholder = "Rough In";
+            progressRoughIn.id = "rough-in";
             progressTerminations.type = "number";
             progressTerminations.className = "form-control col-xs-6";
             progressTerminations.placeholder = "Terminations";
+            progressTerminations.id = "terminations";
             progressTesting.type = "number";
             progressTesting.className = "form-control col-xs-6";
             progressTesting.placeholder = "Testing";
+            progressTesting.id = "testing";
             locationDiv.className = "form-group col-xs-6";
             trDiv.className = "form-group col-xs-6";
             pathwayDiv.className = "form-group col-xs-6";
