@@ -89,7 +89,7 @@
                     <div class="form-group"> 
                         <label class="control-label">DATE</label>
                         <br> 
-                        <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01"> 
+                        <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01" value="getTodayDate()">
                     </div>
                     <div class="form-group">
                         <label class="control-label">CONTRACTOR</label>
@@ -344,7 +344,7 @@
                 // Set data for short DPR by Date in user's history path
                 
                 // Set data for short DPR by Date
-                firebase.database().ref('employees/employed/' + user.uid + "/history/date/" + date + "/" + jobNum).set({
+                firebase.database().ref('employees/employed/' + user.uid + "/history/DPR/" + date + "/" + jobNum).set({
                     randomID: newDPRKey
                 });
                 // Set data for long DPR
@@ -487,6 +487,18 @@
             document.getElementById("progress").appendChild(newDiv);
         }
         </script>         
+        <script>
+        // Script that returns today's date (yyyy-mm-dd)
+        function getTodayDate() {
+            date =  new Date();
+            console.log(date);
+            year = date.getFullYear();
+            month = date.getMonth() + 1;
+            day = date.getDate();
+            console.log(year + "-" + month + "-" + day);
+            return (year + "-" + month + "-" + day);
+        }
+        </script>
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         

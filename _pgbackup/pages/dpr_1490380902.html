@@ -80,7 +80,7 @@
                     <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DPR!</h3> 
                     <div class="form-group"> 
                         <label class="control-label">JOB NUMBER</label>
-                        <input class="form-control" placeholder="xx-xxx" name="job-num" type="number" value="0" id="job-num"> 
+                        <input class="form-control" placeholder="xx-xxx" name="job-num" type="text" value="" id="job-num"> 
                     </div>
                     <div class="form-group"> 
                         <label class="control-label">JOB NAME</label>
@@ -89,7 +89,7 @@
                     <div class="form-group"> 
                         <label class="control-label">DATE</label>
                         <br> 
-                        <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01"> 
+                        <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01">
                     </div>
                     <div class="form-group">
                         <label class="control-label">CONTRACTOR</label>
@@ -223,6 +223,8 @@
                     // User is signed in.
                     // Display the name of the person submitting this form as the foreman
                     document.getElementById("foreman").value = user.displayName;
+                    // Input today's date
+                    todaysDate();
                     // Fill in Technicians list of all techs
                     var techList = document.getElementById("techs");
                     var query = firebase.database().ref("employees/technicians/").orderByKey();
@@ -339,6 +341,12 @@
                 firebase.database().ref('dpr/date/' + date + "/" + jobNum).set({
                     submittedBy: user.displayName,
                     userID: user.uid,
+                    randomID: newDPRKey
+                });
+                // Set data for short DPR by Date in user's history path
+                
+                // Set data for short DPR by Date
+                firebase.database().ref('employees/employed/' + user.uid + "/history/DPR/" + date + "/" + jobNum).set({
                     randomID: newDPRKey
                 });
                 // Set data for long DPR
@@ -481,6 +489,16 @@
             document.getElementById("progress").appendChild(newDiv);
         }
         </script>         
+        <script>
+        // Script that sets dpr-date as today's date (yyyy-mm-dd)
+        function todaysDate() {
+            date =  new Date();
+            year = date.getFullYear();
+            month = date.getMonth() + 1;
+            day = date.getDate();
+            document.getElementById("dpr-date").value = year + "-" + month + "-" + day);
+        }
+        </script>
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         
