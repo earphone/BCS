@@ -114,21 +114,10 @@
                         <div class="form-group">
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
-                                    <h5>WORK PERFORMED</h5>
+                                    <label class="control-label">WORK PERFORMED</label>
                                 </div>
                                 <div class="form-group col-xs-6"> 
-                                    <h5>COST CODE</h5>
-                                </div>
-                            </div>
-                            <div class="row"> 
-                                <div class="form-group col-xs-4"> 
-                                    <h5>HOURS</h5>
-                                </div>
-                                <div class="form-group col-xs-4"> 
-                                    <h5>MATERIALS ISSUED</h5>
-                                </div>
-                                <div class="form-group col-xs-4"> 
-                                    <h5>MATERIALS INSTALLED</h5>
+                                    <label class="control-label">ROUGH IN</label>
                                 </div>
                             </div>
                         </div>
@@ -323,12 +312,8 @@
             labelA.className = "form-control col-xs-6";
             var labelB = document.createElement("label");
             labelB.className = "form-control col-xs-6";
-            var fieldsList = [
-            	["OSP (Including Site Work):",],
-            	["MAINTENANCE HOLE SETUP","2-001"],
-            ];
             // For statement runs through all rows
-            for(var i = 0; i<21; i++) {
+            for(var i = 0; i<22; i++) {
                 // Switch statement (default sets a number to the input)
                 switch(i) {
                     case 0:
