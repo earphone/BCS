@@ -107,11 +107,11 @@
                         <div class="form-group">
                             <label class="control-label">REPORT TYPE</label>
                             <div class="row form-group">
-                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workISP()">ISP</button>
+                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workMore()">ISP</button>
                                 <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-osp" onclick="workOSP()">OSP</button>
                             </div>
                         </div>
-                        <div class="form-group" id="work-div">
+                        <div class="form-group">
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
                                     <h5>WORK PERFORMED</h5>
@@ -131,6 +131,9 @@
                                     <h5>MATERIALS INSTALLED</h5>
                                 </div>
                             </div>
+                        </div>
+                        <div id="work-div">
+                            <!-- This div will be filled in by either workISP() or workOSP() -->
                         </div>
                         <div id="progress"> 
                             <div class="row"> 

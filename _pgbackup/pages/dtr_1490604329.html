@@ -107,11 +107,11 @@
                         <div class="form-group">
                             <label class="control-label">REPORT TYPE</label>
                             <div class="row form-group">
-                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workISP()">ISP</button>
+                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workMore()">ISP</button>
                                 <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-osp" onclick="workOSP()">OSP</button>
                             </div>
                         </div>
-                        <div class="form-group" id="work-div">
+                        <div class="form-group">
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
                                     <h5>WORK PERFORMED</h5>
@@ -131,6 +131,9 @@
                                     <h5>MATERIALS INSTALLED</h5>
                                 </div>
                             </div>
+                        </div>
+                        <div id="work-div">
+                            <!-- This div will be filled in by either workISP() or workOSP() -->
                         </div>
                         <div id="progress"> 
                             <div class="row"> 
@@ -305,16 +308,12 @@
         <script>
         // Script to apply all needed information for ISP
         function workISP() {
-            var workDiv = document.getElementById("work-div");
-            workDiv.innerHTML="";
             
         }
         </script>
         <script>
         // Script to apply all needed information for OSP
         function workOSP() {
-            var workDiv = document.getElementById("work-div");
-            workDiv.innerHTML="";
             var fieldsList = [
             	["OSP (Including Site Work)",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
                 ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK",""],
@@ -324,6 +323,8 @@
                 ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS",""],["PUNCHLIST","8-006"],
                 ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO",""],["OSP DEMO","11-002"]
             ];
+            var workDiv = document.getElementById("work-div");
+            workDiv.innerHTML="";
             // For statement runs through all rows
             for(var i = 0; i<22; i++) {
                 console.log("i value: " + i);
@@ -350,26 +351,21 @@
                         // Set data for labels needed
                         labelA.className = "control-label col-xs-12".type = "text";
                         labelA.appendChild(labelAText);
-                        // Append children
                         workPerformed.appendChild(labelA);
             			workRowTop.appendChild(workPerformed);
             			workDiv.appendChild(workRowTop);
+                        console.log(labelAText.value);
                         break;
                     default:
                         // Set classes for divs needed
-                        workPerformed.className="col-xs-6";
-                        workCode.className="col-xs-6";
-                        var hoursDiv = document.createElement("div");
-                        hoursDiv.className = "form-group col-xs-4";
-                        var issuedDiv = document.createElement("div");
-                        issuedDiv.className = "form-group col-xs-4";
-                        var installedDiv = document.createElement("div");
-                        installedDiv.className = "form-group col-xs-4";
+                        workPerformed.className="form-group col-xs-6";
+                        workCode.className="form-group col-xs-6";
                         // Set data for labels needed
                         labelA.className = "control-label".type = "text";
                         var labelB = document.createElement("label");
                         labelB.className = "control-label".type = "text";
                         var labelBText = document.createTextNode("word");
+                        workRowTop.className="row";
                         labelA.appendChild(labelAText);
             			labelBText.nodeValue = fieldsList[i][1];
                         labelB.id = ("work-code-" + i);
@@ -378,29 +374,13 @@
                         var inputHours = document.createElement("input");
                         var inputIssued = document.createElement("input");
                         var inputInstalled = document.createElement("input");
-                        inputHours.type = "number";
-                        inputHours.className = "form-control col-xs-4";
-                        inputHours.placeholder = "Hours";
-                        inputHours.id = ("hours-" + i);
-                        inputIssued.type = "text";
-                        inputIssued.className = "form-control col-xs-4";
-                        inputIssued.placeholder = "Issued Materials";
-                        inputIssued.id = ("matIssued-" + i);
-                        inputInstalled.type = "text";
-                        inputInstalled.className = "form-control col-xs-4";
-                        inputInstalled.placeholder = "Installed Materials";
-                        inputInstalled.id = ("matInstalled-" + i);
-                        // Append all children
+                        inputHours.type = ("number").className = ("form-control col-xs-4").placeholder = ("Hours").id = ("hours");
+                        inputIssued.type = ("number").className = ("form-control col-xs-4").placeholder = ("Issued Materials").id = ("matIssued");
+                        inputInstalled.type = ("number").className = ("form-control col-xs-4").placeholder = ("Installed Materials").id = ("matInstalled");
                         workPerformed.appendChild(labelA);
                         workCode.appendChild(labelB);
                         workRowTop.appendChild(workPerformed);
             			workRowTop.appendChild(workCode);
-                        hoursDiv.appendChild(inputHours);
-                        issuedDiv.appendChild(inputIssued);
-                        installedDiv.appendChild(inputInstalled);
-                        workRowBottom.append(hoursDiv);
-                        workRowBottom.append(issuedDiv);
-                        workRowBottom.append(installedDiv);
             			workDiv.appendChild(workRowTop);
                         workDiv.appendChild(workRowBottom);
                 }

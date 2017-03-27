@@ -132,53 +132,54 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="progress"> 
-                            <div class="row"> 
-                                <div class="form-group col-xs-6"> 
-                                    <label class="control-label">LOCATION</label>
-                                    <input class="form-control" placeholder="Location" name="location" type="text" value="" id="location-0"> 
-                                </div>
-                                <div class="form-group col-xs-6"> 
-                                    <label class="control-label">TR</label>
-                                    <input class="form-control" placeholder="TR" name="tr" type="number" value="" id="tr-0"> 
-                                </div>
-                            </div>
-                            <div class="row"> 
-                                <div class="form-group col-xs-6"> 
-                                    <label class="control-label">PATHWAY</label>
-                                    <input class="form-control" placeholder="Pathway" name="pathway" type="number" value="" id="pathway-0"> 
-                                </div>
-                                <div class="form-group col-xs-6"> 
-                                    <label class="control-label">ROUGH IN</label>
-                                    <input class="form-control" placeholder="Rough In" name="rough-in" type="number" value="" id="rough-in-0"> 
-                                </div>
-                            </div>
-                            <div class="row"> 
-                                <div class="form-group col-xs-6"> 
-                                    <label class="control-label">TERMINATIONS</label>
-                                    <input class="form-control" placeholder="Terminations" name="terminations" type="number" value="" id="terminations-0"> 
-                                </div>
-                                <div class="form-group col-xs-6"> 
-                                    <label class="control-label">TESTING</label>
-                                    <input class="form-control" placeholder="Testing" name="testing" type="number" value="" id="testing-0"> 
-                                </div>                                 
-                            </div>
-                        </div>
-                        <div class="form-group"> 
-                            <button type="button" class="btn btn-sm btn-info" id="progress-more" onclick="progressMore()">More Location Progress?</button>                             
-                        </div>
-                        <div class="form-group"> 
-                            <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>
-                            <input class="form-control" placeholder="ANY ISSUES SHOULD BE REPORTED IMMEDIATELY BY PHONE ALSO" name="iqr" type="text" value="" id="iqr"> 
-                        </div>
-                        <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
-                    </form>
                 </div>
-            </div>
+                <div id="progress"> 
+                    <div class="row"> 
+                        <div class="form-group col-xs-6"> 
+                            <label class="control-label">LOCATION</label>
+                            <input class="form-control" placeholder="Location" name="location" type="text" value="" id="location-0"> 
+                        </div>
+                        <div class="form-group col-xs-6"> 
+                            <label class="control-label">TR</label>
+                            <input class="form-control" placeholder="TR" name="tr" type="number" value="" id="tr-0"> 
+                        </div>
+                    </div>
+                    <div class="row"> 
+                        <div class="form-group col-xs-6"> 
+                            <label class="control-label">PATHWAY</label>
+                            <input class="form-control" placeholder="Pathway" name="pathway" type="number" value="" id="pathway-0"> 
+                        </div>
+                        <div class="form-group col-xs-6"> 
+                            <label class="control-label">ROUGH IN</label>
+                            <input class="form-control" placeholder="Rough In" name="rough-in" type="number" value="" id="rough-in-0"> 
+                        </div>
+                    </div>
+                    <div class="row"> 
+                        <div class="form-group col-xs-6"> 
+                            <label class="control-label">TERMINATIONS</label>
+                            <input class="form-control" placeholder="Terminations" name="terminations" type="number" value="" id="terminations-0"> 
+                        </div>
+                        <div class="form-group col-xs-6"> 
+                            <label class="control-label">TESTING</label>
+                            <input class="form-control" placeholder="Testing" name="testing" type="number" value="" id="testing-0"> 
+                        </div>                         
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <button type="button" class="btn btn-sm btn-info" id="progress-more" onclick="progressMore()">More Location Progress?</button>                     
+                </div>
+                <div class="form-group"> 
+                    <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>
+                    <input class="form-control" placeholder="ANY ISSUES SHOULD BE REPORTED IMMEDIATELY BY PHONE ALSO" name="iqr" type="text" value="" id="iqr"> 
+                </div>
+                <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
+            </form>
         </div>
-        <!-- Firebase Initialization -->         
-        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
-        <script>
+    </div>
+</div>
+<!-- Firebase Initialization --> 
+<script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script> 
+<script>
             // Initialize Firebase
             var config = {
                 apiKey: "AIzaSyA55RJ8kvG-n-UClBQSNjnjLK3dvb1vwd8",
@@ -188,8 +189,8 @@
                 messagingSenderId: "664106049370"
             };
             firebase.initializeApp(config);
-        </script>         
-        <script>
+        </script> 
+<script>
         // Script that logs out the user when logout button is clicked
         function logoutUser() {
             firebase.auth().signOut().then(function() {
@@ -198,8 +199,8 @@
               //console.error('Sign Out Error', error);
             });
         }
-        </script>         
-        <script>
+        </script> 
+<script>
         // Script that checks if user is logged in. If not,  redirects to Login page.
         function checkUser() {
             //console.log("Checking User!");
@@ -216,7 +217,7 @@
             });
         }
         </script>
-        <script>
+<script>
         // Script to submit all updated data to firebase database
         function updateData() {
             var jobNum = document.getElementById("job-num").value;
@@ -302,7 +303,7 @@
             }
         }            
         </script>
-        <script>
+<script>
         // Script to apply all needed information for ISP
         function workISP() {
             var workDiv = document.getElementById("work-div");
@@ -310,7 +311,7 @@
             
         }
         </script>
-        <script>
+<script>
         // Script to apply all needed information for OSP
         function workOSP() {
             var workDiv = document.getElementById("work-div");
@@ -407,7 +408,7 @@
             }
         }
         </script>
-        <script>
+<script>
         // Script to add more input fields for work completed and location
         function workMore() {
             var inputWork = document.createElement("input");
@@ -437,8 +438,8 @@
             newDiv.appendChild(locationDiv);
             document.getElementById("work").appendChild(newDiv);
         }
-        </script>         
-        <script>
+        </script> 
+<script>
         // Script for creating more Location Progress % Complete input fields
         function progressMore() {
             var progressLocation = document.createElement("input");
@@ -515,8 +516,8 @@
             newDiv.appendChild(bottomDiv);
             document.getElementById("progress").appendChild(newDiv);
         }
-        </script>         
-        <script>
+        </script> 
+<script>
         // Script that sets dpr-date as today's date (yyyy-mm-dd)
         function todaysDate() {
             date =  new Date();
@@ -529,12 +530,11 @@
             document.getElementById("dpr-date").value = year + "-" + month + "-" + day;
         }
         </script>
-        <!-- jQuery -->         
-        <script src="../vendor/jquery/jquery.min.js"></script>         
-        <!-- Bootstrap Core JavaScript -->         
-        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>         
-        <!-- Metis Menu Plugin JavaScript -->         
-        <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
-        <!-- Custom Theme JavaScript -->         
-        <script src="../dist/js/sb-admin-2.js"></script>         
-    </body>
+<!-- jQuery --> 
+<script src="../vendor/jquery/jquery.min.js"></script> 
+<!-- Bootstrap Core JavaScript --> 
+<script src="../vendor/bootstrap/js/bootstrap.min.js"></script> 
+<!-- Metis Menu Plugin JavaScript --> 
+<script src="../vendor/metisMenu/metisMenu.min.js"></script> 
+<!-- Custom Theme JavaScript --> 
+<script src="../dist/js/sb-admin-2.js"></script> 
