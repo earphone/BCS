@@ -314,21 +314,6 @@
         <script>
         // Script to apply all needed information for OSP
         function workOSP() {
-            // Divs needed
-            var workDiv = document.getElementById("work-div");
-            var workRowTop = document.createElement("div");
-            var workRowBottom = document.createElement("div");
-            var workPerformed = document.createElement("div");
-            var workCode = document.createElement("div");
-            workRowTop.className="row";
-            workRowBottom.className="row";
-            workPerformed.className="form-group col-xs-6";
-            workCode.className="form-group col-xs-6";
-            // Labels needed
-            var labelA = document.createElement("label");
-            labelA.className = "control-label col-xs-6".type = "text";
-            var labelB = document.createElement("label");
-            labelB.className = "control-label col-xs-6".type = "text";
             var fieldsList = [
             	["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
                 ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK",""],
@@ -336,27 +321,60 @@
                 ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
                 ["TERMINATIONS","2-002"],["TESTING","2-002"],["MAINTENANCE HOLE GUARD","2-001"],
                 ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS",""],["PUNCHLIST","8-006"],
-                ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO",],["OSP DEMO","11-002"]
+                ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO",""],["OSP DEMO","11-002"]
             ];
+            var workDiv = document.getElementById("work-div");
+            workDiv.innerHTML="";
             // For statement runs through all rows
-            for(var i = 0; i<21; i++) {
+            for(var i = 0; i<22; i++) {
                 console.log("i value: " + i);
+                // Divs needed
+                var workRowTop = document.createElement("div");
+                var workRowBottom = document.createElement("div");
+                var workPerformed = document.createElement("div");
+                var workCode = document.createElement("div");
+                workRowTop.className="row";
+                workRowBottom.className="row";
+                // Labels needed
+                var labelA = document.createElement("label");
+                var labelAText = document.createTextNode("word");
+                labelAText.nodeValue = fieldsList[i][0];
+                labelA.id = ("work-performed-" + i);
                 // Switch statement (default sets a number to the input)
                 switch(i) {
                     case 0:
-                        labelA.text = fieldsList[i][0];
-                        labelA.id= ("work-performed-" + i);
-            			workRowTop.appendChild(labelA);
+                    case 5:
+                    case 16:
+                    case 20:
+                        // Set class for div needed
+                        workPerformed.className="form-group col-xs-12";
+                        // Set data for labels needed
+                        labelA.className = "control-label col-xs-12".type = "text";
+                        labelA.appendChild(labelAText);
+                        workPerformed.appendChild(labelA);
+            			workRowTop.appendChild(workPerformed);
             			workDiv.appendChild(workRowTop);
-                        console.log(labelA.text);
+                        console.log(labelAText.value);
                         break;
                     default:
-                        labelA.text = fieldsList[i][0];
-                        labelA.id = ("work-performed-" + i);
-            			labelB.text = fieldsList[i][1];
+                        // Set classes for divs needed
+                        workPerformed.className="form-group col-xs-6";
+                        workCode.className="form-group col-xs-6";
+                        // Set data for labels needed
+                        labelA.className = "control-label".type = "text";
+                        var labelB = document.createElement("label");
+                        labelB.className = "control-label".type = "text";
+                        var labelBText = document.createTextNode("word");
+                        workRowTop.className="row";
+                        labelA.appendChild(labelAText);
+            			labelBText.nodeValue = fieldsList[i][1];
                         labelB.id = ("work-code-" + i);
-                        console.log(labelA.text + " ~ " + labelB.text);
-            			workRowTop.appendChild(labelA).appendChild(labelB);
+                        labelB.appendChild(labelBText);
+                        // insert hours, materials issued and istalled here
+                        workPerformed.appendChild(labelA);
+                        workCode.appendChild(labelB);
+            			workRowTop.appendChild(workCode)
+                        workRowTop.appendChild(workPerformed);
             			workDiv.appendChild(workRowTop);
                 }
             }
@@ -413,8 +431,7 @@
             var terminationsDiv = document.createElement("div");
             var testingDiv = document.createElement("div");
             var newLabel = document.createElement("label");
-            newLabel.text="New Progress Location";
-            //var newLabelText = document.createTextNode("New Location Progress");
+            var newLabelText = document.createTextNode("New Location Progress");
             var i = 0;
             newLabel.className = "control-label";
             newLabel.type = "text";
