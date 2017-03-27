@@ -326,7 +326,7 @@
             var workDiv = document.getElementById("work-div");
             workDiv.innerHTML="";
             // For statement runs through all rows
-            for(var i = 0; i<22; i++) {
+            for(var i = 0; i<21; i++) {
                 console.log("i value: " + i);
                 // Divs needed
                 var workRowTop = document.createElement("div");
@@ -338,8 +338,6 @@
                 // Labels needed
                 var labelA = document.createElement("label");
                 var labelAText = document.createTextNode("word");
-                labelAText.nodeValue = fieldsList[i][0];
-                labelA.id = ("work-performed-" + i);
                 // Switch statement (default sets a number to the input)
                 switch(i) {
                     case 0:
@@ -350,6 +348,8 @@
                         workPerformed.className="form-group col-xs-12";
                         // Set data for labels needed
                         labelA.className = "control-label col-xs-12".type = "text";
+                        labelAText.nodeValue = fieldsList[i][0];
+                        labelA.id= ("work-performed-" + i);
                         labelA.appendChild(labelAText);
                         workPerformed.appendChild(labelA);
             			workRowTop.appendChild(workPerformed);
@@ -366,11 +366,12 @@
                         labelB.className = "control-label".type = "text";
                         var labelBText = document.createTextNode("word");
                         workRowTop.className="row";
+                        labelAText.nodeValue = fieldsList[i][0];
+                        labelA.id = ("work-performed-" + i);
                         labelA.appendChild(labelAText);
             			labelBText.nodeValue = fieldsList[i][1];
                         labelB.id = ("work-code-" + i);
                         labelB.appendChild(labelBText);
-                        // insert hours, materials issued and istalled here
                         workPerformed.appendChild(labelA);
                         workCode.appendChild(labelB);
             			workRowTop.appendChild(workCode).appendChild(workPerformed);
