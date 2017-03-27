@@ -24,7 +24,7 @@
     </head>     
     <body onload="checkUser()"> 
         <div id="wrapper"> 
-            <!-- Navigation -->
+            <!-- Navigation -->             
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"> 
                 <div class="navbar-header"> 
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
@@ -32,9 +32,9 @@
                         <span class="icon-bar"></span> 
                         <span class="icon-bar"></span> 
                         <span class="icon-bar"></span> 
-                    </button>
+                    </button>                     
                     <a class="navbar-brand" href="index.html"><b>BCS Webapp</b></a> 
-                </div>
+                </div>                 
                 <!-- /.navbar-header -->                 
                 <!-- /.navbar-top-links -->                 
                 <div class="navbar-default sidebar" role="navigation"> 
@@ -42,20 +42,20 @@
                         <ul class="nav" id="side-menu"> 
                             <li> 
                                 <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> 
-                            </li>
+                            </li>                             
                             <li> 
                                 <a href="dpr.html"><i class="fa fa-list-alt fa-fw"></i> DPR</a> 
-                            </li>
+                            </li>                             
                             <li> 
                                 <a href="dpr.html"><i class="fa fa-list fa-fw"></i> DTR</a> 
-                            </li>
+                            </li>                             
                             <li> 
                                 <a href="profile.html"><i class="fa fa-user fa-fw"></i>&nbsp;Profile</a> 
-                            </li>
+                            </li>                             
                             <li> 
                                 <a href="admin.html"><i class="fa fa-gamepad fa-fw"></i> Admin</a> 
-                            </li>
-                            <!-- fa-institution -->
+                            </li>                             
+                            <!-- fa-institution -->                             
                             <li> 
                                 <a href="login.html" onclick="logoutUser()" id="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
                             </li>                             
@@ -72,113 +72,110 @@
                     <div class="row"> 
                         <div class="col-lg-12"> 
                             <h1 class="page-header">Daily Technician Report</h1> 
-                        </div>
-                    </div>
-                </div>
-                <!-- Main body Div -->
+                        </div>                         
+                    </div>                     
+                </div>                 
+                <!-- Main body Div -->                 
                 <div> 
                     <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DTR!</h3> 
-                    <form id="dpr-form">
+                    <form id="dpr-form"> 
                         <div class="form-group"> 
-                            <label class="control-label">JOB NUMBER</label>
+                            <label class="control-label">JOB NUMBER</label>                             
                             <input class="form-control" placeholder="xx-xxx" name="job-num" type="text" value="" id="job-num" required="true"> 
-                        </div>
+                        </div>                         
                         <div class="form-group"> 
-                            <label class="control-label">JOB NAME</label>
+                            <label class="control-label">JOB NAME</label>                             
                             <input class="form-control" placeholder="Job Name" name="job-name" type="text" value="" id="job-name"> 
-                        </div>
+                        </div>                         
                         <div class="form-group"> 
-                            <label class="control-label">DATE</label>
+                            <label class="control-label">DATE</label>                             
                             <br> 
-                            <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01" required="true">
-                        </div>
+                            <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01" required="true"> 
+                        </div>                         
                         <div class="form-group"> 
-                            <label class="control-label">START TIME</label>
+                            <label class="control-label">START TIME</label>                             
                             <input class="form-control" name="time-start" type="time" value="07:30" id="time-start" placeholder="0000"> 
-                        </div>
+                        </div>                         
                         <div class="form-group"> 
-                            <label class="control-label">END TIME</label>
+                            <label class="control-label">END TIME</label>                             
                             <input class="form-control" name="time-end" type="time" value="15:30" id="time-end" placeholder="2400"> 
-                        </div>
+                        </div>                         
                         <div class="form-group"> 
-                            <label class="control-label">TOTAL HOURS</label>
+                            <label class="control-label">TOTAL HOURS</label>                             
                             <input class="form-control" name="time-total" type="number" id="time-end" placeholder="8"> 
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">REPORT TYPE</label>
-                            <div class="row form-group">
-                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workMore()">ISP</button>
-                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-osp" onclick="workOSP()">OSP</button>
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        </div>                         
+                        <div class="form-group"> 
+                            <label class="control-label">REPORT TYPE</label>                             
+                            <div class="row form-group"> 
+                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workISP()">ISP</button>                                 
+                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-osp" onclick="workOSP()">OSP</button>                                 
+                            </div>                             
+                        </div>                         
+                        <div class="form-group" id="work-div"> 
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
-                                    <h5>WORK PERFORMED</h5>
-                                </div>
+                                    <h5>WORK PERFORMED</h5> 
+                                </div>                                 
                                 <div class="form-group col-xs-6"> 
-                                    <h5>COST CODE</h5>
-                                </div>
-                            </div>
+                                    <h5>COST CODE</h5> 
+                                </div>                                 
+                            </div>                             
                             <div class="row"> 
                                 <div class="form-group col-xs-4"> 
-                                    <h5>HOURS</h5>
-                                </div>
+                                    <h5>HOURS</h5> 
+                                </div>                                 
                                 <div class="form-group col-xs-4"> 
-                                    <h5>MATERIALS ISSUED</h5>
-                                </div>
+                                    <h5>MATERIALS ISSUED</h5> 
+                                </div>                                 
                                 <div class="form-group col-xs-4"> 
-                                    <h5>MATERIALS INSTALLED</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="work-div">
-                            <!-- This div will be filled in by either workISP() or workOSP() -->
-                        </div>
+                                    <h5>MATERIALS INSTALLED</h5> 
+                                </div>                                 
+                            </div>                             
+                        </div>                         
                         <div id="progress"> 
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
-                                    <label class="control-label">LOCATION</label>
+                                    <label class="control-label">LOCATION</label>                                     
                                     <input class="form-control" placeholder="Location" name="location" type="text" value="" id="location-0"> 
-                                </div>
+                                </div>                                 
                                 <div class="form-group col-xs-6"> 
-                                    <label class="control-label">TR</label>
+                                    <label class="control-label">TR</label>                                     
                                     <input class="form-control" placeholder="TR" name="tr" type="number" value="" id="tr-0"> 
-                                </div>
-                            </div>
+                                </div>                                 
+                            </div>                             
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
-                                    <label class="control-label">PATHWAY</label>
+                                    <label class="control-label">PATHWAY</label>                                     
                                     <input class="form-control" placeholder="Pathway" name="pathway" type="number" value="" id="pathway-0"> 
-                                </div>
+                                </div>                                 
                                 <div class="form-group col-xs-6"> 
-                                    <label class="control-label">ROUGH IN</label>
+                                    <label class="control-label">ROUGH IN</label>                                     
                                     <input class="form-control" placeholder="Rough In" name="rough-in" type="number" value="" id="rough-in-0"> 
-                                </div>
-                            </div>
+                                </div>                                 
+                            </div>                             
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
-                                    <label class="control-label">TERMINATIONS</label>
+                                    <label class="control-label">TERMINATIONS</label>                                     
                                     <input class="form-control" placeholder="Terminations" name="terminations" type="number" value="" id="terminations-0"> 
-                                </div>
+                                </div>                                 
                                 <div class="form-group col-xs-6"> 
-                                    <label class="control-label">TESTING</label>
+                                    <label class="control-label">TESTING</label>                                     
                                     <input class="form-control" placeholder="Testing" name="testing" type="number" value="" id="testing-0"> 
                                 </div>                                 
-                            </div>
-                        </div>
+                            </div>                             
+                        </div>                         
                         <div class="form-group"> 
                             <button type="button" class="btn btn-sm btn-info" id="progress-more" onclick="progressMore()">More Location Progress?</button>                             
-                        </div>
+                        </div>                         
                         <div class="form-group"> 
-                            <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>
+                            <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>                             
                             <input class="form-control" placeholder="ANY ISSUES SHOULD BE REPORTED IMMEDIATELY BY PHONE ALSO" name="iqr" type="text" value="" id="iqr"> 
-                        </div>
+                        </div>                         
                         <p><button type="button" class="btn btn-lg btn-success" id="update-button" onclick="updateData()">Submit!</button></p> 
-                    </form>
-                </div>
-            </div>
-        </div>
+                    </form>                     
+                </div>                 
+            </div>             
+        </div>         
         <!-- Firebase Initialization -->         
         <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
         <script>
@@ -218,7 +215,7 @@
                 }
             });
         }
-        </script>
+        </script>         
         <script>
         // Script to submit all updated data to firebase database
         function updateData() {
@@ -304,18 +301,119 @@
                 }
             }
         }            
-        </script>
+        </script>         
         <script>
         // Script to apply all needed information for ISP
         function workISP() {
-            
+            var workDiv = document.getElementById("work-div");
+            workDiv.innerHTML="";
+            var fieldsList = [
+            	["PATHWAYS AND SPACES:",""],["INSTALL CEILING HANGER","3-001"],["INSTALL J-HOOK","3-001"],
+                ["INSTALL SLEEVE (DRYWALL)","3-001"],["INSTALL SLEEVE (CONCRETE)","3-001"],["INSTALL CONDUIT","3-001"],
+                ["INSTALL CABLE RUNWAY/TRAY","3-001"],["MDF/IDF WORK:",""],["INSTALL BACKBOARD","4-001"],
+                ["INSTALL CABLE RUNWAY/TRAY","4-002"],["INSTALL GROUND WIRE","4-002"],["INSTALL RACK/CABINET","4-003"],
+                ["IDF EQUPMENT MOUNTING","4-003"],["INSTALL GROUND WIRE","4-003"],["IDF HORIZ CABLE DRESSING","4-004"],
+                ["IDF HORIZ CABLE TERMINATIONS","4-004"],["IDF LABELING","4-005"],["RISERS:",""],
+                ["RISER CABLE ROUGH IN","5-001"],["RISER CABLE DRESSING","5-001"],["RISER CABLE TERMINATIONS","4-004"],
+                ["HORIZONTAL WORK:",""],["IDF TESTING","4-005"],["INSTALL PULL STRING","6-X0X/7-00X"],
+                ["CABLE ROUGH-IN","6-X0X/7-00X"],["FISH WALL","6-X0X/7-00X"],["INSTALL MPLS","6-X0X/7-00X"],
+                ["INSTALL WIREMOLD","6-X0X/7-00X"],["TERMINATE JACKS","6-X0X/7-00X"],["INSTALL FACEPLATES","6-X0X/7-00X"],
+                ["TESTING","6-X0X/7-00X"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],
+                ["ISP DEMO","11-001"],["RISER DEMO","11-003"]
+            ];
+            // For statement runs through all rows
+            for(var i = 0; i<38; i++) {
+                console.log("i value: " + i);
+                // Divs needed
+                var workRowTop = document.createElement("div");
+                var workRowBottom = document.createElement("div");
+                var workPerformed = document.createElement("div");
+                var workCode = document.createElement("div");
+                workRowTop.className="row";
+                workRowBottom.className="row";
+                // Labels needed
+                var labelA = document.createElement("label");
+                var labelAText = document.createTextNode("word");
+                labelAText.nodeValue = fieldsList[i][0];
+                labelA.id = ("work-performed-" + i);
+                // Switch statement (default sets a number to the input)
+                switch(i) {
+                    case 0:
+                    case 7:
+                    case 17:
+                    case 21:
+                    case 32:
+                    case 36:
+                        // Set class for div needed
+                        workPerformed.className="form-group col-xs-12";
+                        // Set data for labels needed
+                        labelA.className = "control-label col-xs-12".type = "text";
+                        labelA.appendChild(labelAText);
+                        // Append children
+                        workPerformed.appendChild(labelA);
+            			workRowTop.appendChild(workPerformed);
+            			workDiv.appendChild(workRowTop);
+                        break;
+                    default:
+                        // Set classes for divs needed
+                        workPerformed.className="col-xs-6";
+                        workCode.className="col-xs-6";
+                        var hoursDiv = document.createElement("div");
+                        hoursDiv.className = "form-group col-xs-4";
+                        var issuedDiv = document.createElement("div");
+                        issuedDiv.className = "form-group col-xs-4";
+                        var installedDiv = document.createElement("div");
+                        installedDiv.className = "form-group col-xs-4";
+                        // Set data for labels needed
+                        labelA.className = "control-label".type = "text";
+                        var labelB = document.createElement("label");
+                        labelB.className = "control-label".type = "text";
+                        var labelBText = document.createTextNode("word");
+                        labelA.appendChild(labelAText);
+            			labelBText.nodeValue = fieldsList[i][1];
+                        labelB.id = ("work-code-" + i);
+                        labelB.appendChild(labelBText);
+                        // Create inputs for hours, materials issued and installed
+                        var inputHours = document.createElement("input");
+                        var inputIssued = document.createElement("input");
+                        var inputInstalled = document.createElement("input");
+                        inputHours.type = "number";
+                        inputHours.className = "form-control col-xs-4";
+                        inputHours.placeholder = "Hours";
+                        inputHours.id = ("hours-" + i);
+                        inputIssued.type = "text";
+                        inputIssued.className = "form-control col-xs-4";
+                        inputIssued.placeholder = "Issued Materials";
+                        inputIssued.id = ("matIssued-" + i);
+                        inputInstalled.type = "text";
+                        inputInstalled.className = "form-control col-xs-4";
+                        inputInstalled.placeholder = "Installed Materials";
+                        inputInstalled.id = ("matInstalled-" + i);
+                        // Append all children
+                        workPerformed.appendChild(labelA);
+                        workCode.appendChild(labelB);
+                        workRowTop.appendChild(workPerformed);
+            			workRowTop.appendChild(workCode);
+                        hoursDiv.appendChild(inputHours);
+                        issuedDiv.appendChild(inputIssued);
+                        installedDiv.appendChild(inputInstalled);
+                        workRowBottom.append(hoursDiv);
+                        workRowBottom.append(issuedDiv);
+                        workRowBottom.append(installedDiv);
+            			workDiv.appendChild(workRowTop);
+                        workDiv.appendChild(workRowBottom);
+                }
+            }
         }
-        </script>
+        </script>         
         <script>
         // Script to apply all needed information for OSP
         function workOSP() {
+            var workDiv = document.getElementById("work-div");
+            workDiv.innerHTML="";
             var fieldsList = [
-            	["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
+            	["OSP (Including Site Work)",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
                 ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK",""],
                 ["DRESS CABLES","2-002"],["INSTALL DUCT SEAL","2-002"],["INSTALL TERMINATION BAGS","2-002"],
                 ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
@@ -323,8 +421,6 @@
                 ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS",""],["PUNCHLIST","8-006"],
                 ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO",""],["OSP DEMO","11-002"]
             ];
-            var workDiv = document.getElementById("work-div");
-            workDiv.innerHTML="";
             // For statement runs through all rows
             for(var i = 0; i<22; i++) {
                 console.log("i value: " + i);
@@ -351,35 +447,63 @@
                         // Set data for labels needed
                         labelA.className = "control-label col-xs-12".type = "text";
                         labelA.appendChild(labelAText);
+                        // Append children
                         workPerformed.appendChild(labelA);
             			workRowTop.appendChild(workPerformed);
             			workDiv.appendChild(workRowTop);
-                        console.log(labelAText.value);
                         break;
                     default:
                         // Set classes for divs needed
-                        workPerformed.className="form-group col-xs-6";
-                        workCode.className="form-group col-xs-6";
+                        workPerformed.className="col-xs-6";
+                        workCode.className="col-xs-6";
+                        var hoursDiv = document.createElement("div");
+                        hoursDiv.className = "form-group col-xs-4";
+                        var issuedDiv = document.createElement("div");
+                        issuedDiv.className = "form-group col-xs-4";
+                        var installedDiv = document.createElement("div");
+                        installedDiv.className = "form-group col-xs-4";
                         // Set data for labels needed
                         labelA.className = "control-label".type = "text";
                         var labelB = document.createElement("label");
                         labelB.className = "control-label".type = "text";
                         var labelBText = document.createTextNode("word");
-                        workRowTop.className="row";
                         labelA.appendChild(labelAText);
             			labelBText.nodeValue = fieldsList[i][1];
                         labelB.id = ("work-code-" + i);
                         labelB.appendChild(labelBText);
-                        // insert hours, materials issued and istalled here
+                        // Create inputs for hours, materials issued and installed
+                        var inputHours = document.createElement("input");
+                        var inputIssued = document.createElement("input");
+                        var inputInstalled = document.createElement("input");
+                        inputHours.type = "number";
+                        inputHours.className = "form-control col-xs-4";
+                        inputHours.placeholder = "Hours";
+                        inputHours.id = ("hours-" + i);
+                        inputIssued.type = "text";
+                        inputIssued.className = "form-control col-xs-4";
+                        inputIssued.placeholder = "Issued Materials";
+                        inputIssued.id = ("matIssued-" + i);
+                        inputInstalled.type = "text";
+                        inputInstalled.className = "form-control col-xs-4";
+                        inputInstalled.placeholder = "Installed Materials";
+                        inputInstalled.id = ("matInstalled-" + i);
+                        // Append all children
                         workPerformed.appendChild(labelA);
                         workCode.appendChild(labelB);
-            			workRowTop.appendChild(workCode)
                         workRowTop.appendChild(workPerformed);
+            			workRowTop.appendChild(workCode);
+                        hoursDiv.appendChild(inputHours);
+                        issuedDiv.appendChild(inputIssued);
+                        installedDiv.appendChild(inputInstalled);
+                        workRowBottom.append(hoursDiv);
+                        workRowBottom.append(issuedDiv);
+                        workRowBottom.append(installedDiv);
             			workDiv.appendChild(workRowTop);
+                        workDiv.appendChild(workRowBottom);
                 }
             }
         }
-        </script>
+        </script>         
         <script>
         // Script to add more input fields for work completed and location
         function workMore() {
@@ -501,7 +625,7 @@
             day = date.getDate();
             document.getElementById("dpr-date").value = year + "-" + month + "-" + day;
         }
-        </script>
+        </script>         
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         
