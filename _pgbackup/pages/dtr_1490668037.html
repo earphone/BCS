@@ -199,7 +199,7 @@
             var user = firebase.auth().currentUser;
             var newDTR = firebase.database().ref('dtr').child("randomId").push();
             var newDTRKey = newDTR.key;
-            var userInitials = "";
+            var userInitials;
             var submit = false;
             var type = null;
             var stop = 0;
@@ -209,11 +209,11 @@
             if(test == null) type = null;
             else if(test.textContent == "TROUBLESHOOTING") {
                 type = "OSP";
-                stop = 22;
+                stop = 21;
             }
             else if(test.textContent == "RISER CABLE ROUGH IN") {
                 type = "ISP";
-                stop = 38;
+                stop = 37;
             }
             console.log("A " + test.textContent == "TROUBLESHOOTING");
             console.log("B " + test.textContent == "RISER CABLE ROUGH IN");

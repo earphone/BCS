@@ -194,12 +194,12 @@
             var timeTotal = document.getElementById("time-total").value;
             var hoursList = [];
             var issuedList = [];
-            var installedList = [];
+            var usedList = [];
             var iqr = document.getElementById("iqr").value;
             var user = firebase.auth().currentUser;
             var newDTR = firebase.database().ref('dtr').child("randomId").push();
             var newDTRKey = newDTR.key;
-            var userInitials = "";
+            var userInitials;
             var submit = false;
             var type = null;
             var stop = 0;
@@ -209,11 +209,11 @@
             if(test == null) type = null;
             else if(test.textContent == "TROUBLESHOOTING") {
                 type = "OSP";
-                stop = 22;
+                stop = 21;
             }
             else if(test.textContent == "RISER CABLE ROUGH IN") {
                 type = "ISP";
-                stop = 38;
+                stop = 37;
             }
             console.log("A " + test.textContent == "TROUBLESHOOTING");
             console.log("B " + test.textContent == "RISER CABLE ROUGH IN");
@@ -246,21 +246,21 @@
                 firebase.database().ref('employees/employed/' + user.uid + "/history/DTR/" + date + "/" + jobNum).set({
                     randomID: newDTRKey
                 });
-                // Set data for hours, materials issued, and materials installed
+                // Set data for hours, materials issued, and materials used
                 var tempHours;
                 var tempIssued;
-                var tempInstalled;
+                var tempUsed;
                 for(var i = 0; i < stop; i++) {
                     console.log(i);
                     tempHours = document.getElementById("hours-" + i);
                     console.log("Searching for issued");
                     tempIssued = document.getElementById("matIssued-" + i);
-                    console.log("Searching for installed");
-                    tempInstalled = document.getElementById("matInstalled-" + i);
+                    console.log("Searching for used");
+                    tempUsed = document.getElementById("matUsed-" + i);
                     if(tempHours != null) {
                         if(tempHours.value != null) hoursList[i] = tempHours.value;
                         if(tempIssued.value != null) issuedList[i] = tempIssued.value;
-                        if(tempInstalled.value != null) installedList[i] = tempInstalled.value;
+                        if(tempUsed.value != null) usedList[i] = tempUsed.value;
                 	}	
                 }
                 // Set data for long DTR
@@ -277,7 +277,7 @@
                     iqr: iqr,
                     hours: hoursList,
                     matIssued: issuedList,
-                    matinstalled: installedList
+                    matUsed: usedList
                 })
                     .then(function() {
                     // If set correctly
