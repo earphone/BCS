@@ -112,7 +112,7 @@
                             </div>                             
                         </div>                         
                         <div class="form-group" id="work-div"> 
-                            <hr>
+                            <hr> 
                             <div class="row"> 
                                 <div class="form-group col-xs-6"> 
                                     <h5>WORK PERFORMED</h5> 
@@ -132,7 +132,7 @@
                                     <h5>MATERIALS INSTALLED</h5> 
                                 </div>                                 
                             </div>                             
-                            <hr>
+                            <hr> 
                         </div>                         
                         <div class="form-group"> 
                             <label class="control-label">INSTALLATION ISSUES / QUESTIONS / REMARKS</label>                             
@@ -243,7 +243,7 @@
                     timeTotal: timeTotal
                 });
                 // Set data for short DTR by Date in user's history path
-                firebase.database().ref('employees/employed/' + user.uid + "/history/DTR/" + date + "/" + jobNum).set({
+                firebase.database().ref('employees/employed/' + user.uid + "/history/dtr/" + date + "/" + jobNum).set({
                     randomID: newDTRKey
                 });
                 // Set data for hours, materials issued, and materials installed
@@ -520,7 +520,7 @@
             day = date.getDate();
             document.getElementById("dpr-date").value = year + "-" + month + "-" + day;
         }
-        </script>
+        </script>         
         <script>
         function getTodaysDate() {
             date =  new Date();

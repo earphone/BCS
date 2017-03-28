@@ -81,11 +81,11 @@
                     <div class="col-lg-4"> 
                         <div class="panel panel-default"> 
                             <div class="panel-heading"> 
-                                <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                                <i class="fa fa-rebel fa-fw"></i> Recent Reports
                             </div>                             
                             <!-- /.panel-heading -->                             
                             <div class="panel-body"> 
-                                <div class="list-group"> 
+                                <div class="list-group" id="list-report"> 
                                     <a href="#" class="list-group-item"><i class="fa fa-comment fa-fw"></i> New Comment<span class="pull-right text-muted small"><em>4 minutes ago</em></span></a> 
                                     <a href="#" class="list-group-item"><i class="fa fa-twitter fa-fw"></i> 3 New Followers<span class="pull-right text-muted small"><em>12 minutes ago</em></span></a> 
                                     <a href="#" class="list-group-item"><i class="fa fa-envelope fa-fw"></i> Message Sent<span class="pull-right text-muted small"><em>27 minutes ago</em></span></a> 
@@ -110,12 +110,8 @@
                             <!-- /.panel-heading -->                             
                             <!-- /.panel-body -->                             
                             <div class="panel-footer"> 
-                                <div class="input-group"> 
-                                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here
-                                                                                                                 ." /> 
-                                    <span class="input-group-btn"><button class="btn btn-warning btn-sm" id="btn-chat"> 
-                                            Send
-</button></span> 
+                                <div class="form-group" id="report-data">
+                                    <h4><i class="fa fa-beer fa-fw"></i>Data will be down here<i class="fa fa-database fa-fw"></i></h4>
                                 </div>                                 
                             </div>                             
                             <!-- /.panel-footer -->                             
@@ -147,11 +143,13 @@
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
                         console.log(user.uid + " is signed in");
-                        firebase.database().ref("/employees/employed/" + user.uid + "/email").on("value", function(snapshot) {
-                            console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
+                        firebase.database().ref("/employees/employed/" + user.uid).once("value", function(snapshot) {
+                            console.log("User email: " + user.email + " Snapshot: " + snapshot.email.val());
                             console.log(user);
                             window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
-                        // User is signed in.
+                            // User is signed in.
+                            // Get data for user's last 14 reports (7 DPR and 7 DTR) and place them in the panel with links to open below
+                            
                     	});
                     }
                     else {
@@ -161,6 +159,16 @@
                 });
             }
         </script>         
+        <script>
+        function showData(randomId, type) {
+            var dataDiv = document.getElementByID("report-data");
+            dataDiv.innerHTML = "";
+            firebase.database().ref(type + "/randomId/" + randomId).once('value').then(function(snapshot) {
+              var username = snapshot.val().username;
+              // ...
+            });
+        }
+        </script>
         <!-- /#wrapper -->         
         <!-- jQuery -->         
         <script src="vendor/jquery/jquery.min.js"></script>         

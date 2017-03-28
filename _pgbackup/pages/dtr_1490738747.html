@@ -107,7 +107,7 @@
                         <div class="form-group"> 
                             <label class="control-label">REPORT TYPE</label>                             
                             <div class="row form-group"> 
-                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-more" onclick="workISP()">ISP</button>                                 
+                                <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-isp" onclick="workISP()">ISP</button>                                 
                                 <button type="button" class="btn btn-sm btn-info col-xs-3 col-xs-offset-2" id="work-osp" onclick="workOSP()">OSP</button>                                 
                             </div>                             
                         </div>                         
@@ -194,27 +194,29 @@
             var timeTotal = document.getElementById("time-total").value;
             var hoursList = [];
             var issuedList = [];
-            var usedList = [];
+            var installedList = [];
             var iqr = document.getElementById("iqr").value;
             var user = firebase.auth().currentUser;
             var newDTR = firebase.database().ref('dtr').child("randomId").push();
             var newDTRKey = newDTR.key;
-            var userInitials;
+            var userInitials = "";
             var submit = false;
             var type = null;
             var stop = 0;
             // Get OSP or ISP type
-            var test = document.getElementById("work-performed-20");
-            console.log(test);
+            var test = document.getElementById("work-performed-18");
+            console.log(test.textContent);
             if(test == null) type = null;
-            else if(test.text == "DEMO:") {
+            else if(test.textContent == "TROUBLESHOOTING") {
                 type = "OSP";
-                stop = 21;
+                stop = 22;
             }
-            else if(test.text == "RISER CABLE TERMINATIONS") {
+            else if(test.textContent == "RISER CABLE ROUGH IN") {
                 type = "ISP";
-                stop = 37;
+                stop = 38;
             }
+            console.log("A " + test.textContent == "TROUBLESHOOTING");
+            console.log("B " + test.textContent == "RISER CABLE ROUGH IN");
             if((jobNum != null) && (jobNum != "") && (date != null) && (date != "") && (type != null)) submit = true;
             if(submit) {
                 // Get initials for user
@@ -244,16 +246,28 @@
                 firebase.database().ref('employees/employed/' + user.uid + "/history/DTR/" + date + "/" + jobNum).set({
                     randomID: newDTRKey
                 });
-                // Set data for hours, materials issued, and materials used
+                // Set data for hours, materials issued, and materials installed
+                var tempHours;
+                var tempIssued;
+                var tempInstalled;
                 for(var i = 0; i < stop; i++) {
-                	hoursList[i] = document.getElementById("hours-" + i).value;
-                	issuedList[i] = document.getElementById("matIssued-" + i).value;
-                	usedList[i] = document.getElementById("matUsed-" + i).value;
+                    console.log(i);
+                    tempHours = document.getElementById("hours-" + i);
+                    console.log("Searching for issued");
+                    tempIssued = document.getElementById("matIssued-" + i);
+                    console.log("Searching for installed");
+                    tempInstalled = document.getElementById("matInstalled-" + i);
+                    if(tempHours != null) {
+                        if(tempHours.value != null) hoursList[i] = tempHours.value;
+                        if(tempIssued.value != null) issuedList[i] = tempIssued.value;
+                        if(tempInstalled.value != null) installedList[i] = tempInstalled.value;
+                	}	
                 }
                 // Set data for long DTR
                 newDTR.set({
                     submittedBy: user.displayName,
                     submittedInitials: userInitials,
+                    submittedDate: getTodaysDate(),
                     jobNum: jobNum,
                     jobName: jobName,
                     date: date,
@@ -264,7 +278,7 @@
                     iqr: iqr,
                     hours: hoursList,
                     matIssued: issuedList,
-                    matUsed: usedList
+                    matinstalled: installedList
                 })
                     .then(function() {
                     // If set correctly
@@ -287,6 +301,10 @@
         <script>
         // Script to apply all needed information for ISP
         function workISP() {
+            // Show button as selected
+            document.getElementById("work-isp").className = "btn btn-sm btn-primary col-xs-3 col-xs-offset-2";
+            document.getElementById("work-osp").className = "btn btn-sm btn-info col-xs-3 col-xs-offset-2";
+            // Clear main div in document
             var workDiv = document.getElementById("work-div");
             workDiv.innerHTML="";
             var fieldsList = [
@@ -392,6 +410,10 @@
         <script>
         // Script to apply all needed information for OSP
         function workOSP() {
+            // Show button as selected
+            document.getElementById("work-isp").className = "btn btn-sm btn-info col-xs-3 col-xs-offset-2";
+            document.getElementById("work-osp").className = "btn btn-sm btn-primary col-xs-3 col-xs-offset-2";
+            // Clear div on page
             var workDiv = document.getElementById("work-div");
             workDiv.innerHTML="";
             var fieldsList = [
@@ -487,115 +509,6 @@
         }
         </script>         
         <script>
-        // Script to add more input fields for work completed and location
-        function workMore() {
-            var inputWork = document.createElement("input");
-            var inputLocation = document.createElement("input");
-            var newDiv = document.createElement("div");
-            var workDiv = document.createElement("div");
-            var locationDiv = document.createElement("div");
-            var i = 0;
-            inputWork.type = "text";
-            inputWork.className = "form-control col-xs-8";
-            inputWork.placeholder = "Work Done";
-            inputLocation.type = "text";
-            inputLocation.className = "form-control col-xs-4";
-            inputLocation.placeholder = "Location";
-            workDiv.className = "form-group col-xs-8";
-            locationDiv.className = "form-group col-xs-4";
-            newDiv.className = "row";
-            newDiv.id = "work-row";
-            while(document.getElementById("work-done-" + i)!=null) {
-            	i++;
-                inputWork.id = "work-done-"+i;
-                inputLocation.id = "work-location-"+i;
-            }
-            workDiv.appendChild(inputWork);
-            locationDiv.appendChild(inputLocation);
-            newDiv.appendChild(workDiv);
-            newDiv.appendChild(locationDiv);
-            document.getElementById("work").appendChild(newDiv);
-        }
-        </script>         
-        <script>
-        // Script for creating more Location Progress % Complete input fields
-        function progressMore() {
-            var progressLocation = document.createElement("input");
-            var progressTR = document.createElement("input");
-            var progressPathway = document.createElement("input");
-            var progressRoughIn = document.createElement("input");
-            var progressTerminations = document.createElement("input");
-            var progressTesting = document.createElement("input");
-            var newDiv = document.createElement("div");
-            var topDiv = document.createElement("div");
-            var midDiv = document.createElement("div");
-            var bottomDiv = document.createElement("div");
-            var locationDiv = document.createElement("div");
-            var trDiv = document.createElement("div");
-            var pathwayDiv = document.createElement("div");
-            var roughInDiv = document.createElement("div");
-            var terminationsDiv = document.createElement("div");
-            var testingDiv = document.createElement("div");
-            var newLabel = document.createElement("label");
-            var newLabelText = document.createTextNode("New Location Progress");
-            var i = 0;
-            newLabel.className = "control-label";
-            newLabel.type = "text";
-            newLabel.appendChild(newLabelText);
-            progressLocation.type = "text";
-            progressLocation.className = "form-control col-xs-6";
-            progressLocation.placeholder = "Location";
-            progressTR.type = "number";
-            progressTR.className = "form-control col-xs-6";
-            progressTR.placeholder = "TR";
-            progressPathway.type = "number".className = "form-control col-xs-6".placeholder = "Pathway";
-            progressRoughIn.type = "number";
-            progressRoughIn.className = "form-control col-xs-6";
-            progressRoughIn.placeholder = "Rough In";
-            progressTerminations.type = "number";
-            progressTerminations.className = "form-control col-xs-6";
-            progressTerminations.placeholder = "Terminations";
-            progressTesting.type = "number";
-            progressTesting.className = "form-control col-xs-6";
-            progressTesting.placeholder = "Testing";
-            locationDiv.className = "form-group col-xs-6";
-            trDiv.className = "form-group col-xs-6";
-            pathwayDiv.className = "form-group col-xs-6";
-            roughInDiv.className = "form-group col-xs-6";
-            terminationsDiv.className = "form-group col-xs-6";
-            testingDiv.className = "form-group col-xs-6";
-            topDiv.className = "row";
-            midDiv.className = "row";
-            bottomDiv.className = "row";
-            while(document.getElementById("location-" + i)!=null) {
-            	i++;
-                progressLocation.id = "location-"+i;
-                progressTR.id = "tr-"+i;
-                progressPathway.id = "pathway-"+i;
-                progressRoughIn.id = "rough-in-"+i;
-                progressTerminations.id = "terminations-"+i;
-                progressTesting.id = "testing-"+i;
-            }
-            locationDiv.appendChild(progressLocation);
-            trDiv.appendChild(progressTR);
-            pathwayDiv.appendChild(progressPathway);
-            roughInDiv.appendChild(progressRoughIn);
-            terminationsDiv.appendChild(progressTerminations);
-            testingDiv.appendChild(progressTesting);
-            topDiv.appendChild(locationDiv);
-            topDiv.appendChild(trDiv);
-            midDiv.appendChild(pathwayDiv);
-            midDiv.appendChild(roughInDiv);
-            bottomDiv.appendChild(terminationsDiv);
-            bottomDiv.appendChild(testingDiv);
-            newDiv.appendChild(newLabel);
-            newDiv.appendChild(topDiv);
-            newDiv.appendChild(midDiv);
-            newDiv.appendChild(bottomDiv);
-            document.getElementById("progress").appendChild(newDiv);
-        }
-        </script>         
-        <script>
         // Script that sets dpr-date as today's date (yyyy-mm-dd)
         function todaysDate() {
             date =  new Date();
@@ -606,6 +519,18 @@
             }
             day = date.getDate();
             document.getElementById("dpr-date").value = year + "-" + month + "-" + day;
+        }
+        </script>
+        <script>
+        function getTodaysDate() {
+            date =  new Date();
+            year = date.getFullYear();
+            month = date.getMonth() + 1;
+            if(month < 10) {
+            	month = "0" + month;   
+            }
+            day = date.getDate();
+            return year + "-" + month + "-" + day;
         }
         </script>         
         <!-- jQuery -->         
