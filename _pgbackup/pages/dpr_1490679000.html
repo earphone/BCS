@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <!-- Main body Div -->
-                <div>
+                <div> 
                     <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DPR!</h3> 
                     <form id="dpr-form">
                         <div class="form-group"> 
@@ -352,7 +352,6 @@
                     newDPR.set({
                         submittedBy: user.displayName,
                         submittedInitials: userInitials,
-                        submittedDate: getTodaysDate(),
                         jobNum: jobNum,
                         jobName: jobName,
                         date: date,
@@ -511,18 +510,6 @@
             }
             day = date.getDate();
             document.getElementById("dpr-date").value = year + "-" + month + "-" + day;
-        }
-        </script>
-        <script>
-        function getTodaysDate() {
-            date =  new Date();
-            year = date.getFullYear();
-            month = date.getMonth() + 1;
-            if(month < 10) {
-            	month = "0" + month;   
-            }
-            day = date.getDate();
-            return year + "-" + month + "-" + day;
         }
         </script>
         <!-- jQuery -->         
