@@ -85,7 +85,15 @@
                             <!-- /.panel-heading -->                             
                             <div class="panel-body"> 
                                 <div class="list-group" id="list-report"> 
-                                    <!-- This will be filled in on load with checkUser() -->
+                                    <a href="#" class="list-group-item"><i class="fa fa-comment fa-fw"></i> New Comment<span class="pull-right text-muted small"><em>4 minutes ago</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-twitter fa-fw"></i> 3 New Followers<span class="pull-right text-muted small"><em>12 minutes ago</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-envelope fa-fw"></i> Message Sent<span class="pull-right text-muted small"><em>27 minutes ago</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-tasks fa-fw"></i> New Task<span class="pull-right text-muted small"><em>43 minutes ago</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-upload fa-fw"></i> Server Rebooted<span class="pull-right text-muted small"><em>11:32 AM</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-bolt fa-fw"></i> Server Crashed!<span class="pull-right text-muted small"><em>11:13 AM</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-warning fa-fw"></i> Server Not Responding<span class="pull-right text-muted small"><em>10:57 AM</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-shopping-cart fa-fw"></i> New Order Placed<span class="pull-right text-muted small"><em>9:49 AM</em></span></a> 
+                                    <a href="#" class="list-group-item"><i class="fa fa-money fa-fw"></i> Payment Received<span class="pull-right text-muted small"><em>Yesterday</em></span></a> 
                                 </div>                                 
                                 <!-- /.list-group -->                                 
                                 <a href="#" class="btn btn-default btn-block">View All Alerts</a> 
@@ -144,30 +152,23 @@
                             initials = snapshot.val().initials;
                             window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
                             // User is signed in.
-                        	// Get data for user's last 14 reports (7 DPR and 7 DTR) and place them in the panel with links to open below
-                            console.log("Ordering by key");
-                            var listDiv = document.getElementById("list-report");
-                            dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                console.log(snapshot.key);
-                                var randomId;
-                                var dprElement = document.createElement("a");
-                                var date = snapshot.key;
-                                var jobNum;
-                                snapshot.forEach(function(childSnapshot) {
-                                    jobNum = childSnapshot.key;
-                                    childSnapshot.forEach(function(grandchildSnapshot) {
-                                        randomId = grandchildSnapshot.key;
-                                    });
-                                });
-                                date = date.replace("-","").replace("-","");
-                                dprElement.className = "list-group-item";
-                                dprElement.text = "DPR_" + jobNum + "_" + date + "_" + initials;
-                                console.log(randomId);
-                                // Onclick will enact the showData() function for the randomId
-                                listDiv.insertBefore(dprElement, listDiv.firstChild);
-                            });
-                            dprRef.orderByKey().off("child_added");
                     	});
+                        // Get data for user's last 14 reports (7 DPR and 7 DTR) and place them in the panel with links to open below
+                        console.log("Ordering by key");
+                        var listDiv = document.getElementById("list-report");
+                        dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
+                            console.log(snapshot.key);
+                            var dprElement = document.createElement("a");
+                            console.log(snapshot);
+                            var date = snapshot.key;
+                            var jobNum = snapshot.val().date;
+                            date = date.replace("-","").replace("-","");
+                            dprElement.className = "list-group-item";
+                            dprElement.text = "DPR_" + jobNum + "_" + date + "_" + initials;
+                            // Add hidden values here
+                            listDiv.appendChild(dprElement);
+                        });
+                        dprRef.orderByKey().off("child_added");
                     }
                     else {
                         // No user is signed in.
