@@ -129,7 +129,7 @@
                             console.log("Ordering by key");
                             var listDiv = document.getElementById("list-report");
                             dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                //console.log(snapshot.key);
+                                console.log(snapshot.key);
                                 var randomId;
                                 var dprElement = document.createElement("a");
                                 var date = snapshot.key;
@@ -143,17 +143,16 @@
                                 date = date.replace("-","").replace("-","");
                                 dprElement.href = "javascript:void(0)";
                                 dprElement.onclick = function showData() {
-                                    //console.log("Boop: " + randomId);
+                                    console.log("Boop: " + randomId);
                                     var dataDiv = document.getElementById("report-data");
                                     dataDiv.innerHTML = "";
                                     firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
                                       // ...
                                         var headerElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
-                                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date;
+                                        headerElement.text = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date;
                                			dataElement.className = "list-group-item";
                                     	dataElement.text = snapshot.val().date;
-                                        dataDiv.append(headerElement);
                                         dataDiv.append(dataElement);
                                     });
                                 }

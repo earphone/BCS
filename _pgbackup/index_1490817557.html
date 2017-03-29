@@ -129,7 +129,7 @@
                             console.log("Ordering by key");
                             var listDiv = document.getElementById("list-report");
                             dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                //console.log(snapshot.key);
+                                console.log(snapshot.key);
                                 var randomId;
                                 var dprElement = document.createElement("a");
                                 var date = snapshot.key;
@@ -142,21 +142,8 @@
                                 });
                                 date = date.replace("-","").replace("-","");
                                 dprElement.href = "javascript:void(0)";
-                                dprElement.onclick = function showData() {
-                                    //console.log("Boop: " + randomId);
-                                    var dataDiv = document.getElementById("report-data");
-                                    dataDiv.innerHTML = "";
-                                    firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
-                                      // ...
-                                        var headerElement = document.createElement("h4");
-                                		var dataElement = document.createElement("a");
-                                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date;
-                               			dataElement.className = "list-group-item";
-                                    	dataElement.text = snapshot.val().date;
-                                        dataDiv.append(headerElement);
-                                        dataDiv.append(dataElement);
-                                    });
-                                }
+                                //dprElement.onClick = "showData(randomId, dpr); return false;";
+                                dprElement.onclick = function boop() {console.log("Boop: " + randomId);}
                                 dprElement.className = "list-group-item";
                                 dprElement.text = "DPR_" + jobNum + "_" + date + "_" + initials;
                                 console.log(randomId);
@@ -172,6 +159,22 @@
                     }
                 });
             }
+        </script>         
+        <script>
+        function showData(randomId, type) {
+            var dataDiv = document.getElementByID("report-data");
+            dataDiv.innerHTML = "";
+            console.log("Show Data for: " + randomId);
+            //firebase.database().ref(type + "/randomId/" + randomId).once('value').then(function(snapshot) {
+              //var username = snapshot.val().username;
+              // ...
+            //});
+        }
+        </script>         
+        <script>
+        function clicked() {
+            console.log("boop");
+            console.log(this.value);
         </script>
         <!-- /#wrapper -->         
         <!-- jQuery -->         
