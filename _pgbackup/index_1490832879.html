@@ -129,7 +129,7 @@
                             console.log("Ordering by key");
                             var listDiv = document.getElementById("list-report");
                             dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                console.log(snapshot.key);
+                                //console.log(snapshot.key);
                                 var randomId;
                                 var dprElement = document.createElement("a");
                                 var date = snapshot.key;
@@ -142,8 +142,32 @@
                                 });
                                 date = date.replace("-","").replace("-","");
                                 dprElement.href = "javascript:void(0)";
-                                //dprElement.onClick = "showData(randomId, dpr); return false;";
-                                dprElement.addEventListener("click","clicked");
+                                dprElement.onclick = function showData() {
+                                    //console.log("Boop: " + randomId);
+                                    var dataDiv = document.getElementById("report-data");
+                                    dataDiv.innerHTML = "";
+                                    firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
+                                      // ...
+                                        var headerElement = document.createElement("h4");
+                                        var contractorElement = document.createElement("h6");
+                                        var techsLabelElement = document.createElement("h6");
+                                		var dataElement = document.createElement("a");
+                                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
+                                        dataDiv.append(headerElement);
+                                        contractorElement.textContent = "Contractor: " + snapshot.val().contractor;
+                                        dataDiv.append(contractorElement);
+                                        techsLabelElement.textContent = "Technicians";
+                                        snapshot.val().techs.forEach(function(childSnapshot) {
+                                            var techElement = document.createElement("a");
+                                            techElement.className = "list-group-item";
+                                            if(childSnapshot.val().journeyman) techElement.text = childSnapshot.val().name + " the Journeyman worked " + childSnapshot.val().hours + " hours";
+                                            else if(childSnapshot.val().apprentice) techElement.text = childSnapshot.val().name + " Apprentice Step " + childSnapshot.val().step + " worked " + childSnapshot.val().hours + " hours";
+                                        }
+                               			dataElement.className = "list-group-item";
+                                    	dataElement.text = snapshot.val().date;
+                                        dataDiv.append(dataElement);
+                                    });
+                                }
                                 dprElement.className = "list-group-item";
                                 dprElement.text = "DPR_" + jobNum + "_" + date + "_" + initials;
                                 console.log(randomId);
@@ -159,21 +183,6 @@
                     }
                 });
             }
-        </script>         
-        <script>
-        function showData(randomId, type) {
-            var dataDiv = document.getElementByID("report-data");
-            dataDiv.innerHTML = "";
-            console.log("Show Data for: " + randomId);
-            //firebase.database().ref(type + "/randomId/" + randomId).once('value').then(function(snapshot) {
-              //var username = snapshot.val().username;
-              // ...
-            //});
-        }
-        </script>         
-        <script>
-        function clicked() {
-            console.log(this.value);
         </script>
         <!-- /#wrapper -->         
         <!-- jQuery -->         

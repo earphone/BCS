@@ -150,11 +150,12 @@
                                       // ...
                                         var headerElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
-                                        headerElement.textContent = "<i class="fa fa-tablet"></i> DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date;
+                                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
                                			dataElement.className = "list-group-item";
                                     	dataElement.text = snapshot.val().date;
                                         dataDiv.append(headerElement);
                                         dataDiv.append(dataElement);
+                                        dataDiv.append((document.createElement("h4")).textContent("Contractor: " + snapshot.val().contractor));
                                     });
                                 }
                                 dprElement.className = "list-group-item";

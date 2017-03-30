@@ -121,7 +121,7 @@
                         var dtrRef = firebase.database().ref("/employees/employed/" + user.uid + "/history/dpr");
                         userRef.once("value", function(snapshot) {
                             console.log("User email: " + user.email + " Snapshot: " + snapshot.val().email);
-                            console.log(user);
+                            //console.log(user);
                             initials = snapshot.val().initials;
                             window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
                             // User is signed in.
@@ -129,7 +129,7 @@
                             console.log("Ordering by key");
                             var listDiv = document.getElementById("list-report");
                             dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                console.log(snapshot.key);
+                                //console.log(snapshot.key);
                                 var randomId;
                                 var dprElement = document.createElement("a");
                                 var date = snapshot.key;
@@ -143,14 +143,45 @@
                                 date = date.replace("-","").replace("-","");
                                 dprElement.href = "javascript:void(0)";
                                 dprElement.onclick = function showData() {
-                                    console.log("Boop: " + randomId);
+                                    //console.log("Boop: " + randomId);
                                     var dataDiv = document.getElementById("report-data");
                                     dataDiv.innerHTML = "";
                                     firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
                                       // ...
+                                        var headerElement = document.createElement("h3");
+                                        var contractorElement = document.createElement("h4");
+                                        var techsLabelElement = document.createElement("h4");
+                                        var iqrLabelElement = document.createElement("h4");
+                                        var neededLabelElement = document.createElement("h4");
+                                        var performedLabelElement = document.createElement("h4");
+                                        var progressLabelElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
+                                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
+                                        dataDiv.append(headerElement);
+                                        contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
+                                        dataDiv.append(contractorElement);
+                                        techsLabelElement.textContent = "TECHNICIANS";
+                                        dataDiv.append(techsLabelElement);
+                                        // Display data for each tech
+                                        firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
+                                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                                var techElement = document.createElement("h5");
+                                                if(grandChildSnapshot.val().journeyman) techElement.textContent = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
+                                                else if(grandChildSnapshot.val().apprentice) techElement.textContent = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                else techElement.textContent = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                dataDiv.append(techElement);
+                                            });
+                                        });
+                                        iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS";
+                                        
+                                        neededLabelElement.textContent = "MATERIAL/EQUIPMENT NEEDED";
+                                        dataDiv.append(neededLabelElement):
+                                        performedLabelElement.textContent = "WORK PERFORMED";
+                                        dataDiv.append(performedLabelElement):
+                                        progressLabelElement.textContent = "PROGRESS TRACKING";
+                                        dataDiv.append(progressLabelElement):
                                			dataElement.className = "list-group-item";
-                                    	dataElement.value = snapshot.val().submittedBy;
+                                    	dataElement.text = snapshot.val().date;
                                         dataDiv.append(dataElement);
                                     });
                                 }

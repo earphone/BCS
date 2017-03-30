@@ -129,7 +129,7 @@
                             console.log("Ordering by key");
                             var listDiv = document.getElementById("list-report");
                             dprRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                console.log(snapshot.key);
+                                //console.log(snapshot.key);
                                 var randomId;
                                 var dprElement = document.createElement("a");
                                 var date = snapshot.key;
@@ -143,14 +143,31 @@
                                 date = date.replace("-","").replace("-","");
                                 dprElement.href = "javascript:void(0)";
                                 dprElement.onclick = function showData() {
-                                    console.log("Boop: " + randomId);
+                                    //console.log("Boop: " + randomId);
                                     var dataDiv = document.getElementById("report-data");
                                     dataDiv.innerHTML = "";
                                     firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
                                       // ...
                                         var headerElement = document.createElement("h4");
+                                        var contractorElement = document.createElement("h5");
+                                        var techsLabelElement = document.createElement("h5");
                                 		var dataElement = document.createElement("a");
-                                        headerElement.text = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date;
+                                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
+                                        dataDiv.append(headerElement);
+                                        contractorElement.textContent = "Contractor: " + snapshot.val().contractor;
+                                        dataDiv.append(contractorElement);
+                                        techsLabelElement.textContent = "Technicians";
+                                        dataDiv.append(techsLabelElement);
+                                        firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
+                                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                                var techElement = document.createElement("a");
+                                                techElement.className = "list-group-item";
+                                                if(grandChildSnapshot.val().journeyman) techElement.text = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
+                                                else if(grandChildSnapshot.val().apprentice) techElement.text = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                else techElement.text = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                dataDiv.append(techElement);
+                                            });
+                                        });
                                			dataElement.className = "list-group-item";
                                     	dataElement.text = snapshot.val().date;
                                         dataDiv.append(dataElement);
