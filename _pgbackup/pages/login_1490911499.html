@@ -46,7 +46,7 @@
                                         </label>                                         
                                     </div>                                     
                                     <!-- Change this to a button or input when using this as a form -->                                     
-                                    <a href="index.html" class="btn btn-lg btn-success btn-block" id="login-button" onclick="login()">LOGIN</a> 
+                                    <p type="submit" class="btn btn-lg btn-success btn-block" id="login-button" onclick="loginUser()">LOGIN</p> 
                                 </fieldset>                                 
                             </form>                             
                             <h5 id="forgot-password">Forgot Password?</h5> 
@@ -72,18 +72,20 @@
         </script>         
         <!-- Firebase Create User -->         
         <script>
-        function login() {
+        function loginUser() {
+            console.log("Hello: " + "email: " + email.value + " pw: " + password.value);
             firebase.auth().signInWithEmailAndPassword(email.value, password.value).catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
               // ...
-              alert("An error occurred: " + error.message);
+              alert("The following error occured: " + errorMessage);
             });
-        },
+            
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
+                console.log("user: " + user);
                 window.location = 'index.html';
               }
             });

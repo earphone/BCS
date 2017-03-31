@@ -39,26 +39,26 @@
                                     </div>                                     
                                     <div class="form-group"> 
                                         <input class="form-control" placeholder="Password" name="password" type="password" value="" id="password"> 
-                                    </div>                                     
-                                    <div class="checkbox"> 
-                                        <label> 
-                                            <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                        </label>                                         
-                                    </div>                                     
-                                    <!-- Change this to a button or input when using this as a form -->                                     
-                                    <a href="index.html" class="btn btn-lg btn-success btn-block" id="login-button" onclick="login()">LOGIN</a> 
-                                </fieldset>                                 
-                            </form>                             
+                                    </div>
+                                    <!--div class="checkbox">
+                                        <label data-pg-id="107"> 
+                                            <input name="remember" type="checkbox" value="Remember Me" data-pg-id="108">Remember Me
+                                        </label>
+                                    </div-->
+                                    <!-- Change this to a button or input when using this as a form -->
+                                    <p type="submit" class="btn btn-lg btn-success btn-block" id="login-button" onclick="loginUser()">LOGIN</p> 
+                                </fieldset>
+                            </form>
                             <h5 id="forgot-password">Forgot Password?</h5> 
                             <a href="signup.html"><h5 id="sign-up"> 
                                 Sign Up!</h5></a> 
-                        </div>                         
-                    </div>                     
-                </div>                 
-            </div>             
-        </div>         
-        <!-- Firebase Initialization -->         
-        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Firebase Initialization -->
+        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -69,33 +69,35 @@
                 messagingSenderId: "664106049370"
             };
             firebase.initializeApp(config);
-        </script>         
+        </script>
         <!-- Firebase Create User -->         
         <script>
-        function login() {
+        function loginUser() {
+            console.log("Hello: " + "email: " + email.value + " pw: " + password.value);
             firebase.auth().signInWithEmailAndPassword(email.value, password.value).catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
               // ...
-              alert("An error occurred: " + error.message);
+              alert("The following error occured: " + errorMessage);
             });
-        }
+            
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
+                console.log("user: " + user);
                 window.location = 'index.html';
               }
             });
         }
-        </script>         
-        <!-- jQuery -->         
-        <script src="../vendor/jquery/jquery.min.js"></script>         
-        <!-- Bootstrap Core JavaScript -->         
-        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>         
-        <!-- Metis Menu Plugin JavaScript -->         
-        <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
-        <!-- Custom Theme JavaScript -->         
-        <script src="../dist/js/sb-admin-2.js"></script>         
-    </body>     
+        </script>
+        <!-- jQuery -->
+        <script src="../vendor/jquery/jquery.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+        <!-- Custom Theme JavaScript -->
+        <script src="../dist/js/sb-admin-2.js"></script>
+    </body>
 </html>
