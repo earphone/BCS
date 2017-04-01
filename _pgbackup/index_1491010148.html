@@ -154,9 +154,9 @@
                                         var contractorElement = document.createElement("h4");
                                         var techsLabelElement = document.createElement("h4");
                                         var iqrLabelElement = document.createElement("h4");
-                                        var iqrElement = document.createElement("h5");
+                                        var iqrElement = document.createElement("input");
                                         var neededLabelElement = document.createElement("h4");
-                                        var neededElement = document.createElement("h5");
+                                        var neededElement = document.createElement("input");
                                         var performedLabelElement = document.createElement("h4");
                                         var progressLabelElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
@@ -173,16 +173,21 @@
                                             dataDiv.append(techsLabelElement);
                                             var num = 0;
                                             childSnapshot.forEach(function(grandChildSnapshot) {
-                                                var techElement = document.createElement("h5");
+                                                var techElement = document.createElement("input");
+                                                techElement.disabled = "true";
+                                                techElement.id = "tech-element-" + num;
+                                                techElement.className = "form-control";
                                                 num ++;
-                                                if(grandChildSnapshot.val().journeyman) techElement.textContent = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
-                                                else if(grandChildSnapshot.val().apprentice) techElement.textContent = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
-                                                else techElement.textContent = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                if(grandChildSnapshot.val().journeyman) techElement.value = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
+                                                else if(grandChildSnapshot.val().apprentice) techElement.value = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                else techElement.value = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
                                                 dataDiv.append(techElement);
                                             });
                                             if(num == 0) {
-                                                var techElement = document.createElement("h5");
+                                                var techElement = document.createElement("input");
                                                 techElement.textContent = "No techs selected";
+                                                techElement.disabled = "true";
+                                                techElement.id = "tech-element-0";
                                                 dataDiv.append(techElement);
                                             }
                                         });
@@ -194,7 +199,7 @@
                                         // Materials Needed & By data
                                         neededLabelElement.textContent = "MATERIAL/EQUIPMENT NEEDED:";
                                         dataDiv.append(neededLabelElement);
-                                        neededElement.textContent = "By " + snapshot.val().by + " they need: " + snapshot.val().needed;
+                                        neededElement.value = "By " + snapshot.val().by + " they need: " + snapshot.val().needed;
                                         dataDiv.append(neededElement);
                                         // Work Performed Data
                                         firebase.database().ref("dpr/randomId/" + randomId + "/work").orderByKey().once("value", function(childSnapshot) {
@@ -203,19 +208,32 @@
                                             dataDiv.append(performedLabelElement);
                                             childSnapshot.forEach(function(grandChildSnapshot) {
                                                 num ++;
-                                                var performedElement = document.createElement("h5");
-                                                performedElement.textContent = "Work Performed at: " + grandChildSnapshot.val().location + ": " +  grandChildSnapshot.val().done;
+                                                var performedElement = document.createElement("input");
+                                                if((num == 1) && (grandChildSnapshot.val().location == "") && (grandChildSnapshot.val().done == "")) {
+                                                    performedElement.value = "No work reported...";
+                                                }
+                                                else performedElement.value = "Work Performed at: " + grandChildSnapshot.val().location + ": " + grandChildSnapshot.val().done;
                                                 dataDiv.append(performedElement);
                                             });
-                                            if(num == 0) {
-                                                var performedElement = document.createElement("h5");
-                                                performedElement.textContent = "No techs selected";
-                                                dataDiv.append(performedElement);
-                                            }
                                         });
                                         // Work Progress Data
-                                        progressLabelElement.textContent = "PROGRESS TRACKING:";
-                                        dataDiv.append(progressLabelElement);
+                                        firebase.database().ref("dpr/randomId/" + randomId + "/progress").orderByKey().once("value", function(childSnapshot) {
+                                            var num = 0;
+                                            var progressExampleElement = document.createElement("h5");
+                                            progressLabelElement.textContent = "PROGRESS TRACKING (in the following format):";
+                                            dataDiv.append(progressLabelElement);
+                                            progressExampleElement.textContent = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
+                                            dataDiv.append(progressExampleElement);
+                                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                                num ++;
+                                                var progressElement = document.createElement("input");
+                                                if((num == 1) && (grandChildSnapshot.val().location == "")) {
+                                                    progressElement.value = "No progress reported...";
+                                                }
+                                                else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
+                                                dataDiv.append(progressElement);
+                                            });
+                                        });
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
                                			dataElement.className = "list-group-item";

@@ -154,9 +154,9 @@
                                         var contractorElement = document.createElement("h4");
                                         var techsLabelElement = document.createElement("h4");
                                         var iqrLabelElement = document.createElement("h4");
-                                        var iqrElement = document.createElement("h5");
+                                        var iqrElement = document.createElement("input");
                                         var neededLabelElement = document.createElement("h4");
-                                        var neededElement = document.createElement("h5");
+                                        var neededElement = document.createElement("input");
                                         var performedLabelElement = document.createElement("h4");
                                         var progressLabelElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
@@ -173,7 +173,8 @@
                                             dataDiv.append(techsLabelElement);
                                             var num = 0;
                                             childSnapshot.forEach(function(grandChildSnapshot) {
-                                                var techElement = document.createElement("h5");
+                                                var techElement = document.createElement("input");
+                                                techElement.readonly = "true";
                                                 num ++;
                                                 if(grandChildSnapshot.val().journeyman) techElement.textContent = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
                                                 else if(grandChildSnapshot.val().apprentice) techElement.textContent = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
@@ -181,7 +182,7 @@
                                                 dataDiv.append(techElement);
                                             });
                                             if(num == 0) {
-                                                var techElement = document.createElement("h5");
+                                                var techElement = document.createElement("input");
                                                 techElement.textContent = "No techs selected";
                                                 dataDiv.append(techElement);
                                             }
@@ -203,7 +204,7 @@
                                             dataDiv.append(performedLabelElement);
                                             childSnapshot.forEach(function(grandChildSnapshot) {
                                                 num ++;
-                                                var performedElement = document.createElement("h5");
+                                                var performedElement = document.createElement("input");
                                                 if((num == 1) && (grandChildSnapshot.val().location == "") && (grandChildSnapshot.val().done == "")) {
                                                     performedElement.textContent = "No work reported...";
                                                 }
@@ -212,16 +213,16 @@
                                             });
                                         });
                                         // Work Progress Data
-                                        firebase.database().ref("dpr/randomId/" + randomId + "/work").orderByKey().once("value", function(childSnapshot) {
+                                        firebase.database().ref("dpr/randomId/" + randomId + "/progress").orderByKey().once("value", function(childSnapshot) {
                                             var num = 0;
-                                            var progressExampleElement = document.createElement("h5");
+                                            var progressExampleElement = document.createElement("input");
                                             progressLabelElement.textContent = "PROGRESS TRACKING (in the following format):";
                                             dataDiv.append(progressLabelElement);
-                                            progressExampleElement.textContext = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
+                                            progressExampleElement.textContent = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
                                             dataDiv.append(progressExampleElement);
                                             childSnapshot.forEach(function(grandChildSnapshot) {
                                                 num ++;
-                                                var progressElement = document.createElement("h5");
+                                                var progressElement = document.createElement("input");
                                                 if((num == 1) && (grandChildSnapshot.val().location == "")) {
                                                     progressElement.textContent = "No progress reported...";
                                                 }

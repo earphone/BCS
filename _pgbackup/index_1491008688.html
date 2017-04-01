@@ -204,18 +204,31 @@
                                             childSnapshot.forEach(function(grandChildSnapshot) {
                                                 num ++;
                                                 var performedElement = document.createElement("h5");
-                                                performedElement.textContent = grandChildSnapshot.val().done + " AT " + grandChildSnapshot.val().location;
+                                                if((num == 1) && (grandChildSnapshot.val().location == "") && (grandChildSnapshot.val().done == "")) {
+                                                    performedElement.textContent = "No work reported...";
+                                                }
+                                                else performedElement.textContent = "Work Performed at: " + grandChildSnapshot.val().location + ": " + grandChildSnapshot.val().done;
                                                 dataDiv.append(performedElement);
                                             });
-                                            if(num == 0) {
-                                                var performedElement = document.createElement("h5");
-                                                performedElement.textContent = "No techs selected";
-                                                dataDiv.append(performedElement);
-                                            }
                                         });
                                         // Work Progress Data
-                                        progressLabelElement.textContent = "PROGRESS TRACKING:";
-                                        dataDiv.append(progressLabelElement);
+                                        firebase.database().ref("dpr/randomId/" + randomId + "/progress").orderByKey().once("value", function(childSnapshot) {
+                                            var num = 0;
+                                            var progressExampleElement = document.createElement("h5");
+                                            progressLabelElement.textContent = "PROGRESS TRACKING (in the following format):";
+                                            dataDiv.append(progressLabelElement);
+                                            progressExampleElement.textContent = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
+                                            dataDiv.append(progressExampleElement);
+                                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                                num ++;
+                                                var progressElement = document.createElement("h5");
+                                                if((num == 1) && (grandChildSnapshot.val().location == "")) {
+                                                    progressElement.textContent = "No progress reported...";
+                                                }
+                                                else progressElement.textContent = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
+                                                dataDiv.append(progressElement);
+                                            });
+                                        });
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
                                			dataElement.className = "list-group-item";

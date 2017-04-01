@@ -154,9 +154,9 @@
                                         var contractorElement = document.createElement("h4");
                                         var techsLabelElement = document.createElement("h4");
                                         var iqrLabelElement = document.createElement("h4");
-                                        var iqrElement = document.createElement("h5");
+                                        var iqrElement = document.createElement("input");
                                         var neededLabelElement = document.createElement("h4");
-                                        var neededElement = document.createElement("h5");
+                                        var neededElement = document.createElement("input");
                                         var performedLabelElement = document.createElement("h4");
                                         var progressLabelElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
@@ -173,28 +173,39 @@
                                             dataDiv.append(techsLabelElement);
                                             var num = 0;
                                             childSnapshot.forEach(function(grandChildSnapshot) {
-                                                var techElement = document.createElement("h5");
+                                                var techElement = document.createElement("input");
+                                                techElement.readOnly = "true";
+                                                techElement.id = "tech-element-" + num;
+                                                techElement.className = "form-control";
                                                 num ++;
-                                                if(grandChildSnapshot.val().journeyman) techElement.textContent = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
-                                                else if(grandChildSnapshot.val().apprentice) techElement.textContent = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
-                                                else techElement.textContent = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                if(grandChildSnapshot.val().journeyman) techElement.value = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
+                                                else if(grandChildSnapshot.val().apprentice) techElement.value = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
+                                                else techElement.value = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
                                                 dataDiv.append(techElement);
                                             });
                                             if(num == 0) {
-                                                var techElement = document.createElement("h5");
-                                                techElement.textContent = "No techs selected";
+                                                var techElement = document.createElement("input");
+                                                techElement.readOnly = "true";
+                                                techElement.id = "tech-element-0";
+                                                techElement.className = "form-control";
                                                 dataDiv.append(techElement);
                                             }
                                         });
                                         // Iqr Data
                                         iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
                                         dataDiv.append(iqrLabelElement);
-                                        iqrElement.textContent = snapshot.val().iqr;
+                                        iqrElement.readOnly = "true";
+                                        iqrElement.id = "iqr-element";
+                                        iqrElement.className = "form-control";
+                                        iqrElement.value = snapshot.val().iqr;
                                         dataDiv.append(iqrElement);
                                         // Materials Needed & By data
                                         neededLabelElement.textContent = "MATERIAL/EQUIPMENT NEEDED:";
                                         dataDiv.append(neededLabelElement);
-                                        neededElement.textContent = "By " + snapshot.val().by + " they need: " + snapshot.val().needed;
+                                        neededElement.readOnly = "true";
+                                        neededElement.id = "needed-element";
+                                        neededElement.className = "form-control";
+                                        neededElement.value = "By " + snapshot.val().by + " they need: " + snapshot.val().needed;
                                         dataDiv.append(neededElement);
                                         // Work Performed Data
                                         firebase.database().ref("dpr/randomId/" + randomId + "/work").orderByKey().once("value", function(childSnapshot) {
@@ -202,12 +213,15 @@
                                             performedLabelElement.textContent = "WORK PERFORMED:";
                                             dataDiv.append(performedLabelElement);
                                             childSnapshot.forEach(function(grandChildSnapshot) {
+                                                var performedElement = document.createElement("input");
+                                                performedElement.readOnly = "true";
+                                                performedElement.id = "performed-element-" + num;
+                                                performedElement.className = "form-control";
                                                 num ++;
-                                                var performedElement = document.createElement("h5");
                                                 if((num == 1) && (grandChildSnapshot.val().location == "") && (grandChildSnapshot.val().done == "")) {
-                                                    performedElement.textContent = "No work reported...";
+                                                    performedElement.value = "No work reported...";
                                                 }
-                                                else performedElement.textContent = "Work Performed at: " + grandChildSnapshot.val().location + ": " + grandChildSnapshot.val().done;
+                                                else performedElement.value = "Work Performed at: " + grandChildSnapshot.val().location + ": " + grandChildSnapshot.val().done;
                                                 dataDiv.append(performedElement);
                                             });
                                         });
@@ -220,12 +234,15 @@
                                             progressExampleElement.textContent = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
                                             dataDiv.append(progressExampleElement);
                                             childSnapshot.forEach(function(grandChildSnapshot) {
+                                                var progressElement = document.createElement("input");
+                                                progressElement.readOnly = "true";
+                                                progressElement.id = "progress-element-" + num;
+                                                progressElement.className = "form-control";
                                                 num ++;
-                                                var progressElement = document.createElement("h5");
                                                 if((num == 1) && (grandChildSnapshot.val().location == "")) {
-                                                    progressElement.textContent = "No progress reported...";
+                                                    progressElement.value = "No progress reported...";
                                                 }
-                                                else progressElement.textContent = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
+                                                else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
                                                 dataDiv.append(progressElement);
                                             });
                                         });
