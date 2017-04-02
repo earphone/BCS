@@ -272,7 +272,7 @@
                                 snapshot.forEach(function(childSnapshot) {
                                     jobNum = childSnapshot.key;
                                     childSnapshot.forEach(function(grandchildSnapshot) {
-                                        randomId = grandchildSnapshot.key;
+                                        randomId = grandchildSnapshot.randomID.val();
                                         console.log(jobNum + " " + randomId);
                                     });
                                 });
@@ -302,7 +302,7 @@
                                         dataDiv.append(headerElement);
                                         dataDiv.append(document.createElement("hr"));
                                         // Contractor Data
-                                        contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
+                                   /*     contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
                                         dataDiv.append(contractorElement);
                                         // Display data for each tech
                                         firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
@@ -382,7 +382,7 @@
                                                 else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
                                                 dataDiv.append(progressElement);
                                             });
-                                        });
+                                        }); */
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
                                			dataElement.className = "list-group-item";

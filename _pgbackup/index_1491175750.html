@@ -264,8 +264,8 @@
                         // End DPR
                         // Start DTR
                             dtrRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                console.log(snapshot.key);
-                                var randomId = "";
+                                //console.log(snapshot.key);
+                                var randomId;
                                 var dtrElement = document.createElement("a");
                                 var date = snapshot.key;
                                 var jobNum;
@@ -273,20 +273,18 @@
                                     jobNum = childSnapshot.key;
                                     childSnapshot.forEach(function(grandchildSnapshot) {
                                         randomId = grandchildSnapshot.key;
-                                        console.log(jobNum + " " + randomId);
                                     });
                                 });
                                 date = date.replace("-","").replace("-","");
                                 dtrElement.href = "javascript:void(0)";
                                 dtrElement.onclick = function showData() {
-                                    //console.log("Boop: " + randomId);
+                                    console.log("Boop: " + randomId);
                                     var dataDiv = document.getElementById("report-data");
                                     // Clear previous data
                                     dataDiv.innerHTML = "";
                                     // Load data for this specific randomId
                                     firebase.database().ref('dtr/randomId/' + randomId).once('value').then(function(snapshot) {
                                       // ...
-                                        console.log(snapshot.ref.toString());
                                         var headerElement = document.createElement("h3");
                                         var contractorElement = document.createElement("h4");
                                         var techsLabelElement = document.createElement("h4");
@@ -302,7 +300,7 @@
                                         dataDiv.append(headerElement);
                                         dataDiv.append(document.createElement("hr"));
                                         // Contractor Data
-                                        contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
+                                   /*     contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
                                         dataDiv.append(contractorElement);
                                         // Display data for each tech
                                         firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
@@ -382,7 +380,7 @@
                                                 else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
                                                 dataDiv.append(progressElement);
                                             });
-                                        });
+                                        }); */
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
                                			dataElement.className = "list-group-item";
