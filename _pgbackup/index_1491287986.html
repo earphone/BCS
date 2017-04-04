@@ -155,11 +155,11 @@
                                         console.log(snapshot.ref.toString());
                                         var headerElement = document.createElement("h3");
                                         var performedLabelElement = document.createElement("h4");
-                                        var performedTopHintElement = document.createElement("h6");
-                                        var performedBotHintElement = document.createElement("h6");
+                                        var performedTopHintElement = document.createElement("h5");
+                                        var performedBotHintElement = document.createElement("h5");
                                         var iqrLabelElement = document.createElement("h4");
                                         var iqrElement = document.createElement("input");
-                                		//var dataElement = document.createElement("a");
+                                		var dataElement = document.createElement("a");
                                         // Header data (needs buttons for edit/delete)
                                         headerElement.textContent = "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
                                         dataDiv.append(headerElement);
@@ -263,9 +263,9 @@
                                         dataDiv.append(iqrElement);
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
-                               			//dataElement.className = "list-group-item";
-                                    	//dataElement.text = snapshot.val().date;
-                                        //dataDiv.append(dataElement);
+                               			dataElement.className = "list-group-item";
+                                    	dataElement.text = snapshot.val().date;
+                                        dataDiv.append(dataElement);
                                     });
                                 }
                                 dtrElement.className = "list-group-item";
@@ -308,7 +308,7 @@
                                         var neededElement = document.createElement("input");
                                         var performedLabelElement = document.createElement("h4");
                                         var progressLabelElement = document.createElement("h4");
-                                		//var dataElement = document.createElement("a");
+                                		var dataElement = document.createElement("a");
                                         // Header data (needs buttons for edit/delete)
                                         headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
                                         dataDiv.append(headerElement);
@@ -397,9 +397,9 @@
                                         });
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
-                               			//dataElement.className = "list-group-item";
-                                    	//dataElement.text = snapshot.val().date;
-                                        //dataDiv.append(dataElement);
+                               			dataElement.className = "list-group-item";
+                                    	dataElement.text = snapshot.val().date;
+                                        dataDiv.append(dataElement);
                                     });
                                 }
                                 dprElement.className = "list-group-item";

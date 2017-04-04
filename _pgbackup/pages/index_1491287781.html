@@ -74,7 +74,7 @@
                     </div>                     
                     <!-- /.col-lg-12 -->                     
                 </div>                 
-                <div class="row">
+                <div class="row"> 
                     <table class="table"> 
                         <thead> 
                             <tr> 
@@ -103,9 +103,9 @@
                                 <td>the Bird</td> 
                                 <td>@twitter</td> 
                             </tr>                             
-                        </tbody>
-                    </table>
-                </div>
+                        </tbody>                         
+                    </table>                     
+                </div>                 
                 <!-- /.row -->                 
                 <!-- /.row -->                 
             </div>             
@@ -135,16 +135,17 @@
             });
         }
         </script>         
-        <!-- Checks if user is logged in. If not,  redirects to Login page -->
+        <!-- Checks if user is logged in. If not,  redirects to Login page -->         
         <script>
         function checkUser() {
             console.log("Checking User!");
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
-                    firebase.database().ref("users/" + user.uid + "/email").on("value", function(snapshot) {
-                        console.log("User email: " + snapshot.val());
-                        window.document.getElementById('dashboard-header').innerText = "Hello " + snapshot.val()
+                    firebase.database().ref("/employees/employed/" + user.uid + "/email").on("value", function(snapshot) {
+                        console.log("User email: " + user.email + " Snapshot: " + snapshot.val());
+                        console.log(user);
+                        window.document.getElementById('dashboard-header').innerText = "Hello " + user.displayName;
                     });
                     // User is signed in.
                 } else {
@@ -153,7 +154,7 @@
                 }
             });
         }
-        </script>
+        </script>         
         <!-- jQuery -->         
         <script src="../vendor/jquery/jquery.min.js"></script>         
         <!-- Bootstrap Core JavaScript -->         
