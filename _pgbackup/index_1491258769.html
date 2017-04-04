@@ -6,24 +6,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <meta name="description" content=""> 
         <meta name="author" content=""> 
-        <title>BCS Webapp Dashboard</title>
-        <!-- Bootstrap Core CSS -->
+        <title>BCS Webapp Dashboard</title>         
+        <!-- Bootstrap Core CSS -->         
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
-        <!-- MetisMenu CSS -->
+        <!-- MetisMenu CSS -->         
         <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet"> 
-        <!-- Custom CSS -->
+        <!-- Custom CSS -->         
         <link href="dist/css/sb-admin-2.css" rel="stylesheet"> 
-        <!-- Morris Charts CSS -->
+        <!-- Morris Charts CSS -->         
         <link href="vendor/morrisjs/morris.css" rel="stylesheet"> 
-        <!-- Custom Fonts -->
+        <!-- Custom Fonts -->         
         <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->         
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->         
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    </head>
+    <![endif]-->         
+    </head>     
     <body onload="checkUser()"> 
         <div id="wrapper"> 
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"> 
@@ -264,8 +264,8 @@
                         // End DPR
                         // Start DTR
                             dtrRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
-                                //console.log(snapshot.key);
-                                var randomId;
+                                console.log(snapshot.key);
+                                var randomId = "";
                                 var dtrElement = document.createElement("a");
                                 var date = snapshot.key;
                                 var jobNum;
@@ -273,6 +273,7 @@
                                     jobNum = childSnapshot.key;
                                     childSnapshot.forEach(function(grandchildSnapshot) {
                                         randomId = grandchildSnapshot.key;
+                                        console.log(jobNum + " " + randomId);
                                     });
                                 });
                                 date = date.replace("-","").replace("-","");
@@ -287,22 +288,23 @@
                                       // ...
                                         console.log(snapshot.ref.toString());
                                         var headerElement = document.createElement("h3");
-                                        var contractorElement = document.createElement("h4");
-                                        var techsLabelElement = document.createElement("h4");
+                                        var performedLabelElement = document.createElement("h4");
+                                        var performedTopHintElement = document.createElement("h5");
+                                        var performedBotHintElement = document.createElement("h5");
                                         var iqrLabelElement = document.createElement("h4");
                                         var iqrElement = document.createElement("input");
-                                        var neededLabelElement = document.createElement("h4");
-                                        var neededElement = document.createElement("input");
-                                        var performedLabelElement = document.createElement("h4");
-                                        var progressLabelElement = document.createElement("h4");
                                 		var dataElement = document.createElement("a");
                                         // Header data (needs buttons for edit/delete)
                                         headerElement.textContent = "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
                                         dataDiv.append(headerElement);
                                         dataDiv.append(document.createElement("hr"));
-                                        // Contractor Data
-                                   /*     contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
-                                        dataDiv.append(contractorElement);
+                                        // Display work performed
+                                        performedLabelElement.textContent = "WORK PERFORMED:";
+                                        dataDiv.append(performedLabelElement);
+                                        performedTopHintElement.textContent = "WORK PERFORMED - COST CODE";
+                                        dataDiv.append(performedTopHintElement);
+                                        performedBotHintElement.textContent = "HOURS - MATERIALS ISSUED - MATERIALS INSTALLED";
+                                        dataDiv.append(performedBotHintElement);
                                         // Display data for each tech
                                         firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
                                             techsLabelElement.textContent = "TECHNICIANS:";
@@ -381,7 +383,7 @@
                                                 else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
                                                 dataDiv.append(progressElement);
                                             });
-                                        }); */
+                                        });
                                         // Hidden Data with randomId (needs ID to call when going to next page)
                                         // Random data
                                			dataElement.className = "list-group-item";
