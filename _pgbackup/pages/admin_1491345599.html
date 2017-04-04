@@ -166,7 +166,6 @@
                         listEmployee.className = "list-group-item";
                         listEmployee.href = "javascript:void(0)";
                         listEmployee.onclick = function showData() {
-                            dataView.innerHTML = "";
                             var dataFirst = childSnapshot.val().nameFirst;
                             var dataLast = childSnapshot.val().nameLast;
                             var dataInitials = childSnapshot.val().initials;
@@ -232,10 +231,11 @@
                             classLabel.textContent = "Class";
                             journeymanElement.type = "checkbox";
                             journeymanElement.className = "control-label";	
-                            journeymanElement.checked = dataJourneyman;
-                            journeymanElement.disabled = true;
+                            journeymanElement.value = dataJourneyman;
+                            journeymanElement.readonly = "true";
                             journeymanElement.id = "performed-element-7";
                             journeymanLabel.className = "checkbox-inline";
+                            journeymanLabel.textContent = "Journey Man";
                             journeymanLabel.append(journeymanElement);
                             journeymanLabel.append(journeymanDescription);
                             dataView.append(classLabel);
@@ -245,12 +245,11 @@
                             var apprenticeElement = document.createElement("input");
                             var apprenticeDescription = document.createTextNode("Apprentice");
                             apprenticeElement.type = "checkbox";
-                            apprenticeElement.className = "control-label";
-                            console.log("DA: " + dataApprentice);
-                            apprenticeElement.checked = dataApprentice;
-                            apprenticeElement.disabled = true;
+                            apprenticeElement.className = "control-label";	
+                            apprenticeElement.value = dataJourneyman;
+                            apprenticeElement.readonly = "true";
                             apprenticeElement.id = "performed-element-8";
-                            apprenticeLabel.className = "checkbox-inline";
+                            apprenticeLabel.className = "checkbox";
                             apprenticeLabel.append(apprenticeElement);
                             apprenticeLabel.append(apprenticeDescription);
                             dataView.append(apprenticeLabel);
@@ -260,7 +259,7 @@
                             stepLabel.textContent = "Step";	
                             stepElement.value = dataStep;
                             stepElement.placeHolder = dataStep;
-                            stepElement.readonly = "true";
+                            stepElement.readOnly = "true";
                             stepElement.id = "performed-element-9";
                             stepElement.className = "form-control";
                             dataView.append(stepLabel);

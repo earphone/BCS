@@ -166,7 +166,6 @@
                         listEmployee.className = "list-group-item";
                         listEmployee.href = "javascript:void(0)";
                         listEmployee.onclick = function showData() {
-                            dataView.innerHTML = "";
                             var dataFirst = childSnapshot.val().nameFirst;
                             var dataLast = childSnapshot.val().nameLast;
                             var dataInitials = childSnapshot.val().initials;
@@ -232,8 +231,8 @@
                             classLabel.textContent = "Class";
                             journeymanElement.type = "checkbox";
                             journeymanElement.className = "control-label";	
-                            journeymanElement.checked = dataJourneyman;
-                            journeymanElement.disabled = true;
+                            journeymanElement.value = (dataJourneyman == "true");
+                            journeymanElement.disabled = "true";
                             journeymanElement.id = "performed-element-7";
                             journeymanLabel.className = "checkbox-inline";
                             journeymanLabel.append(journeymanElement);
@@ -245,10 +244,9 @@
                             var apprenticeElement = document.createElement("input");
                             var apprenticeDescription = document.createTextNode("Apprentice");
                             apprenticeElement.type = "checkbox";
-                            apprenticeElement.className = "control-label";
-                            console.log("DA: " + dataApprentice);
-                            apprenticeElement.checked = dataApprentice;
-                            apprenticeElement.disabled = true;
+                            apprenticeElement.className = "control-label";	
+                            apprenticeElement.value = dataApprentice;
+                            apprenticeElement.disabled = "true";
                             apprenticeElement.id = "performed-element-8";
                             apprenticeLabel.className = "checkbox-inline";
                             apprenticeLabel.append(apprenticeElement);
@@ -260,7 +258,7 @@
                             stepLabel.textContent = "Step";	
                             stepElement.value = dataStep;
                             stepElement.placeHolder = dataStep;
-                            stepElement.readonly = "true";
+                            stepElement.readOnly = "true";
                             stepElement.id = "performed-element-9";
                             stepElement.className = "form-control";
                             dataView.append(stepLabel);
