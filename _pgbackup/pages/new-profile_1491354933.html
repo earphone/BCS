@@ -98,6 +98,10 @@
                         <input class="form-control" placeholder="Cell Phone #" name="number-cellular" type="tel" value="" id="cell-num"> 
                     </div>                     
                     <div class="form-group"> 
+                        <label class="control-label">Contact #</label>
+                        <input class="form-control" placeholder="Contact Phone #" name="number-cellular" type="tel" value="" id="contact-num"> 
+                    </div>                     
+                    <div class="form-group"> 
                         <label class="control-label">Company</label>
                         <input class="form-control" placeholder="Company (BCS/AKAMAI)" name="company" type="text" value="" id="company"> 
                     </div>                     
@@ -151,7 +155,6 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     console.log(user.uid + " is signed in");
-                    window.document.getElementById("user-name").innerText = user.displayName;
                     console.log(user);
                     // User is signed in.
                 } else {
@@ -165,18 +168,18 @@
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
-            var initials = document.getElementById("name-initials").value.uppercase();
+            var initials = document.getElementById("name-initials").value;
             var idNum = document.getElementById("id-num").value;
             var cellNum = document.getElementById("cell-num").value;
+            var contactNum = document.getElementById("contact-num").value;
             var company = document.getElementById("company").value;
             var journeyman = document.getElementById("journeyman").checked;
             var apprentice = document.getElementById("apprentice").checked;
             var apprenticeStep = document.getElementById("apprentice-step").value;
             var nameFull = nameFirst + " " + nameLast;
             var user = firebase.auth().currentUser;
-            var pass = 0;
             console.log("First: " + nameFirst + "\nLast: " + nameLast + "\nUID: " + user.uid);
-            user.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName" + error.code + "\n" + error.message)});
+            user.updateProfile({displayName: nameFull}).then(function() {console.log("Updated displayName: " + user.displayName)},function(error){console.log("Could not update displayName " + error.code + "\n" + error.message)});
             firebase.database().ref('employees/employed/' + user.uid).set({
                 nameFull: nameFull,
                 nameFirst: nameFirst,
@@ -187,35 +190,26 @@
                 email: user.email,
                 idNum: idNum,
                 cellNum: cellNum,
+                contactNum: contactNum,
                 company: company,
                 journeyman: journeyman,
                 apprentice: apprentice,
                 step: apprenticeStep
             })
             .then(function() {
-                pass++;
+                if(journeyman == true || apprentice == true) {
+                    firebase.database().ref('employees/technicians/' + nameFull).set({
+                        name: nameFull,
+                    	journeyman: journeyman,
+                        apprentice: apprentice,
+                        step: apprenticeStep
+                    });
+                }
+                window.location="index.html";
             })
             .catch(function(error) {
                 alert("Something Happened when setting details: " + error.message);
             });
-            if(journeyman == true || apprentice == true) {
-                firebase.database().ref('employees/technicians/').set({
-                    name: nameFull
-                })
-                .then(function() {
-                    pass = pass+5;
-                })
-                .catch(function(error) {
-                    alert("Something Happened when setting details: " + error.message);
-                })
-            }
-            console.log(pass);
-            if(pass == 0 || pass == 5) {
-                pass = 0;
-            }
-            else { 
-                window.location="index.html";
-            }
         }            
         </script>
         <!-- jQuery -->         

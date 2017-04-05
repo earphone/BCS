@@ -147,11 +147,11 @@
             // Clear list and view divs
             var dataList = document.getElementById("data-list");
             var dataView = document.getElementById("data-view");
-            var dtrRef = firebase.database().ref("dtr/date");
+            var dtrRef = firebase.database().ref("dtr/date/randomId/");
             dataList.innerHTML = "";
             dataView.innerHTML = ""; 
             // Start DTR (This is on top so that the DPR stuff can be placed after)
-            dtrRef.orderByKey().limitToLast(20).on("child_added", function(snapshot) {
+            dtrRef.orderByChild("date").startAt(getDate(0)).endAt(getDate(4)).limitToLast(20).on("child_added", function(snapshot) {
                 console.log(snapshot.key);
                 var randomId = "";
                 var dtrElement = document.createElement("a");
