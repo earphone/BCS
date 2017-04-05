@@ -157,12 +157,11 @@
                 var dtrElement = document.createElement("a");
                 var date = snapshot.key;
                 var jobNum;
-                var submittedBy;
+                var initials;
                 snapshot.forEach(function(childSnapshot) {
                     jobNum = childSnapshot.key;
                     childSnapshot.forEach(function(grandchildSnapshot) {
                         randomId = grandchildSnapshot.key;
-                        submittedBy = grandchildSnapshot.val().submittedBy;
                         console.log(jobNum + " " + randomId);
                     });
                 });
@@ -173,31 +172,19 @@
                     firebase.database().ref('dtr/randomId/' + randomId).once('value').then(function(snapshot) {
                         // ...
                         console.log(snapshot.ref.toString());
-                        var headerElement = document.createElement("h2");
-                        var byLabelElement = document.createElement("h3");
-                        var byElement = document.createElement("input");
-                        var performedLabelElement = document.createElement("h3");
-                        var performedTopHintElement = document.createElement("h5");
-                        var performedBotHintElement = document.createElement("h5");
-                        var iqrLabelElement = document.createElement("h3");
+                        var headerElement = document.createElement("h3");
+                        var performedLabelElement = document.createElement("h4");
+                        var performedTopHintElement = document.createElement("h6");
+                        var performedBotHintElement = document.createElement("h6");
+                        var iqrLabelElement = document.createElement("h4");
                         var iqrElement = document.createElement("input");
                         //var dataElement = document.createElement("a");
                         // Header data (needs buttons for edit/delete)
-                        headerElement.textContent = snapshot.val().type + " DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
+                        headerElement.textContent = "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
                         dataView.append(headerElement);
                         dataView.append(document.createElement("hr"));
-                        // Display submitted by
-                        byLabelElement.textContent = "SUBMITTED BY:";
-                        byLabelElement.style.textDecoration = "underline";
-                        dataView.append(byLabelElement);
-                        byElement.readOnly = "true";
-                        byElement.id = "by-element";
-                        byElement.className = "form-control";
-                        byElement.value = snapshot.val().submittedBy;
-                        dataView.append(byElement);
                         // Display work performed
                         performedLabelElement.textContent = "WORK PERFORMED:";
-                        performedLabelElement.style.textDecoration = "underline";
                         dataView.append(performedLabelElement);
                         performedTopHintElement.textContent = "WORK PERFORMED: COST-CODE";
                         dataView.append(performedTopHintElement);
@@ -229,15 +216,14 @@
                                     case 21:
                                     case 31:
                                     case 35:
-                                        var tempElement = document.createElement("h4");
+                                        var tempElement = document.createElement("h5");
                                         tempElement.textContent = fieldsList[i][0];
-                                        tempElement.style.textDecoration = "underline";
                                         dataView.append(tempElement);
                                         break
                                         default:
                                         //console.log(childSnapshot.val()[i] + " i: " + i);
                                         if(snapshot.val().hours[i] != "") {
-                                            var tempLabel = document.createElement("h5");
+                                            var tempLabel = document.createElement("h6");
                                             var tempElement = document.createElement("input");
                                             tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
                                             tempElement.readOnly = "true";
@@ -267,14 +253,13 @@
                                     case 5:
                                     case 16:
                                     case 20:
-                                        var tempElement = document.createElement("h4");
+                                        var tempElement = document.createElement("h5");
                                         tempElement.textContent = fieldsList[i][0];
-                                        tempElement.style.textDecoration = "underline";
                                         dataView.append(tempElement);
                                         break
                                         default:
                                         if(snapshot.val().hours[i] != "") {
-                                            var tempLabel = document.createElement("h4");
+                                            var tempLabel = document.createElement("h5");
                                             var tempElement = document.createElement("input");
                                             tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
                                             tempElement.readOnly = "true";
@@ -289,12 +274,13 @@
                         }
                         // Iqr Data
                         iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
-                        iqrLabelElement.style.textDecoration = "underline";
                         dataView.append(iqrLabelElement);
                         iqrElement.readOnly = "true";
                         iqrElement.id = "iqr-element";
                         iqrElement.className = "form-control";
                         iqrElement.value = snapshot.val().iqr;
+                        console.log("initials: " + snapshot.val().submittedInitials);
+                        initials = snapshot.val().submittedInitials;
                         dataView.append(iqrElement);
                         // Hidden Data with randomId (needs ID to call when going to next page)
                         // Random data
@@ -303,11 +289,11 @@
                         //dataView.append(dataElement);
                     });
                 }
+                dtrElement.className = "list-group-item";
+                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
                 //console.log(randomId);
                 // Onclick will enact the showData() function for the randomId
-                dtrElement.className = "list-group-item";
-                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + submittedBy;
-                dataList.insertBefore(dtrElement, dataList.firstChild);
+                dataView.insertBefore(dtrElement, dataView.firstChild);
             });
             dtrRef.orderByKey().off("child_added");
             // End DTR
@@ -342,7 +328,7 @@
                             var dataApprentice = childSnapshot.val().apprentice;
                             var dataStep = childSnapshot.val().step;
                             for(var i = 0; i<6; i++) {
-                                var tempLabel = document.createElement("h4");
+                                var tempLabel = document.createElement("h5");
                                 var tempElement = document.createElement("input");
                                 // switch statement to easily set up each field
                                 switch(i) {
@@ -392,7 +378,7 @@
                                 dataView.append(tempLabel);
                                 dataView.append(tempElement);
                             }
-                            var classLabel = document.createElement("h4");
+                            var classLabel = document.createElement("h5");
                             // Checkbox for Journeyman
                             var journeymanLabel = document.createElement("label");
                             var journeymanElement = document.createElement("input");
@@ -423,7 +409,7 @@
                             apprenticeLabel.append(apprenticeDescription);
                             dataView.append(apprenticeLabel);
                             // Input field for step
-                            var stepLabel = document.createElement("h4");
+                            var stepLabel = document.createElement("h5");
                             var stepElement = document.createElement("input");
                             stepLabel.textContent = "Step";	
                             stepElement.value = dataStep;

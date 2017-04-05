@@ -157,12 +157,11 @@
                 var dtrElement = document.createElement("a");
                 var date = snapshot.key;
                 var jobNum;
-                var submittedBy;
+                var initials;
                 snapshot.forEach(function(childSnapshot) {
                     jobNum = childSnapshot.key;
                     childSnapshot.forEach(function(grandchildSnapshot) {
                         randomId = grandchildSnapshot.key;
-                        submittedBy = grandchildSnapshot.val().submittedBy;
                         console.log(jobNum + " " + randomId);
                     });
                 });
@@ -174,8 +173,6 @@
                         // ...
                         console.log(snapshot.ref.toString());
                         var headerElement = document.createElement("h2");
-                        var byLabelElement = document.createElement("h3");
-                        var byElement = document.createElement("input");
                         var performedLabelElement = document.createElement("h3");
                         var performedTopHintElement = document.createElement("h5");
                         var performedBotHintElement = document.createElement("h5");
@@ -183,21 +180,11 @@
                         var iqrElement = document.createElement("input");
                         //var dataElement = document.createElement("a");
                         // Header data (needs buttons for edit/delete)
-                        headerElement.textContent = snapshot.val().type + " DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
+                        headerElement.textContent = "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
                         dataView.append(headerElement);
                         dataView.append(document.createElement("hr"));
-                        // Display submitted by
-                        byLabelElement.textContent = "SUBMITTED BY:";
-                        byLabelElement.style.textDecoration = "underline";
-                        dataView.append(byLabelElement);
-                        byElement.readOnly = "true";
-                        byElement.id = "by-element";
-                        byElement.className = "form-control";
-                        byElement.value = snapshot.val().submittedBy;
-                        dataView.append(byElement);
                         // Display work performed
                         performedLabelElement.textContent = "WORK PERFORMED:";
-                        performedLabelElement.style.textDecoration = "underline";
                         dataView.append(performedLabelElement);
                         performedTopHintElement.textContent = "WORK PERFORMED: COST-CODE";
                         dataView.append(performedTopHintElement);
@@ -231,7 +218,6 @@
                                     case 35:
                                         var tempElement = document.createElement("h4");
                                         tempElement.textContent = fieldsList[i][0];
-                                        tempElement.style.textDecoration = "underline";
                                         dataView.append(tempElement);
                                         break
                                         default:
@@ -269,7 +255,6 @@
                                     case 20:
                                         var tempElement = document.createElement("h4");
                                         tempElement.textContent = fieldsList[i][0];
-                                        tempElement.style.textDecoration = "underline";
                                         dataView.append(tempElement);
                                         break
                                         default:
@@ -289,12 +274,13 @@
                         }
                         // Iqr Data
                         iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
-                        iqrLabelElement.style.textDecoration = "underline";
                         dataView.append(iqrLabelElement);
                         iqrElement.readOnly = "true";
                         iqrElement.id = "iqr-element";
                         iqrElement.className = "form-control";
                         iqrElement.value = snapshot.val().iqr;
+                        console.log("initials: " + snapshot.val().submittedInitials);
+                        initials = snapshot.val().submittedInitials;
                         dataView.append(iqrElement);
                         // Hidden Data with randomId (needs ID to call when going to next page)
                         // Random data
@@ -303,10 +289,10 @@
                         //dataView.append(dataElement);
                     });
                 }
+                dtrElement.className = "list-group-item";
+                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
                 //console.log(randomId);
                 // Onclick will enact the showData() function for the randomId
-                dtrElement.className = "list-group-item";
-                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + submittedBy;
                 dataList.insertBefore(dtrElement, dataList.firstChild);
             });
             dtrRef.orderByKey().off("child_added");

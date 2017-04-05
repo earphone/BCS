@@ -157,12 +157,11 @@
                 var dtrElement = document.createElement("a");
                 var date = snapshot.key;
                 var jobNum;
-                var submittedBy;
+                var initials = "";
                 snapshot.forEach(function(childSnapshot) {
                     jobNum = childSnapshot.key;
                     childSnapshot.forEach(function(grandchildSnapshot) {
                         randomId = grandchildSnapshot.key;
-                        submittedBy = grandchildSnapshot.val().submittedBy;
                         console.log(jobNum + " " + randomId);
                     });
                 });
@@ -295,6 +294,8 @@
                         iqrElement.id = "iqr-element";
                         iqrElement.className = "form-control";
                         iqrElement.value = snapshot.val().iqr;
+                        console.log("initials: " + snapshot.val().submittedInitials);
+                        initials = snapshot.val().submittedInitials;
                         dataView.append(iqrElement);
                         // Hidden Data with randomId (needs ID to call when going to next page)
                         // Random data
@@ -303,10 +304,10 @@
                         //dataView.append(dataElement);
                     });
                 }
+                dtrElement.className = "list-group-item";
+                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
                 //console.log(randomId);
                 // Onclick will enact the showData() function for the randomId
-                dtrElement.className = "list-group-item";
-                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + submittedBy;
                 dataList.insertBefore(dtrElement, dataList.firstChild);
             });
             dtrRef.orderByKey().off("child_added");

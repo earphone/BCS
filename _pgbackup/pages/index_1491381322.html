@@ -161,12 +161,11 @@
                                         var iqrElement = document.createElement("input");
                                 		//var dataElement = document.createElement("a");
                                         // Header data (needs buttons for edit/delete)
-                                        headerElement.textContent = snapshot.val().type + "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
+                                        headerElement.textContent = "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
                                         dataDiv.append(headerElement);
                                         dataDiv.append(document.createElement("hr"));
                                         // Display work performed
                                         performedLabelElement.textContent = "WORK PERFORMED:";
-                                        performedLabelElement.style.textDecoration = "underline";
                                         dataDiv.append(performedLabelElement);
                                         performedTopHintElement.textContent = "WORK PERFORMED: COST-CODE";
                                         dataDiv.append(performedTopHintElement);
@@ -200,7 +199,6 @@
                                                     case 35:
                                                         var tempElement = document.createElement("h5");
                                                         tempElement.textContent = fieldsList[i][0];
-                        								tempElement.style.textDecoration = "underline";
                                                         dataDiv.append(tempElement);
                                                         break
                                                     default:
@@ -238,7 +236,6 @@
                                                     case 20:
                                                         var tempElement = document.createElement("h5");
                                                         tempElement.textContent = fieldsList[i][0];
-                        								tempElement.style.textDecoration = "underline";
                                                         dataDiv.append(tempElement);
                                                         break
                                                         default:
@@ -258,7 +255,6 @@
                                         }
                                         // Iqr Data
                                         iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
-                                        iqrLabelElement.style.textDecoration = "underline";
                                         dataDiv.append(iqrLabelElement);
                                         iqrElement.readOnly = "true";
                                         iqrElement.id = "iqr-element";

@@ -148,6 +148,7 @@
             var dataList = document.getElementById("data-list");
             var dataView = document.getElementById("data-view");
             var dtrRef = firebase.database().ref("dtr/date");
+            var initials;
             dataList.innerHTML = "";
             dataView.innerHTML = ""; 
             // Start DTR (This is on top so that the DPR stuff can be placed after)
@@ -157,12 +158,10 @@
                 var dtrElement = document.createElement("a");
                 var date = snapshot.key;
                 var jobNum;
-                var submittedBy;
                 snapshot.forEach(function(childSnapshot) {
                     jobNum = childSnapshot.key;
                     childSnapshot.forEach(function(grandchildSnapshot) {
                         randomId = grandchildSnapshot.key;
-                        submittedBy = grandchildSnapshot.val().submittedBy;
                         console.log(jobNum + " " + randomId);
                     });
                 });
@@ -182,6 +181,9 @@
                         var iqrLabelElement = document.createElement("h3");
                         var iqrElement = document.createElement("input");
                         //var dataElement = document.createElement("a");
+                        // Get initials
+                        console.log("initials: " + snapshot.val().submittedInitials);
+                        initials = snapshot.val().submittedInitials;
                         // Header data (needs buttons for edit/delete)
                         headerElement.textContent = snapshot.val().type + " DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
                         dataView.append(headerElement);
@@ -303,10 +305,10 @@
                         //dataView.append(dataElement);
                     });
                 }
+                dtrElement.className = "list-group-item";
+                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
                 //console.log(randomId);
                 // Onclick will enact the showData() function for the randomId
-                dtrElement.className = "list-group-item";
-                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + submittedBy;
                 dataList.insertBefore(dtrElement, dataList.firstChild);
             });
             dtrRef.orderByKey().off("child_added");
