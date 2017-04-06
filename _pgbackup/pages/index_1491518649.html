@@ -271,11 +271,11 @@
                                     	//dataElement.text = snapshot.val().date;
                                         //dataDiv.append(dataElement);
                                     });
+                                    dtrElement.className = "list-group-item";
+                                    dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
+                                    // Onclick will enact the showData() function for the randomId
+                                    listDiv.insertBefore(dtrElement, listDiv.firstChild);
                                 }
-                                dtrElement.className = "list-group-item";
-                                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
-                                // Onclick will enact the showData() function for the randomId
-                                listDiv.insertBefore(dtrElement, listDiv.firstChild);
                                 //console.log(randomId);
                             })
                                 /*.catch(function(error) {

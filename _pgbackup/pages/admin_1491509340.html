@@ -309,19 +309,16 @@
                         downloadDiv.className = "col-xs-6";
                         downloadButton.className = "btn btn-info btn-lg btn-block";
                         downloadButton.innerHTML = "DOWNLOAD!";
-                        downloadButton.onclick = dtrDownload(snapshot.val());
+                        //downloadButton.onclick = dtrDownload(snapshot.val());
                         downloadDiv.append(downloadButton);
                         deleteDiv.className = "col-xs-6";
                         deleteButton.className = "btn btn-danger btn-lg btn-block";
                         deleteButton.innerHTML = "DELETE!!";
-                        deleteButton.onclick = function deleteCheck() {
-                            if(confirm('Are you sure you want to delete this DTR?')) dtrDelete(snapshot);
-                        }
+                        //deleteButton.onclick = dtrDelete(snapshot.val());
                         deleteDiv.append(deleteButton);
                         buttonsDiv.className = "row";
                         buttonsDiv.append(downloadDiv);
                         buttonsDiv.append(deleteDiv);
-                        dataView.append(document.createElement("br"));
                         dataView.append(buttonsDiv);
                     });
                 }
@@ -462,28 +459,6 @@
                 });
         }
         </script>         
-        <script>
-        function dtrDownload(ref) {
-            
-        }
-        </script>
-        <script>
-        function dtrDelete(ref) {
-            var jobNum = ref.val().jobNum;
-            var date = ref.val().date;
-            var randomId = ref.key;
-            var uID = ref.val().userID;
-            var user = firebase.auth().currentUser;
-            firebase.database().ref("dtr/date/" + date + "/" + jobNum + "/" + randomId).remove();
-            firebase.database().ref("dtr/jobNum/" + jobNum + "/" + date + "/" + randomId).remove();
-            firebase.database().ref("dtr/randomId/" + randomId).remove();
-            firebase.database().ref("employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId).remove();
-            console.log("removed: " + "dtr/randomId/" + randomId);
-            console.log("removed: " + "dtr/date/" + date + "/" + jobNum + "/" + randomId);
-            console.log("removed: " + "dtr/date/" + jobNum + "/" + date + "/" + randomId);
-            console.log("removed: " + "employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId);
-        }
-        </script>
         <script>
         // num is the number of date prior to today ex. 0 = today; 1 = yesterday
         function getDate(num) {

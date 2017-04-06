@@ -274,18 +274,10 @@
                                 }
                                 dtrElement.className = "list-group-item";
                                 dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
+                                //console.log(randomId);
                                 // Onclick will enact the showData() function for the randomId
                                 listDiv.insertBefore(dtrElement, listDiv.firstChild);
-                                //console.log(randomId);
-                            })
-                                /*.catch(function(error) {
-                                  // Handle Errors here.
-                                  var errorCode = error.code;
-                                  var errorMessage = error.message;
-                                  console.log("ERROR: " + errorCode + " MESSAGE: " + errorMessage);
-                                  firebase.database().ref(dtrRef + "/" + randomId).remove();
-                                  console.log("removing: " + dtrRef + "/" + randomId);
-                            });*/
+                            });
                             dtrRef.orderByKey().off("child_added");
                         // End DTR
 						// Start DPR

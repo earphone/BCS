@@ -475,7 +475,7 @@
             var uID = ref.val().userID;
             var user = firebase.auth().currentUser;
             firebase.database().ref("dtr/date/" + date + "/" + jobNum + "/" + randomId).remove();
-            firebase.database().ref("dtr/jobNum/" + jobNum + "/" + date + "/" + randomId).remove();
+            firebase.database().ref("dtr/date/" + jobNum + "/" + date + "/" + randomId).remove();
             firebase.database().ref("dtr/randomId/" + randomId).remove();
             firebase.database().ref("employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId).remove();
             console.log("removed: " + "dtr/randomId/" + randomId);
