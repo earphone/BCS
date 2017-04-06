@@ -65,33 +65,33 @@
                     <!-- /.sidebar-collapse -->                     
                 </div>                 
                 <!-- /.navbar-static-side -->                 
-            </nav>
+            </nav>             
             <div id="page-wrapper"> 
                 <div class="container-fluid"> 
                     <div class="row"> 
                         <div class="col-lg-12"> 
                             <h1 class="page-header">Admin</h1> 
-                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listDPR()">View DPRs</button></p>
-                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listDTR()">View DTRs</button></p>
-                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listEmployees()">View Employees</button></p>
-                            <hr>
-                        </div>
-                        <!-- /.col-lg-12 -->
-                    </div>
-                    <!-- /.row -->
+                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listDPR()">View DPRs</button></p> 
+                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listDTR()">View DTRs</button></p> 
+                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listEmployees()">View Employees</button></p> 
+                            <hr> 
+                        </div>                         
+                        <!-- /.col-lg-12 -->                         
+                    </div>                     
+                    <!-- /.row -->                     
                     <div class="row"> 
                         <div class="col-lg-12" id="data-view"> 
-</div>
-                    </div>
-                    <hr>
+</div>                         
+                    </div>                     
+                    <hr> 
                     <div class="row"> 
                         <div class="col-lg-12" id="data-list"> 
-</div>
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
-            </div>
-            <!-- /#page-wrapper -->
+</div>                         
+                    </div>                     
+                </div>                 
+                <!-- /.container-fluid -->                 
+            </div>             
+            <!-- /#page-wrapper -->             
         </div>         
         <!-- /#wrapper -->         
         <!-- Firebase Initialization -->         
@@ -117,7 +117,7 @@
             });
         }
         </script>         
-        <!-- Checks if user is logged in. If not,  redirects to Login page -->
+        <!-- Checks if user is logged in. If not,  redirects to Login page -->         
         <script>
         function checkUser() {
             console.log("Checking User!");
@@ -131,7 +131,7 @@
                 }
             });
         }
-        </script>
+        </script>         
         <script>
         function listDPR() {
             // Clear list and view divs
@@ -141,7 +141,7 @@
             dataList.innerHTML = "";
             dataView.innerHTML = "";
         }
-        </script>
+        </script>         
         <script>
         function listDTR() {
             // Clear list and view divs
@@ -312,7 +312,7 @@
             dtrRef.orderByKey().off("child_added");
             // End DTR
         }
-        </script>
+        </script>         
         <script>
         function listEmployees() {
             // Clear list and view divs
