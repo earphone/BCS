@@ -21,6 +21,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->         
+        <!-- jspdf -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>         
     </head>     
     <body onload="checkUser()"> 
         <div id="wrapper"> 
@@ -140,6 +142,140 @@
             var dprRef = firebase.database().ref("/employees/employed/" + user.uid + "/history/dpr");
             dataList.innerHTML = "";
             dataView.innerHTML = "";
+            // Start DPR
+            dprRef.orderByKey().limitToLast(20).on("child_added", function(snapshot) {
+                //console.log(snapshot.key);
+                var randomId;
+                var dprElement = document.createElement("a");
+                var date = snapshot.key;
+                var jobNum;
+                snapshot.forEach(function(childSnapshot) {
+                    jobNum = childSnapshot.key;
+                    childSnapshot.forEach(function(grandchildSnapshot) {
+                        randomId = grandchildSnapshot.key;
+                    });
+                });
+                date = date.replace("-","").replace("-","");
+                dprElement.href = "javascript:void(0)";
+                dprElement.onclick = function showData() {
+                    //console.log("Boop: " + randomId);
+                    var dataDiv = document.getElementById("report-data");
+                    // Clear previous data
+                    dataDiv.innerHTML = "";
+                    // Load data for this specific randomId
+                    firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
+                        // ...
+                        var headerElement = document.createElement("h3");
+                        var contractorElement = document.createElement("h4");
+                        var techsLabelElement = document.createElement("h4");
+                        var iqrLabelElement = document.createElement("h4");
+                        var iqrElement = document.createElement("input");
+                        var neededLabelElement = document.createElement("h4");
+                        var neededElement = document.createElement("input");
+                        var performedLabelElement = document.createElement("h4");
+                        var progressLabelElement = document.createElement("h4");
+                        var dataElement = document.createElement("a");
+                        // Header data (needs buttons for edit/delete)
+                        headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
+                        dataDiv.append(headerElement);
+                        dataDiv.append(document.createElement("hr"));
+                        // Contractor Data
+                        contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
+                        dataDiv.append(contractorElement);
+                        // Display data for each tech
+                        firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
+                            techsLabelElement.textContent = "TECHNICIANS:";
+                            dataDiv.append(techsLabelElement);
+                            var num = 0;
+                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                var techElement = document.createElement("input");
+                                techElement.readOnly = "true";
+                                techElement.id = "tech-element-" + num;
+                                techElement.className = "form-control";
+                                num ++;
+                                if(grandChildSnapshot.val().journeyman) techElement.value = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
+                                else if(grandChildSnapshot.val().apprentice) techElement.value = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
+                                else techElement.value = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
+                                dataDiv.append(techElement);
+                            });
+                            if(num == 0) {
+                                var techElement = document.createElement("input");
+                                techElement.readOnly = "true";
+                                techElement.id = "tech-element-0";
+                                techElement.className = "form-control";
+                                dataDiv.append(techElement);
+                            }
+                        });
+                        // Iqr Data
+                        iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
+                        dataDiv.append(iqrLabelElement);
+                        iqrElement.readOnly = "true";
+                        iqrElement.id = "iqr-element";
+                        iqrElement.className = "form-control";
+                        iqrElement.value = snapshot.val().iqr;
+                        dataDiv.append(iqrElement);
+                        // Materials Needed & By data
+                        neededLabelElement.textContent = "MATERIAL/EQUIPMENT NEEDED:";
+                        dataDiv.append(neededLabelElement);
+                        neededElement.readOnly = "true";
+                        neededElement.id = "needed-element";
+                        neededElement.className = "form-control";
+                        neededElement.value = "By " + snapshot.val().by + " they need: " + snapshot.val().needed;
+                        dataDiv.append(neededElement);
+                        // Work Performed Data
+                        firebase.database().ref("dpr/randomId/" + randomId + "/work").orderByKey().once("value", function(childSnapshot) {
+                            var num = 0;
+                            performedLabelElement.textContent = "WORK PERFORMED:";
+                            dataDiv.append(performedLabelElement);
+                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                var performedElement = document.createElement("input");
+                                performedElement.readOnly = "true";
+                                performedElement.id = "performed-element-" + num;
+                                performedElement.className = "form-control";
+                                num ++;
+                                if((num == 1) && (grandChildSnapshot.val().location == "") && (grandChildSnapshot.val().done == "")) {
+                                    performedElement.value = "No work reported...";
+                                }
+                                else performedElement.value = "Work Performed at: " + grandChildSnapshot.val().location + ": " + grandChildSnapshot.val().done;
+                                dataDiv.append(performedElement);
+                            });
+                        });
+                        // Work Progress Data
+                        firebase.database().ref("dpr/randomId/" + randomId + "/progress").orderByKey().once("value", function(childSnapshot) {
+                            var num = 0;
+                            var progressExampleElement = document.createElement("h5");
+                            progressLabelElement.textContent = "PROGRESS TRACKING (in the following format):";
+                            dataDiv.append(progressLabelElement);
+                            progressExampleElement.textContent = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
+                            dataDiv.append(progressExampleElement);
+                            childSnapshot.forEach(function(grandChildSnapshot) {
+                                var progressElement = document.createElement("input");
+                                progressElement.readOnly = "true";
+                                progressElement.id = "progress-element-" + num;
+                                progressElement.className = "form-control";
+                                num ++;
+                                if((num == 1) && (grandChildSnapshot.val().location == "")) {
+                                    progressElement.value = "No progress reported...";
+                                }
+                                else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
+                                dataDiv.append(progressElement);
+                            });
+                        });
+                        // Hidden Data with randomId (needs ID to call when going to next page)
+                        // Random data
+                        //dataElement.className = "list-group-item";
+                        //dataElement.text = snapshot.val().date;
+                        //dataDiv.append(dataElement);
+                    });
+                }
+                dprElement.className = "list-group-item";
+                dprElement.text = "DPR_" + jobNum + "_" + date + "_" + initials;
+                //console.log(randomId);
+                // Onclick will enact the showData() function for the randomId
+                listDiv.insertBefore(dprElement, listDiv.firstChild);
+            });
+            dprRef.orderByKey().off("child_added");
+            // End DPR
         }
         </script>         
         <script>
@@ -309,7 +445,7 @@
                         downloadDiv.className = "col-xs-6";
                         downloadButton.className = "btn btn-info btn-lg btn-block";
                         downloadButton.innerHTML = "DOWNLOAD!";
-                        downloadButton.onclick = dtrDownload(snapshot.val());
+                        downloadButton.onclick = dtrDownload(snapshot);
                         downloadDiv.append(downloadButton);
                         deleteDiv.className = "col-xs-6";
                         deleteButton.className = "btn btn-danger btn-lg btn-block";
@@ -464,7 +600,17 @@
         </script>         
         <script>
         function dtrDownload(ref) {
-            
+            var doc = new jsPDF();
+            var jobNum = ref.val().jobNum;
+            var date = ref.val().date;
+            var randomId = ref.key;
+            var uID = ref.val().userID;
+            var initials = ref.val().submittedInitials;
+            console.log("DTR_" + jobNum + "_" + date + "_" + initials);	
+
+            doc.text('Hello world!', 10, 10);
+            // Download document
+            doc.save("DTR_" + jobNum + "_" + date + "_" + initials);
         }
         </script>
         <script>
@@ -473,14 +619,17 @@
             var date = ref.val().date;
             var randomId = ref.key;
             var uID = ref.val().userID;
-            var user = firebase.auth().currentUser;
+            var by = ref.val().submittedBy;
+            var dataView = document.getElementById("data-view");
             firebase.database().ref("dtr/date/" + date + "/" + jobNum + "/" + randomId).remove();
-            firebase.database().ref("dtr/date/" + jobNum + "/"+ date + "/"  + randomId).remove();
+            firebase.database().ref("dtr/jobNum/" + jobNum + "/" + date + "/" + randomId).remove();
             firebase.database().ref("dtr/randomId/" + randomId).remove();
-            firebase.database().ref("employees/employed/" + uID + "/history/" + date + "/" + jobNum + "/" + randomId).remove();
+            firebase.database().ref("employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId).remove();
             console.log("removed: " + "dtr/randomId/" + randomId);
             console.log("removed: " + "dtr/date/" + date + "/" + jobNum + "/" + randomId);
-            console.log("removed: " + "employees/employed/" + uID + "/history/" + date + "/" + jobNum + "/" + randomId);
+            console.log("removed: " + "dtr/date/" + jobNum + "/" + date + "/" + randomId);
+            console.log("removed: " + "employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId);
+            dataView.innerHTML = "Successfully deleted DTR_" + jobNum + "_" + date + "_" + by;
         }
         </script>
         <script>

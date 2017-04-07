@@ -9,6 +9,8 @@ User font awesome throughout!!
 Javascript PDF generation
 	https://parall.ax/products/jspdf
 	https://github.com/MrRio/jsPDF
+Convert image to base 64 string
+	https://www.base64-image.de/
 Random UId String
 	https://www.firebase.com/docs/web/guide/saving-data.html#section-push
 	http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
