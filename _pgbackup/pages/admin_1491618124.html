@@ -290,7 +290,7 @@
             dataView.innerHTML = ""; 
             // Start DTR (This is on top so that the DPR stuff can be placed after)
             dtrRef.orderByKey().limitToLast(20).on("child_added", function(snapshot) {
-                console.log(snapshot.key);
+                //console.log(snapshot.key);
                 var randomId = "";
                 var dtrElement = document.createElement("a");
                 var date = snapshot.key;
@@ -301,7 +301,7 @@
                     childSnapshot.forEach(function(grandchildSnapshot) {
                         randomId = grandchildSnapshot.key;
                         submittedBy = grandchildSnapshot.val().submittedBy;
-                        console.log(jobNum + " " + randomId);
+                        //console.log(jobNum + " " + randomId);
                     });
                 });
                 date = date.replace("-","").replace("-","");
@@ -311,7 +311,7 @@
                     // Load data for this specific randomId
                     firebase.database().ref('dtr/randomId/' + randomId).once('value').then(function(snapshot) {
                         // ...
-                        console.log(snapshot.ref.toString());
+                        //console.log(snapshot.ref.toString());
                         var headerElement = document.createElement("h2");
                         var byLabelElement = document.createElement("h3");
                         var byElement = document.createElement("input");
@@ -597,7 +597,7 @@
                             dataView.append(stepLabel);
                             dataView.append(stepElement);
                         }
-                        console.log(childSnapshot.val().nameFull);
+                        //console.log(childSnapshot.val().nameFull);
                         dataList.appendChild(listEmployee);
                     });
                 });
@@ -619,14 +619,16 @@
                 .then(function(snapshot) {
                     if(snapshot.val().journeyman) classification = "Journeyman";
                     else classification = "Apprentice Step " + snapshot.val().step;
-                	console.log(classification);
                 
                     date = date.replace("-","").replace("-","");
                     console.log("DTR_" + jobNum + "_" + date + "_" + initials);	
                     // Logo
                     doc.addImage(imgData, "JPEG", 94.72, 15.23, 30.56, 15.23);
                     // Page Title
-                    doc.text('DAILY TECHNICIAN REPORT' + " (" + ref.val().type + ")", 70.27, 36);
+                    doc.text('DAILY TECHNICIAN REPORT' + " (" + ref.val().type + ")", 110, 36, 'center');
+                	// Changed font size for the rest of the report
+                	doc.setFontSize(85);
+                
                     // Main Info
                     var mainCol = [
                         {datakey: "1"},
@@ -645,10 +647,151 @@
                         theme: "grid",
                         startY: 40,
                         showHeader: "never",
-                        styles: {overflow: 'linebreak', columnWidth: 'wrap'},
-                        margin: {horizontal: 7},
+                        fontSize: 12,
+                        styles: {overflow: 'linebreak'},
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}},,
+                        createdCell: function(cell, dataRows) {
+                            if (dataRows.column.index === 0) { 
+                                cell.styles.fontStyle = 'bold'; 
+                                cell.styles.fillColor = [220, 220, 220];
+                            }
+                        }
+                    });
+                
+                	// Data Info
+                	var dataCol = [
+                        {title: "WORK PERFORMED", datakey: "performed"},
+                        {title: "COST CODE", datakey: "code"},
+                        {title: "HOURS", datakey: "hours"},
+                        {title: "MATERIALS ISSUED", datakey: "issued"},
+                        {title: "MATERIALS INSTALLED", datakey: "installed"}
+                    ];
+                	var dataRows = [
+                    ];
+                    // ISP Data
+                    if(ref.val().type == "ISP") {
+                        var fieldsList = [
+                            ["PATHWAYS AND SPACES:",""],["INSTALL CEILING HANGER","3-001"],["INSTALL J-HOOK","3-001"],
+                            ["INSTALL SLEEVE (DRYWALL)","3-001"],["INSTALL SLEEVE (CONCRETE)","3-001"],["INSTALL CONDUIT","3-001"],
+                            ["INSTALL CABLE RUNWAY/TRAY","3-001"],["MDF/IDF WORK:",""],["INSTALL BACKBOARD","4-001"],
+                            ["INSTALL CABLE RUNWAY/TRAY","4-002"],["INSTALL GROUND WIRE","4-002"],["INSTALL RACK/CABINET","4-003"],
+                            ["IDF EQUIPMENT MOUNTING","4-003"],["INSTALL GROUND WIRE","4-003"],["IDF HORIZ CABLE DRESSING","4-004"],
+                            ["IDF HORIZ CABLE TERMINATIONS","4-004"],["IDF LABELING","4-005"],["RISERS:",""],
+                            ["RISER CABLE ROUGH IN","5-001"],["RISER CABLE DRESSING","5-001"],["RISER CABLE TERMINATIONS","4-004"],
+                            ["HORIZONTAL WORK:",""],["IDF TESTING","4-005"],["INSTALL PULL STRING","6-X0X/7-00X"],
+                            ["CABLE ROUGH-IN","6-X0X/7-00X"],["FISH WALL","6-X0X/7-00X"],["INSTALL MPLS","6-X0X/7-00X"],
+                            ["INSTALL WIREMOLD","6-X0X/7-00X"],["TERMINATE JACKS","6-X0X/7-00X"],["INSTALL FACEPLATES","6-X0X/7-00X"],
+                            ["TESTING","6-X0X/7-00X"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                            ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],
+                            ["ISP DEMO","11-001"],["RISER DEMO","11-003"]
+                        ];
+                        // use switch, print out 0,7,17,21,32,36
+                        for(var i = 0; i < 38; i++) {
+                            switch(i) {
+                                case 0:
+                                case 7:
+                                case 17:
+                                case 21:
+                                case 31:
+                                case 35:
+                                    dataRows.push({
+                                        0: fieldsList[i][0],
+                                        1: "",
+                                        2: "",
+                                        3: "",
+                                       	4: ""
+                                    });
+                                    break
+                                default:
+                                    //console.log(childSnapshot.val()[i] + " i: " + i);
+                                   // if(ref.val().hours[i] != "") {
+                                        dataRows.push({
+                                            0: fieldsList[i][0],
+                                            1: fieldsList[i][1],
+                                            2: ref.val().hours[i],
+                                            3:ref.val().matIssued[i],
+                                            4: ref.val().matinstalled[i]
+                                        });
+                                   // }
+                            }
+                        }
+                    }
+                    // OSP Data
+                    else if(ref.val().type == "OSP") {
+                        var fieldsList = [
+                            ["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
+                            ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK:",""],
+                            ["DRESS CABLES","2-002"],["INSTALL DUCT SEAL","2-002"],["INSTALL TERMINATION BAGS","2-002"],
+                            ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
+                            ["TERMINATIONS","2-002"],["TESTING","2-002"],["MAINTENANCE HOLE GUARD","2-001"],
+                            ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                            ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],["OSP DEMO","11-002"]
+                        ];
+                        for(var i = 0; i < 22; i++) {
+                            switch(i) {
+                                case 0:
+                                case 5:
+                                case 16:
+                                case 20:
+                                    dataRows.push({
+                                        0: fieldsList[i][0],
+                                        1: "",
+                                        2: "",
+                                        3: "",
+                                        4: ""
+                                    });
+                                    break
+                                default:
+                                    //if(ref.val().hours[i] != "") {
+                                        dataRows.push({
+                                            0: fieldsList[i][0],
+                                            1: fieldsList[i][1],
+                                            2: ref.val().hours[i],
+                                            3:ref.val().matIssued[i],
+                                            4: ref.val().matinstalled[i]
+                                        });
+                                   // }
+                            }
+                        }
+                    }
+                	// Table for Data Info
+                	doc.autoTable(dataCol, dataRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY + 10,
+                        styles: {overflow: 'linebreak'},
+                        margin: {horizontal: 20},
+                        fontSize: 12,
+                        columnStyles: {text: {columnWidth: 'auto'}},
+                        createdCell: function(cell, dataRows) {
+                            if(ref.val().type == "ISP") {
+                                if (dataRows.row.index === 0 || dataRows.row.index === 7 || dataRows.row.index === 17 || dataRows.row.index === 21 || dataRows.row.index === 31 || dataRows.row.index === 35) { 
+                                    cell.styles.fontStyle = 'bold'; 
+                                    cell.styles.fillColor = [220, 220, 220];
+                                }
+                            }
+                            else {
+                                if (dataRows.row.index === 0 || dataRows.row.index === 5 || dataRows.row.index === 16 || dataRows.row.index === 20) { 
+                                    cell.styles.fontStyle = 'bold'; 
+                                    cell.styles.fillColor = [220, 220, 220];
+                                }
+                            }
+                        }
+                    });
+                
+                	// IQR Info
+                	var iqrCol = [{title: "ISTALLATION ISSUES / QUESTIONS / REMARKS:", datakey: "iqr"}];
+                    var iqrRows = [{0: ref.val().iqr}];
+                	// Table for IQR
+                	doc.autoTable(iqrCol, iqrRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY + 10,
+                        styles: {overflow: 'linebreak'},
+                        fontSize: 12,
+                        margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
                     });
+                
                     // Download document
                     doc.save("DTR_" + jobNum + "_" + date + "_" + initials);
                 });
