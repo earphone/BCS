@@ -132,151 +132,151 @@
                             dtrRef.orderByKey().limitToLast(8).on("child_added", function(snapshot) {
                                 console.log(snapshot.key);
                                 var randomId = "";
+                                var dtrElement = document.createElement("a");
                                 var date = snapshot.key;
                                 var jobNum;
                                 snapshot.forEach(function(childSnapshot) {
+                                    jobNum = childSnapshot.key;
                                     childSnapshot.forEach(function(grandchildSnapshot) {
-                                        var dtrElement = document.createElement("a");
-                                        jobNum = childSnapshot.key;
                                         randomId = grandchildSnapshot.key;
                                         console.log(jobNum + " " + randomId);
-                                        date = date.replace("-","").replace("-","");
-                                        dtrElement.href = "javascript:void(0)";
-                                        dtrElement.onclick = function showData() {
-                                            //console.log("Boop: " + randomId);
-                                            var dataDiv = document.getElementById("report-data");
-                                            // Clear previous data
-                                            dataDiv.innerHTML = "";
-                                            // Load data for this specific randomId
-                                            firebase.database().ref('dtr/randomId/' + randomId).once('value').then(function(snapshot) {
-                                                // ...
-                                                console.log(snapshot.ref.toString());
-                                                var headerElement = document.createElement("h3");
-                                                var performedLabelElement = document.createElement("h4");
-                                                var performedTopHintElement = document.createElement("h6");
-                                                var performedBotHintElement = document.createElement("h6");
-                                                var iqrLabelElement = document.createElement("h4");
-                                                var iqrElement = document.createElement("input");
-                                                //var dataElement = document.createElement("a");
-                                                // Header data (needs buttons for edit/delete)
-                                                headerElement.textContent = snapshot.val().type + "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
-                                                dataDiv.append(headerElement);
-                                                dataDiv.append(document.createElement("hr"));
-                                                // Display work performed
-                                                performedLabelElement.textContent = "WORK PERFORMED:";
-                                                performedLabelElement.style.textDecoration = "underline";
-                                                dataDiv.append(performedLabelElement);
-                                                performedTopHintElement.textContent = "WORK PERFORMED: COST-CODE";
-                                                dataDiv.append(performedTopHintElement);
-                                                performedBotHintElement.textContent = "HOURS - MATERIALS ISSUED - MATERIALS INSTALLED";
-                                                dataDiv.append(performedBotHintElement);
-                                                // ISP Data
-                                                if(snapshot.val().type == "ISP") {
-                                                    var fieldsList = [
-                                                        ["PATHWAYS AND SPACES:",""],["INSTALL CEILING HANGER","3-001"],["INSTALL J-HOOK","3-001"],
-                                                        ["INSTALL SLEEVE (DRYWALL)","3-001"],["INSTALL SLEEVE (CONCRETE)","3-001"],["INSTALL CONDUIT","3-001"],
-                                                        ["INSTALL CABLE RUNWAY/TRAY","3-001"],["MDF/IDF WORK:",""],["INSTALL BACKBOARD","4-001"],
-                                                        ["INSTALL CABLE RUNWAY/TRAY","4-002"],["INSTALL GROUND WIRE","4-002"],["INSTALL RACK/CABINET","4-003"],
-                                                        ["IDF EQUIPMENT MOUNTING","4-003"],["INSTALL GROUND WIRE","4-003"],["IDF HORIZ CABLE DRESSING","4-004"],
-                                                        ["IDF HORIZ CABLE TERMINATIONS","4-004"],["IDF LABELING","4-005"],["RISERS:",""],
-                                                        ["RISER CABLE ROUGH IN","5-001"],["RISER CABLE DRESSING","5-001"],["RISER CABLE TERMINATIONS","4-004"],
-                                                        ["HORIZONTAL WORK:",""],["IDF TESTING","4-005"],["INSTALL PULL STRING","6-X0X/7-00X"],
-                                                        ["CABLE ROUGH-IN","6-X0X/7-00X"],["FISH WALL","6-X0X/7-00X"],["INSTALL MPLS","6-X0X/7-00X"],
-                                                        ["INSTALL WIREMOLD","6-X0X/7-00X"],["TERMINATE JACKS","6-X0X/7-00X"],["INSTALL FACEPLATES","6-X0X/7-00X"],
-                                                        ["TESTING","6-X0X/7-00X"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
-                                                        ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],
-                                                        ["ISP DEMO","11-001"],["RISER DEMO","11-003"]
-                                                    ];
-                                                    // use switch, print out 0,7,17,21,32,36
-                                                    for(var i = 0; i < 38; i++) {
-                                                        switch(i) {
-                                                            case 0:
-                                                            case 7:
-                                                            case 17:
-                                                            case 21:
-                                                            case 31:
-                                                            case 35:
-                                                                var tempElement = document.createElement("h5");
-                                                                tempElement.textContent = fieldsList[i][0];
-                                                                tempElement.style.textDecoration = "underline";
-                                                                dataDiv.append(tempElement);
-                                                                break
-                                                                default:
-                                                                //console.log(childSnapshot.val()[i] + " i: " + i);
-                                                                if(snapshot.val().hours[i] != "") {
-                                                                    var tempLabel = document.createElement("h5");
-                                                                    var tempElement = document.createElement("input");
-                                                                    tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
-                                                                    tempElement.readOnly = "true";
-                                                                    tempElement.id = "performed-element-" + i;
-                                                                    tempElement.className = "form-control";	
-                                                                    tempElement.value = snapshot.val().hours[i] + " - " + snapshot.val().matIssued[i] + " - " + snapshot.val().matinstalled[i];
-                                                                    dataDiv.append(tempLabel);
-                                                                    dataDiv.append(tempElement);
-                                                                }
-                                                        }
-                                                    }
-                                                }
-                                                // OSP Data
-                                                else if(snapshot.val().type == "OSP") {
-                                                    var fieldsList = [
-                                                        ["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
-                                                        ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK:",""],
-                                                        ["DRESS CABLES","2-002"],["INSTALL DUCT SEAL","2-002"],["INSTALL TERMINATION BAGS","2-002"],
-                                                        ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
-                                                        ["TERMINATIONS","2-002"],["TESTING","2-002"],["MAINTENANCE HOLE GUARD","2-001"],
-                                                        ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
-                                                        ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],["OSP DEMO","11-002"]
-                                                    ];
-                                                    for(var i = 0; i < 22; i++) {
-                                                        switch(i) {
-                                                            case 0:
-                                                            case 5:
-                                                            case 16:
-                                                            case 20:
-                                                                var tempElement = document.createElement("h5");
-                                                                tempElement.textContent = fieldsList[i][0];
-                                                                tempElement.style.textDecoration = "underline";
-                                                                dataDiv.append(tempElement);
-                                                                break
-                                                                default:
-                                                                if(snapshot.val().hours[i] != "") {
-                                                                    var tempLabel = document.createElement("h5");
-                                                                    var tempElement = document.createElement("input");
-                                                                    tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
-                                                                    tempElement.readOnly = "true";
-                                                                    tempElement.id = "performed-element-" + i;
-                                                                    tempElement.className = "form-control";	
-                                                                    tempElement.value = snapshot.val().hours[i] + " - " + snapshot.val().matIssued[i] + " - " + snapshot.val().matinstalled[i];
-                                                                    dataDiv.append(tempLabel);
-                                                                    dataDiv.append(tempElement);
-                                                                }
-                                                        }
-                                                    }
-                                                }
-                                                // Iqr Data
-                                                iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
-                                                iqrLabelElement.style.textDecoration = "underline";
-                                                dataDiv.append(iqrLabelElement);
-                                                iqrElement.readOnly = "true";
-                                                iqrElement.id = "iqr-element";
-                                                iqrElement.className = "form-control";
-                                                iqrElement.value = snapshot.val().iqr;
-                                                dataDiv.append(iqrElement);
-                                                // Hidden Data with randomId (needs ID to call when going to next page)
-                                                // Random data
-                                                //dataElement.className = "list-group-item";
-                                                //dataElement.text = snapshot.val().date;
-                                                //dataDiv.append(dataElement);
-                                            });
-                                        }
-                                        dtrElement.className = "list-group-item";
-                                        dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
-                                        // Onclick will enact the showData() function for the randomId
-                                        listDiv.insertBefore(dtrElement, listDiv.firstChild);
-                                        //console.log(randomId);
                                     });
                                 });
+                                date = date.replace("-","").replace("-","");
+                                dtrElement.href = "javascript:void(0)";
+                                dtrElement.onclick = function showData() {
+                                    //console.log("Boop: " + randomId);
+                                    var dataDiv = document.getElementById("report-data");
+                                    // Clear previous data
+                                    dataDiv.innerHTML = "";
+                                    // Load data for this specific randomId
+                                    firebase.database().ref('dtr/randomId/' + randomId).once('value').then(function(snapshot) {
+                                      // ...
+                                        console.log(snapshot.ref.toString());
+                                        var headerElement = document.createElement("h3");
+                                        var performedLabelElement = document.createElement("h4");
+                                        var performedTopHintElement = document.createElement("h6");
+                                        var performedBotHintElement = document.createElement("h6");
+                                        var iqrLabelElement = document.createElement("h4");
+                                        var iqrElement = document.createElement("input");
+                                		//var dataElement = document.createElement("a");
+                                        // Header data (needs buttons for edit/delete)
+                                        headerElement.textContent = snapshot.val().type + "DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
+                                        dataDiv.append(headerElement);
+                                        dataDiv.append(document.createElement("hr"));
+                                        // Display work performed
+                                        performedLabelElement.textContent = "WORK PERFORMED:";
+                                        performedLabelElement.style.textDecoration = "underline";
+                                        dataDiv.append(performedLabelElement);
+                                        performedTopHintElement.textContent = "WORK PERFORMED: COST-CODE";
+                                        dataDiv.append(performedTopHintElement);
+                                        performedBotHintElement.textContent = "HOURS - MATERIALS ISSUED - MATERIALS INSTALLED";
+                                        dataDiv.append(performedBotHintElement);
+                                        // ISP Data
+                                        if(snapshot.val().type == "ISP") {
+                                            var fieldsList = [
+                                                ["PATHWAYS AND SPACES:",""],["INSTALL CEILING HANGER","3-001"],["INSTALL J-HOOK","3-001"],
+                                                ["INSTALL SLEEVE (DRYWALL)","3-001"],["INSTALL SLEEVE (CONCRETE)","3-001"],["INSTALL CONDUIT","3-001"],
+                                                ["INSTALL CABLE RUNWAY/TRAY","3-001"],["MDF/IDF WORK:",""],["INSTALL BACKBOARD","4-001"],
+                                                ["INSTALL CABLE RUNWAY/TRAY","4-002"],["INSTALL GROUND WIRE","4-002"],["INSTALL RACK/CABINET","4-003"],
+                                                ["IDF EQUIPMENT MOUNTING","4-003"],["INSTALL GROUND WIRE","4-003"],["IDF HORIZ CABLE DRESSING","4-004"],
+                                                ["IDF HORIZ CABLE TERMINATIONS","4-004"],["IDF LABELING","4-005"],["RISERS:",""],
+                                                ["RISER CABLE ROUGH IN","5-001"],["RISER CABLE DRESSING","5-001"],["RISER CABLE TERMINATIONS","4-004"],
+                                                ["HORIZONTAL WORK:",""],["IDF TESTING","4-005"],["INSTALL PULL STRING","6-X0X/7-00X"],
+                                                ["CABLE ROUGH-IN","6-X0X/7-00X"],["FISH WALL","6-X0X/7-00X"],["INSTALL MPLS","6-X0X/7-00X"],
+                                                ["INSTALL WIREMOLD","6-X0X/7-00X"],["TERMINATE JACKS","6-X0X/7-00X"],["INSTALL FACEPLATES","6-X0X/7-00X"],
+                                                ["TESTING","6-X0X/7-00X"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                                                ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],
+                                                ["ISP DEMO","11-001"],["RISER DEMO","11-003"]
+                                            ];
+                                            // use switch, print out 0,7,17,21,32,36
+                                            for(var i = 0; i < 38; i++) {
+                                                switch(i) {
+                                                    case 0:
+                                                    case 7:
+                                                    case 17:
+                                                    case 21:
+                                                    case 31:
+                                                    case 35:
+                                                        var tempElement = document.createElement("h5");
+                                                        tempElement.textContent = fieldsList[i][0];
+                        								tempElement.style.textDecoration = "underline";
+                                                        dataDiv.append(tempElement);
+                                                        break
+                                                    default:
+                                                        //console.log(childSnapshot.val()[i] + " i: " + i);
+                                                        if(snapshot.val().hours[i] != "") {
+                                                            var tempLabel = document.createElement("h5");
+                                                            var tempElement = document.createElement("input");
+                                                            tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
+                                                            tempElement.readOnly = "true";
+                                                            tempElement.id = "performed-element-" + i;
+                                                            tempElement.className = "form-control";	
+                                                            tempElement.value = snapshot.val().hours[i] + " - " + snapshot.val().matIssued[i] + " - " + snapshot.val().matinstalled[i];
+                                                            dataDiv.append(tempLabel);
+                                                            dataDiv.append(tempElement);
+                                                        }
+                                                }
+                                            }
+                                        }
+                                        // OSP Data
+                                        else if(snapshot.val().type == "OSP") {
+                                            var fieldsList = [
+                                                ["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
+                                                ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK:",""],
+                                                ["DRESS CABLES","2-002"],["INSTALL DUCT SEAL","2-002"],["INSTALL TERMINATION BAGS","2-002"],
+                                                ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
+                                                ["TERMINATIONS","2-002"],["TESTING","2-002"],["MAINTENANCE HOLE GUARD","2-001"],
+                                                ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                                                ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],["OSP DEMO","11-002"]
+                                            ];
+                                            for(var i = 0; i < 22; i++) {
+                                                switch(i) {
+                                                    case 0:
+                                                    case 5:
+                                                    case 16:
+                                                    case 20:
+                                                        var tempElement = document.createElement("h5");
+                                                        tempElement.textContent = fieldsList[i][0];
+                        								tempElement.style.textDecoration = "underline";
+                                                        dataDiv.append(tempElement);
+                                                        break
+                                                        default:
+                                                        if(snapshot.val().hours[i] != "") {
+                                                            var tempLabel = document.createElement("h5");
+                                                            var tempElement = document.createElement("input");
+                                                            tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
+                                                            tempElement.readOnly = "true";
+                                                            tempElement.id = "performed-element-" + i;
+                                                            tempElement.className = "form-control";	
+                                                            tempElement.value = snapshot.val().hours[i] + " - " + snapshot.val().matIssued[i] + " - " + snapshot.val().matinstalled[i];
+                                                            dataDiv.append(tempLabel);
+                                                            dataDiv.append(tempElement);
+                                                        }
+                                                }
+                                            }
+                                        }
+                                        // Iqr Data
+                                        iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
+                                        iqrLabelElement.style.textDecoration = "underline";
+                                        dataDiv.append(iqrLabelElement);
+                                        iqrElement.readOnly = "true";
+                                        iqrElement.id = "iqr-element";
+                                        iqrElement.className = "form-control";
+                                        iqrElement.value = snapshot.val().iqr;
+                                        dataDiv.append(iqrElement);
+                                        // Hidden Data with randomId (needs ID to call when going to next page)
+                                        // Random data
+                               			//dataElement.className = "list-group-item";
+                                    	//dataElement.text = snapshot.val().date;
+                                        //dataDiv.append(dataElement);
+                                    });
+                                }
+                                dtrElement.className = "list-group-item";
+                                dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + initials;
+                                // Onclick will enact the showData() function for the randomId
+                                listDiv.insertBefore(dtrElement, listDiv.firstChild);
+                                //console.log(randomId);
                             })
                                 /*.catch(function(error) {
                                   // Handle Errors here.
