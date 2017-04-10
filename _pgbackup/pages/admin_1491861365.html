@@ -673,19 +673,18 @@
                         theme: "grid",
                         startY: 40,
                         showHeader: "never",
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        styles: {overflow: 'linebreak'},
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}},
                         createdCell: function(cell, dataRows) {
                             if(dataRows.column.index === 0) { 
                                 cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [26, 188, 156];
-                                cell.styles.textColor = [255, 255, 255];
+                                cell.styles.fillColor = [220, 220, 220];
                             }
                             if(dataRows.column.index === 2 && dataRows.row.index === 3){ 
                                 cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [26, 188, 156];
-                                cell.styles.textColor = [255, 255, 255];
+                                cell.styles.fillColor = [220, 220, 220];
                             }
                         }
                     });
@@ -710,7 +709,7 @@
                 	doc.autoTable(techCol, techRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY + 5,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -723,7 +722,7 @@
                 	doc.autoTable(iqrCol, iqrRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -764,7 +763,7 @@
                 	doc.autoTable(workCol, workRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -777,7 +776,7 @@
                 	doc.autoTable(progressCol, progressRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -808,7 +807,7 @@
                 	doc.autoTable(trackingCol, trackingRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}

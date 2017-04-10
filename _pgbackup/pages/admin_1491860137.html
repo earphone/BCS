@@ -673,19 +673,18 @@
                         theme: "grid",
                         startY: 40,
                         showHeader: "never",
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        styles: {overflow: 'linebreak'},
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}},
                         createdCell: function(cell, dataRows) {
                             if(dataRows.column.index === 0) { 
                                 cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [26, 188, 156];
-                                cell.styles.textColor = [255, 255, 255];
+                                cell.styles.fillColor = [220, 220, 220];
                             }
                             if(dataRows.column.index === 2 && dataRows.row.index === 3){ 
                                 cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [26, 188, 156];
-                                cell.styles.textColor = [255, 255, 255];
+                                cell.styles.fillColor = [220, 220, 220];
                             }
                         }
                     });
@@ -710,7 +709,7 @@
                 	doc.autoTable(techCol, techRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY + 5,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -723,7 +722,7 @@
                 	doc.autoTable(iqrCol, iqrRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -755,7 +754,7 @@
                         var workDone;
                         if(ref.val().work[i].done) workDone = "No work reported...";
                         else workDone = "Apprentice Step " + ref.val().work[i].step;
-                        workRows.push({
+                        techRows.push({
                             0:	workDone,
                             1:	ref.val().work[i].location
                         });
@@ -763,52 +762,8 @@
                 	// Table for Work Performed
                 	doc.autoTable(workCol, workRows, {
                         theme: "grid",
-                        startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
-                        fontSize: 8,
-                        margin: {horizontal: 20},
-                        columnStyles: {text: {columnWidth: 'auto'}}
-                    });
-                
-                	// Progress Tracking Title ONLY
-                	var progressCol = [{title: "PROGRESS TRACKING (% Completed)", datakey: "progress"}];
-                    var progressRows = [];
-                	// Table for Progress Tracking Title
-                	doc.autoTable(progressCol, progressRows, {
-                        theme: "grid",
-                        startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
-                        fontSize: 8,
-                        margin: {horizontal: 20},
-                        columnStyles: {text: {columnWidth: 'auto'}}
-                    });
-                
-                	// Progress Tracking Info
-                	var trackingCol = [{title: "LOCATION", datakey: "location"}, 
-                                       {title: "TR BUILD OUT", datakey: "tr"}, 
-                                       {title: "PATHWAYS", datakey: "pathway"}, 
-                                       {title: "ROUGH IN", datakey: "roughIn"}, 
-                                       {title: "TERMINATIONS", datakey: "terminations"}, 
-                                       {title: "TESTING", datakey: "testing"}
-                                      ];
-                    var trackingRows = [];
-                	for(var i = 0; i<ref.val().progress.length; i++) {
-                        var progress = ref.val().progress[i].location;
-                        if(progress == "" || progress == null) progress = "No progress reported...";
-                        trackingRows.push({
-                            0:	progress,
-                            1:	ref.val().progress[i].tr + "%",
-                            2:	ref.val().progress[i].pathway + "%",
-                            3:	ref.val().progress[i].roughIn + "%",
-                            4:	ref.val().progress[i].terminations + "%",
-                            5:	ref.val().progress[i].testing + "%"
-                        });
-                    }
-                	// Table for Work Performed
-                	doc.autoTable(trackingCol, trackingRows, {
-                        theme: "grid",
-                        startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak', fontSize: 8},
+                        startY: doc.autoTable.previous.finalY + 5,
+                        styles: {overflow: 'linebreak'},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
