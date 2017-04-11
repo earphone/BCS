@@ -75,8 +75,8 @@
                     <div class="row"> 
                         <div class="col-lg-12"> 
                             <h1 class="page-header">Admin</h1> 
-                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listDPR()">View DPRs</button></p> 
-                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listDTR()">View DTRs</button></p> 
+                            <p><button type="button" id="view-dpr-button" class="btn btn-primary btn-lg btn-block" onclick="listDPR()">View DPRs</button></p> 
+                            <p><button type="button" id="view-dtr-button" class="btn btn-primary btn-lg btn-block" onclick="listDTR()">View DTRs</button></p> 
                             <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listEmployees()">View Employees</button></p> 
                             <hr> 
                         </div>                         
@@ -129,6 +129,14 @@
                 if (user) {
                     console.log(user.uid + " is signed in");
                     // User is signed in.
+                    // Hide Viewing of DPRs and DTRs if access rights are lower
+                    firebase.database().ref("employees/employed/" + user.uid + "/access").once("value", function(snapshot) {
+                        console.log(snapshot.val());
+                        if(snapshot.val() > 2) {
+                            document.getElementById('view-dpr-button').remove();
+                            document.getElementById('view-dtr-button').remove();
+                        }
+                    });
                 } else {
                     // No user is signed in.
                     window.location="login.html";
@@ -291,8 +299,8 @@
                                 buttonsDiv.className = "row";
                                 buttonsDiv.append(downloadDiv);
                                 buttonsDiv.append(deleteDiv);
-                                dataView.append(document.createElement("br"));
-                                dataView.append(buttonsDiv);
+                                dataView.appendChild(document.createElement("br"));
+                                dataView.appendChild(buttonsDiv);
                             });
                         }
                         dprElement.className = "list-group-item";
@@ -532,7 +540,7 @@
                             var dataJourneyman = childSnapshot.val().journeyman;
                             var dataApprentice = childSnapshot.val().apprentice;
                             var dataStep = childSnapshot.val().step;
-                            for(var i = 0; i<6; i++) {
+                            for(var i = 0; i<8; i++) {
                                 var tempLabel = document.createElement("h4");
                                 var tempElement = document.createElement("input");
                                 // switch statement to easily set up each field
@@ -576,6 +584,7 @@
                                     	tempLabel.textContent = "Access Level";
                                 		tempElement.value = dataAccess;
                                         tempElement.placeHolder = dataAccess;
+                                        break
                                 }
                                 tempElement.readOnly = "true";
                                 tempElement.id = "performed-element-" + i;
@@ -624,6 +633,33 @@
                             stepElement.className = "form-control";
                             dataView.append(stepLabel);
                             dataView.append(stepElement);
+                            
+                            // Button to edit Employee
+                            var buttonsDiv = document.createElement("div");
+                            var editDiv = document.createElement("div");
+                            var deleteDiv = document.createElement("div");
+                            var editButton = document.createElement("button");
+                            var deleteButton = document.createElement("button");
+                            editDiv.className = "col-xs-6";
+                            editButton.className = "btn btn-info btn-lg btn-block";
+                            editButton.innerHTML = "EDIT EMPLOYEE!";
+                            editButton.onclick = function deleteCheck() {
+                                if(confirm('Are you sure you want to EDIT this employee?')) editEmployee(snapshot);
+                            }
+                            editDiv.append(editButton);
+                            deleteDiv.className = "col-xs-6";
+                            deleteButton.className = "btn btn-danger btn-lg btn-block";
+                            deleteButton.innerHTML = "DELETE!!";
+                            deleteButton.disabled = "true";
+                            deleteButton.onclick = function deleteCheck() {
+                                if(confirm('Are you sure you want to DELETE this employee? (This cannot be undone)')) deleteEmployee(snapshot);
+                            }
+                            deleteDiv.append(deleteButton);
+                            buttonsDiv.className = "row";
+                            buttonsDiv.append(editDiv);
+                            buttonsDiv.append(deleteDiv);
+                            dataView.append(document.createElement("br"));
+                            dataView.append(buttonsDiv);
                         }
                         //console.log(childSnapshot.val().nameFull);
                         dataList.appendChild(listEmployee);
@@ -654,8 +690,6 @@
                     doc.addImage(imgData, "JPEG", 94.72, 15.23, 30.56, 15.23);
                     // Page Title
                     doc.text('DAILY PROGRESS REPORT', 110, 36, 'center');
-                	// Changed font size for the rest of the report
-                	doc.setFontSize(85);
                 
                     // Main Info
                     var mainCol = [
@@ -665,7 +699,7 @@
                         {datakey: "4"}
                     ];
                     var mainRows = [
-                        {"0": "PROJECT NAME: ", "1": jobName, "2": "JOB NUMBER", "3": jobNum},
+                        {"0": "PROJECT NAME: ", "1": jobName, "2": "JOB NUMBER:", "3": jobNum},
                         {"0": "REPORT SUBMITTED BY: ", "1": ref.val().submittedBy, "2": "DATE: ", "3": ref.val().date},
                         {"0": "CONTRACTOR: ", "1": ref.val().contractor},
                         {"0": "START TIME: ", "1": ref.val().timeStart,  "2": "END TIME: ", "3": ref.val().timeEnd}
@@ -675,22 +709,17 @@
                         theme: "grid",
                         startY: 40,
                         showHeader: "never",
-                        fontSize: 8,
-                        styles: {overflow: 'linebreak'},
+                        styles: {overflow: 'linebreak', fontSize: 8},
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}},
                         createdCell: function(cell, dataRows) {
-                            if(dataRows.column.index === 0) { 
+                            if(dataRows.column.index === 0 || dataRows.column.index === 2) { 
                                 cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [220, 220, 220];
-                            }
-                            if(dataRows.column.index === 2 && dataRows.row.index === 2){ 
-                                cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [220, 220, 220];
+                                cell.styles.fillColor = [26, 188, 156];
+                                cell.styles.textColor = [255, 255, 255];
                             }
                         }
                     });
-                	
                 	
                 	// Tech Info
                 	var techCol = [{title: "TECHNICIAN", datakey: "tech"}, 
@@ -700,19 +729,19 @@
                     var techRows = [];
                 	for(var i = 0; i<ref.val().techs.length; i++) {
                         var classStep;
-                        if(ref.val().tech[i].journeyman) classStep = "Journeyman";
-                        else classStep = "Apprentice Step " + ref.val().tech[i].step;
+                        if(ref.val().techs[i].journeyman) classStep = "Journeyman";
+                        else classStep = "Apprentice Step " + ref.val().techs[i].step;
                         techRows.push({
-                            0:	ref.val().tech[i].name,
+                            0:	ref.val().techs[i].name,
                             1:	classStep,
-                            2:	ref.val().tech[i].hours
+                            2:	ref.val().techs[i].hours
                         });
                     }
                 	// Table for Techs
                 	doc.autoTable(techCol, techRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY + 5,
-                        styles: {overflow: 'linebreak'},
+                        styles: {overflow: 'linebreak', fontSize: 8},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -725,22 +754,92 @@
                 	doc.autoTable(iqrCol, iqrRows, {
                         theme: "grid",
                         startY: doc.autoTable.previous.finalY,
-                        styles: {overflow: 'linebreak'},
+                        styles: {overflow: 'linebreak', fontSize: 8},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
                     });
                 
                 	// Materials Info
+                	var materialsNeeded = ref.val().needed;
+                	if(materialsNeeded == "" || materialsNeeded == null) materialsNeeded = "Nothing requested";
                 	var materialsCol = [{title: "MATERIALS/EQUIPMENT NEEDED (NOTIFY PM ASAP)", datakey: "needed"},
                                         {title: "DATE NEEDED BY", datakey: "by"}
                                        ];
-                    var materialsRows = [{0: ref.val.needed, 1: ref.val.by}];
+                    var materialsRows = [{0: materialsNeeded, 1: ref.val().by}];
                 	// Table for Materials
                 	doc.autoTable(materialsCol, materialsRows, {
                         theme: "grid",
-                        startY: doc.autoTable.previous.finalY + 5,
+                        startY: doc.autoTable.previous.finalY,
                         styles: {overflow: 'linebreak'},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Work Performed Info
+                	var workCol = [{title: "WORK PERFORMED", datakey: "work"}, 
+                                   {title: "LOCATION (IDF# OR FLOOR)", datakey: "location"}
+                                  ];
+                    var workRows = [];
+                	for(var i = 0; i<ref.val().work.length; i++) {
+                        var workDone;
+                        if(ref.val().work[i].done) workDone = "No work reported...";
+                        else workDone = "Apprentice Step " + ref.val().work[i].step;
+                        workRows.push({
+                            0:	workDone,
+                            1:	ref.val().work[i].location
+                        });
+                    }
+                	// Table for Work Performed
+                	doc.autoTable(workCol, workRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Progress Tracking Title ONLY
+                	var progressCol = [{title: "PROGRESS TRACKING (% Completed)", datakey: "progress"}];
+                    var progressRows = [];
+                	// Table for Progress Tracking Title
+                	doc.autoTable(progressCol, progressRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Progress Tracking Info
+                	var trackingCol = [{title: "LOCATION", datakey: "location"}, 
+                                       {title: "TR BUILD OUT", datakey: "tr"}, 
+                                       {title: "PATHWAYS", datakey: "pathway"}, 
+                                       {title: "ROUGH IN", datakey: "roughIn"}, 
+                                       {title: "TERMINATIONS", datakey: "terminations"}, 
+                                       {title: "TESTING", datakey: "testing"}
+                                      ];
+                    var trackingRows = [];
+                	for(var i = 0; i<ref.val().progress.length; i++) {
+                        var progress = ref.val().progress[i].location;
+                        if(progress == "" || progress == null) progress = "No progress reported...";
+                        trackingRows.push({
+                            0:	progress,
+                            1:	ref.val().progress[i].tr + "%",
+                            2:	ref.val().progress[i].pathway + "%",
+                            3:	ref.val().progress[i].roughIn + "%",
+                            4:	ref.val().progress[i].terminations + "%",
+                            5:	ref.val().progress[i].testing + "%"
+                        });
+                    }
+                	// Table for Work Performed
+                	doc.autoTable(trackingCol, trackingRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
                         fontSize: 8,
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}}
@@ -800,9 +899,10 @@
                         margin: {horizontal: 20},
                         columnStyles: {text: {columnWidth: 'auto'}},
                         createdCell: function(cell, dataRows) {
-                            if (dataRows.column.index === 0) { 
+                            if (dataRows.column.index === 0 || dataRows.column.index === 2) { 
                                 cell.styles.fontStyle = 'bold'; 
-                                cell.styles.fillColor = [220, 220, 220];
+                                cell.styles.fillColor = [26, 188, 156];
+                                cell.styles.textColor = [255, 255, 255];
                             }
                         }
                     });
