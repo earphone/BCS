@@ -530,6 +530,7 @@
             // Clear list and view divs
             var dataList = document.getElementById("data-list");
             var dataView = document.getElementById("data-view");
+            var user = firebase.auth().currentUser;
             dataList.innerHTML = "";
             dataView.innerHTML = "";
             var query = firebase.database().ref("employees/employed/").orderByChild("nameFull");
@@ -604,6 +605,7 @@
                                         tempElement.type = "number";
                                         break
                                 }
+                                tempLabel.id = "performed-label-" + i;
                                 tempElement.readOnly = "true";
                                 tempElement.id = "performed-element-" + i;
                                 tempElement.className = "form-control";
@@ -620,7 +622,7 @@
                             journeymanElement.className = "control-label";	
                             journeymanElement.checked = dataJourneyman;
                             journeymanElement.disabled = true;
-                            journeymanElement.id = "performed-element-7";
+                            journeymanElement.id = "performed-element-8";
                             journeymanLabel.className = "checkbox-inline";
                             journeymanLabel.append(journeymanElement);
                             journeymanLabel.append(journeymanDescription);
@@ -635,7 +637,7 @@
                             console.log("DA: " + dataApprentice);
                             apprenticeElement.checked = dataApprentice;
                             apprenticeElement.disabled = true;
-                            apprenticeElement.id = "performed-element-8";
+                            apprenticeElement.id = "performed-element-9";
                             apprenticeLabel.className = "checkbox-inline";
                             apprenticeLabel.append(apprenticeElement);
                             apprenticeLabel.append(apprenticeDescription);
@@ -647,37 +649,45 @@
                             stepElement.value = dataStep;
                             stepElement.placeHolder = dataStep;
                             stepElement.readOnly = "true";
-                            stepElement.id = "performed-element-9";
+                            stepElement.id = "performed-element-10";
                             stepElement.className = "form-control";
                             stepElement.type = "number";
                             dataView.append(stepLabel);
                             dataView.append(stepElement);
                             // Hidden field for userId
                             var uidElement = document.createElement("p");
-                            uidElement.id = "performed-element-10";
+                            uidElement.id = "performed-element-11";
                             uidElement.display = "none";
                             uidElement.value = dataUid;
                             dataView.append(uidElement);
-                            
-                            // Button to edit Employee
-                            var buttonsDiv = document.createElement("div");
-                            var editDiv = document.createElement("div");
-                            var deleteDiv = document.createElement("div");
-                            var editButton = document.createElement("button");
-                            var deleteButton = document.createElement("button");
-                            editDiv.className = "col-xs-12";
-                            editButton.className = "btn btn-info btn-lg btn-block";
-                            editButton.innerHTML = "EDIT EMPLOYEE!";
-                            editButton.id = "edit-button";
-                            editButton.onclick = function editCheck() {
-                                if(confirm('Are you sure you want to EDIT this employee?')) editEmployee(childSnapshot);
-                            }
-                            editDiv.append(editButton);;
-                            buttonsDiv.className = "row";
-                            buttonsDiv.id = "buttons-div";
-                            buttonsDiv.append(editDiv);
-                            dataView.append(document.createElement("br"));
-                            dataView.append(buttonsDiv);
+                            firebase.database().ref("employees/employed/" + user.uid + "/access").once("value", function(grandChildSnapshot) {
+                                console.log(grandChildSnapshot.val());
+                                if(grandChildSnapshot.val() < 3) {
+                                    // Button to edit Employee
+                                    var buttonsDiv = document.createElement("div");
+                                    var editDiv = document.createElement("div");
+                                    var deleteDiv = document.createElement("div");
+                                    var editButton = document.createElement("button");
+                                    var deleteButton = document.createElement("button");
+                                    editDiv.className = "col-xs-12";
+                                    editButton.className = "btn btn-info btn-lg btn-block";
+                                    editButton.innerHTML = "EDIT EMPLOYEE!";
+                                    editButton.id = "edit-button";
+                                    editButton.onclick = function editCheck() {
+                                        if(confirm('Are you sure you want to EDIT this employee?')) editEmployee(childSnapshot);
+                                    }
+                                    editDiv.append(editButton);;
+                                    buttonsDiv.className = "row";
+                                    buttonsDiv.id = "buttons-div";
+                                    buttonsDiv.append(editDiv);
+                                    dataView.append(document.createElement("br"));
+                                    dataView.append(buttonsDiv);
+                                }
+                                else {
+                                    var label = document.getElementById("performed-label-7").style.display = "none";
+                                    var element = document.getElementById("performed-element-7").style.display = "none";
+                                }
+                            });
                         }
                         //console.log(childSnapshot.val().nameFull);
                         dataList.appendChild(listEmployee);
@@ -1083,8 +1093,12 @@
             updateButton.innerHTML = "UPDATE EMPLOYEE!";
             updateButton.onclick = function updateCheck() {
                 // Firebase update goes here
-                console.log(document.getElementById("performed-element-10").value);
+                console.log(document.getElementById("performed-element-11").value);
                 console.log(ref.key);
+                for(var i = 0; i < inputs.length; i++) {
+                    if((i === 9) || (i === 10)) inputs[i].disabled = true;
+                    else inputs[i].readOnly = true;
+                }
             }
             updateDiv.append(updateButton);
             deleteDiv.className = "col-xs-6";
