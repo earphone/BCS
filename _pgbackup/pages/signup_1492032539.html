@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <meta name="description" content=""> 
         <meta name="author" content=""> 
-        <title>BCS Webapp Login</title>         
+        <title>BCS Webapp Signup</title>         
         <!-- Bootstrap Core CSS -->         
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
         <!-- MetisMenu CSS -->         
@@ -29,9 +29,9 @@
                 <div class="col-md-4 col-md-offset-4"> 
                     <div class="login-panel panel panel-default"> 
                         <div class="panel-heading"> 
-                            <h3 class="panel-title">Please Sign In</h3> 
+                            <h3 class="panel-title"><h4>Please enter an email and password for a new employee!</h4></h3> 
                         </div>                         
-                        <div class="panel-body" id="login-form"> 
+                        <div class="panel-body"> 
                             <form role="form"> 
                                 <fieldset> 
                                     <div class="form-group"> 
@@ -40,23 +40,24 @@
                                     <div class="form-group"> 
                                         <input class="form-control" placeholder="Password" name="password" type="password" value="" id="password"> 
                                     </div>                                     
-                                    <div class="checkbox"> 
-                                        <label> 
-                                            <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                        </label>                                         
-                                    </div>                                     
                                     <!-- Change this to a button or input when using this as a form -->                                     
-                                    <p class="btn btn-lg btn-success btn-block" id="login-button" onclick="loginUser()">LOGIN</p> 
+                                    <p class="btn btn-lg btn-block btn-success" id="create-employee-button" onclick="createEmployee()">Create New Employee</p> 
                                 </fieldset>                                 
                             </form>                             
-                            <h5 id="forgot-password">Forgot Password?</h5> 
-                            <a href="signup.html"><h5 id="sign-up"> 
-                                Sign Up!</h5></a> 
+                            <a href="login.html"><h5 class="text-center">Back to Login</h5></a> 
                         </div>                         
                     </div>                     
                 </div>                 
             </div>             
         </div>         
+        <!-- jQuery -->         
+        <script src="../vendor/jquery/jquery.min.js"></script>         
+        <!-- Bootstrap Core JavaScript -->         
+        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>         
+        <!-- Metis Menu Plugin JavaScript -->         
+        <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
+        <!-- Custom Theme JavaScript -->         
+        <script src="../dist/js/sb-admin-2.js"></script>         
         <!-- Firebase Initialization -->         
         <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
         <script>
@@ -72,32 +73,21 @@
         </script>         
         <!-- Firebase Create User -->         
         <script>
-        function loginUser() {
-            console.log("Hello: " + "email: " + email.value + " pw: " + password.value);
-            firebase.auth().signInWithEmailAndPassword(email.value, password.value).catch(function(error) {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // ...
-              alert("The following error occured: " + errorMessage);
+        function createEmployee() {
+            firebase.auth().createUserWithEmailAndPassword(email.value, password.value).catch(function(error) {
+                // Handle Errors here
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+                alert("The following error occured: " + errorMessage);
             });
-            
             // Send User to index when logged in
             firebase.auth().onAuthStateChanged(user => {
               if(user) {
-                console.log(user);
-                window.location = 'index.html';
+                window.location = 'new-profile.html';
               }
             });
         }
         </script>         
-        <!-- jQuery -->         
-        <script src="../vendor/jquery/jquery.min.js"></script>         
-        <!-- Bootstrap Core JavaScript -->         
-        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>         
-        <!-- Metis Menu Plugin JavaScript -->         
-        <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
-        <!-- Custom Theme JavaScript -->         
-        <script src="../dist/js/sb-admin-2.js"></script>         
     </body>     
 </html>

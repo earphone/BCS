@@ -285,7 +285,7 @@
                                 downloadDiv.className = "col-xs-6";
                                 downloadButton.className = "btn btn-info btn-lg btn-block";
                                 downloadButton.innerHTML = "DOWNLOAD!";
-                                downloadButton.onclick = function deleteCheck() {
+                                downloadButton.onclick = function downloadCheck() {
                                     if(confirm('Are you sure you want to DOWNLOAD this DPR?')) dprDownload(snapshot);
                                 }
                                 downloadDiv.append(downloadButton);
@@ -482,7 +482,7 @@
                                 downloadDiv.className = "col-xs-6";
                                 downloadButton.className = "btn btn-info btn-lg btn-block";
                                 downloadButton.innerHTML = "DOWNLOAD!";
-                                downloadButton.onclick = function deleteCheck() {
+                                downloadButton.onclick = function downloadCheck() {
                                     if(confirm('Are you sure you want to DOWNLOAD this DTR?')) dtrDownload(snapshot);
                                 }
                                 downloadDiv.append(downloadButton);
@@ -540,6 +540,7 @@
                             var dataJourneyman = childSnapshot.val().journeyman;
                             var dataApprentice = childSnapshot.val().apprentice;
                             var dataStep = childSnapshot.val().step;
+                            var dataUid = childSnapshot.val().userId;
                             for(var i = 0; i<8; i++) {
                                 var tempLabel = document.createElement("h4");
                                 var tempElement = document.createElement("input");
@@ -564,16 +565,19 @@
                                 		tempLabel.textContent = "Employee Id #";	
                                 		tempElement.value = dataID;
                                         tempElement.placeHolder = dataID;
+                                        tempElement.type = "number";
                                         break
                                     case 4:
                                 		tempLabel.textContent = "Cell #";	
                                 		tempElement.value = dataCell;
                                         tempElement.placeHolder = dataCell;
+                                        tempElement.type = "tel";
                                         break
                                     case 5:
                                 		tempLabel.textContent = "Contact #";	
                                 		tempElement.value = dataContact;
                                         tempElement.placeHolder = dataContact;
+                                        tempElement.type = "tel";
                                         break
                                     case 6:
                                 		tempLabel.textContent = "Company";	
@@ -584,6 +588,7 @@
                                     	tempLabel.textContent = "Access Level";
                                 		tempElement.value = dataAccess;
                                         tempElement.placeHolder = dataAccess;
+                                        tempElement.type = "number";
                                         break
                                 }
                                 tempElement.readOnly = "true";
@@ -631,8 +636,15 @@
                             stepElement.readOnly = "true";
                             stepElement.id = "performed-element-9";
                             stepElement.className = "form-control";
+                            stepElement.type = "number";
                             dataView.append(stepLabel);
                             dataView.append(stepElement);
+                            // Hidden field for userId
+                            var uidElement = document.createElement("p");
+                            uidElement.id = "performed-element-10";
+                            uidElement.display = "none";
+                            uidElement.value = dataUid;
+                            dataView.append(uidElement);
                             
                             // Button to edit Employee
                             var buttonsDiv = document.createElement("div");
@@ -640,24 +652,17 @@
                             var deleteDiv = document.createElement("div");
                             var editButton = document.createElement("button");
                             var deleteButton = document.createElement("button");
-                            editDiv.className = "col-xs-6";
+                            editDiv.className = "col-xs-12";
                             editButton.className = "btn btn-info btn-lg btn-block";
                             editButton.innerHTML = "EDIT EMPLOYEE!";
-                            editButton.onclick = function deleteCheck() {
-                                if(confirm('Are you sure you want to DOWNLOAD this DTR?')) editEmployee(snapshot);
+                            editButton.id = "edit-button";
+                            editButton.onclick = function editCheck() {
+                                if(confirm('Are you sure you want to EDIT this employee?')) editEmployee(childSnapshot);
                             }
-                            editDiv.append(editButton);
-                            deleteDiv.className = "col-xs-6";
-                            deleteButton.className = "btn btn-danger btn-lg btn-block";
-                            deleteButton.innerHTML = "DELETE!!";
-                            deleteButton.disabled = "true";
-                            deleteButton.onclick = function deleteCheck() {
-                                if(confirm('Are you sure you want to DELETE this DTR? (This cannot be undone)')) deleteEmployee(snapshot);
-                            }
-                            deleteDiv.append(deleteButton);
+                            editDiv.append(editButton);;
                             buttonsDiv.className = "row";
+                            buttonsDiv.id = "buttons-div";
                             buttonsDiv.append(editDiv);
-                            buttonsDiv.append(deleteDiv);
                             dataView.append(document.createElement("br"));
                             dataView.append(buttonsDiv);
                         }
@@ -1043,6 +1048,42 @@
                     // Download document
                     doc.save("DTR_" + jobNum + "_" + date + "_" + initials);
                 });
+        }
+        </script>
+        <script>
+        function editEmployee(ref) {
+            var inputs = document.getElementsByTagName("INPUT");
+            for(var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = false;
+                inputs[i].readOnly = false;
+            }
+            document.getElementById("edit-button").remove();
+            // Buttons to update or delete Employee
+            var buttonsDiv = document.getElementById("buttons-div");
+            var updateDiv = document.createElement("div");
+            var deleteDiv = document.createElement("div");
+            var updateButton = document.createElement("button");
+            var deleteButton = document.createElement("button");
+            updateDiv.className = "col-xs-6";
+            updateButton.id = "update-button";
+            updateButton.className = "btn btn-info btn-lg btn-block";
+            updateButton.innerHTML = "UPDATE EMPLOYEE!";
+            updateButton.onclick = function updateCheck() {
+                // Firebase update goes here
+                console.log(document.getElementById("performed-element-10").value);
+                console.log(ref.key);
+            }
+            updateDiv.append(updateButton);
+            deleteDiv.className = "col-xs-6";
+            deleteButton.className = "btn btn-danger btn-lg btn-block";
+            deleteButton.innerHTML = "DELETE!!";
+            deleteButton.disabled = "true";
+            deleteButton.onclick = function deleteCheck() {
+                if(confirm('Are you sure you want to DELETE this employee? (This cannot be undone)')) deleteEmployee(snapshot);
+            }
+            deleteDiv.append(deleteButton);
+            buttonsDiv.append(updateDiv);
+            buttonsDiv.append(deleteDiv);
         }
         </script>
         <script>

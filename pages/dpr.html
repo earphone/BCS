@@ -206,6 +206,19 @@
             firebase.initializeApp(config);
         </script>         
         <script>
+            var form = document.getElementById("dpr-form");
+            var update = document.getElementById("update-button");
+
+            if(form) {
+                form.addEventListener("keypress", function (e) {
+                    if(e.keyCode === 13) {
+                        update.click();
+                        e.preventDefault();
+                    }
+                });
+            }
+        </script>
+        <script>
         // Script that logs out the user when logout button is clicked
         function logoutUser() {
             firebase.auth().signOut().then(function() {

@@ -111,6 +111,19 @@
             };
             firebase.initializeApp(config);
         </script>         
+        <script>
+            var view = document.getElementById("data-view");
+            var update = document.getElementById("update-button");
+
+            if(view) {
+                view.addEventListener("keypress", function (e) {
+                    if(e.keyCode === 13) {
+                        update.click();
+                        e.preventDefault();
+                    }
+                });
+            }
+        </script>
         <!-- Firebase Create User -->         
         <script>
         function logoutUser() {
@@ -1065,6 +1078,7 @@
             var updateButton = document.createElement("button");
             var deleteButton = document.createElement("button");
             updateDiv.className = "col-xs-6";
+            updateButton.id = "update-button";
             updateButton.className = "btn btn-info btn-lg btn-block";
             updateButton.innerHTML = "UPDATE EMPLOYEE!";
             updateButton.onclick = function updateCheck() {

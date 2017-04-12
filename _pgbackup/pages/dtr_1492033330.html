@@ -77,8 +77,8 @@
                 </div>                 
                 <!-- Main body Div -->                 
                 <div> 
-                    <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DTR!</h3> 
-                    <form id="dpr-form"> 
+                    <h3><i class="fa fa-edit fa-fw"></i>Please Fill out the Information Below for a DTR!</h3>
+                    <form id="dtr-form"> 
                         <div class="form-group"> 
                             <label class="control-label">JOB NUMBER</label>                             
                             <input class="form-control" placeholder="xx-xxx" name="job-num" type="text" value="" id="job-num" required="true"> 
@@ -90,7 +90,7 @@
                         <div class="form-group"> 
                             <label class="control-label">DATE</label>                             
                             <br> 
-                            <input class="form-control" type="date" name="dpr-date" id="dpr-date" min="2016-01-01" required="true"> 
+                            <input class="form-control" type="date" name="dtr-date" id="dtr-date" min="2016-01-01" required="true"> 
                         </div>                         
                         <div class="form-group"> 
                             <label class="control-label">START TIME</label>                             
@@ -157,6 +157,19 @@
             firebase.initializeApp(config);
         </script>         
         <script>
+            var form = document.getElementById("dtr-form");
+            var update = document.getElementById("update-button");
+
+            if(form) {
+                form.addEventListener("keypress", function (e) {
+                    if(e.keyCode === 13) {
+                        update.click();
+                        e.preventDefault();
+                    }
+                });
+            }
+        </script>         
+        <script>
         // Script that logs out the user when logout button is clicked
         function logoutUser() {
             firebase.auth().signOut().then(function() {
@@ -189,7 +202,7 @@
         function updateData() {
             var jobNum = document.getElementById("job-num").value;
             var jobName = document.getElementById("job-name").value;
-            var date = document.getElementById("dpr-date").value;
+            var date = document.getElementById("dtr-date").value;
             var timeStart = document.getElementById("time-start").value;
             var timeEnd = document.getElementById("time-end").value;
             var timeTotal = document.getElementById("time-total").value;
@@ -201,6 +214,7 @@
             var newDTR = firebase.database().ref('dtr').child("randomId").push();
             var newDTRKey = newDTR.key;
             var userInitials = document.getElementById("hidden-initials").value;
+            console.log(userInitials);
             var submit = false;
             var type = null;
             var stop = 0;
@@ -265,6 +279,7 @@
                     submittedBy: user.displayName,
                     submittedInitials: userInitials,
                     submittedDate: getTodaysDate(),
+                    userID: user.uid,
                     jobNum: jobNum,
                     jobName: jobName,
                     date: date,
@@ -506,7 +521,7 @@
         }
         </script>         
         <script>
-        // Script that sets dpr-date as today's date (yyyy-mm-dd)
+        // Script that sets dtr-date as today's date (yyyy-mm-dd)
         function todaysDate() {
             date =  new Date();
             year = date.getFullYear();
@@ -518,7 +533,7 @@
             if(day < 10) {
             	day = "0" + day;   
             }
-            document.getElementById("dpr-date").value = year + "-" + month + "-" + day;
+            document.getElementById("dtr-date").value = year + "-" + month + "-" + day;
         }
         </script>         
         <script>
@@ -535,18 +550,18 @@
         </script>         
         <script>
         function setInitials() {
-            var workDiv = document.getElementById("work-div");
-            var initialsElement = document.createElement("input");
             var user = firebase.auth().currentUser;
-            initialsElement.type = "hidden";
-            initialsElement.name = "hidden-initials";
-            initialsElement.id = "hidden-initials";
-            // Get initials for user
             firebase.database().ref("employees/employed/" + user.uid + "/initials/").once('value').then(function(snapshot) {
+                var workDiv = document.getElementById("dtr-form");
+                var initialsElement = document.createElement("input");
+                // Get initials for user
                 initialsElement.value = snapshot.val();
+            	initialsElement.name = snapshot.val();
                 console.log("userInitials: " + initialsElement.value);
+                initialsElement.type = "hidden";
+                initialsElement.id = "hidden-initials";
+                workDiv.append(initialsElement);
             });
-            workDiv.append(initialsElement);
         }
         </script>         
         <!-- jQuery -->         

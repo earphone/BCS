@@ -165,6 +165,19 @@
         }
         </script>
         <script>
+            var page = document.getElementById("page-wrapper");
+            var login = document.getElementById("update-button");
+
+            if(page) {
+                page.addEventListener("keypress", function (e) {
+                    if(e.keyCode === 13) {
+                        login.click();
+                        e.preventDefault();
+                    }
+                });
+            }
+        </script>
+        <script>
         function updateData() {
             var nameFirst = document.getElementById("name-first").value;
             var nameLast = document.getElementById("name-last").value;
