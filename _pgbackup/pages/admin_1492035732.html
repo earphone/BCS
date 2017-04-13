@@ -1,0 +1,1184 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta name="description" content=""> 
+        <meta name="author" content=""> 
+        <title>BCS Webapp Admin</title>         
+        <!-- Bootstrap Core CSS -->         
+        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+        <!-- MetisMenu CSS -->         
+        <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet"> 
+        <!-- Custom CSS -->         
+        <link href="../dist/css/sb-admin-2.css" rel="stylesheet"> 
+        <!-- Custom Fonts -->         
+        <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->         
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->         
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->         
+        <!-- jspdf -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+        <!-- jspdf-AutoTable -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.0/jspdf.plugin.autotable.js"></script>
+    </head>     
+    <body onload="checkUser()"> 
+        <div id="wrapper"> 
+            <!-- Navigation -->             
+            <!-- Page Content -->             
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"> 
+                <div class="navbar-header"> 
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
+                        <span class="sr-only">Toggle navigation</span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                    </button>                     
+                    <a class="navbar-brand" href="index.html"><b>BCS Webapp</b></a> 
+                </div>                 
+                <!-- /.navbar-header -->                 
+                <!-- /.navbar-top-links -->                 
+                <div class="navbar-default sidebar" role="navigation"> 
+                    <div class="sidebar-nav navbar-collapse"> 
+                        <ul class="nav" id="side-menu"> 
+                            <li> 
+                                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> 
+                            </li>                             
+                            <li> 
+                                <a href="dpr.html"><i class="fa fa-list-alt fa-fw"></i> DPR</a> 
+                            </li>                             
+                            <li> 
+                                <a href="dtr.html"><i class="fa fa-list fa-fw"></i> DTR</a> 
+                            </li>                             
+                            <li> 
+                                <a href="profile.html"><i class="fa fa-user fa-fw"></i>&nbsp;Profile</a> 
+                            </li>                             
+                            <li> 
+                                <a href="admin.html"><i class="fa fa-gamepad fa-fw"></i> Admin</a> 
+                            </li>                             
+                            <!-- fa-institution -->                             
+                            <li> 
+                                <a href="login.html" id="logout" onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
+                            </li>                             
+                        </ul>                         
+                    </div>                     
+                    <!-- /.sidebar-collapse -->                     
+                </div>                 
+                <!-- /.navbar-static-side -->                 
+            </nav>             
+            <div id="page-wrapper"> 
+                <div class="container-fluid"> 
+                    <div class="row"> 
+                        <div class="col-lg-12"> 
+                            <h1 class="page-header">Admin</h1> 
+                            <p><button type="button" id="view-dpr-button" class="btn btn-primary btn-lg btn-block" onclick="listDPR()">View DPRs</button></p> 
+                            <p><button type="button" id="view-dtr-button" class="btn btn-primary btn-lg btn-block" onclick="listDTR()">View DTRs</button></p> 
+                            <p><button type="button" class="btn btn-primary btn-lg btn-block" onclick="listEmployees()">View Employees</button></p> 
+                            <hr> 
+                        </div>                         
+                        <!-- /.col-lg-12 -->                         
+                    </div>                     
+                    <!-- /.row -->                     
+                    <div class="row"> 
+                        <div class="col-lg-12" id="data-view"> 
+</div>                         
+                    </div>                     
+                    <hr> 
+                    <div class="row"> 
+                        <div class="col-lg-12" id="data-list"> 
+</div>                         
+                    </div>                     
+                </div>                 
+                <!-- /.container-fluid -->                 
+            </div>             
+            <!-- /#page-wrapper -->             
+        </div>         
+        <!-- /#wrapper -->         
+        <!-- Firebase Initialization -->         
+        <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>         
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyA55RJ8kvG-n-UClBQSNjnjLK3dvb1vwd8",
+                authDomain: "bcs-webapp.firebaseapp.com",
+                databaseURL: "https://bcs-webapp.firebaseio.com",
+                storageBucket: "bcs-webapp.appspot.com",
+                messagingSenderId: "664106049370"
+            };
+            firebase.initializeApp(config);
+        </script>         
+        <script>
+            var view = document.getElementById("data-view");
+            var update = document.getElementById("update-button");
+
+            if(view) {
+                view.addEventListener("keypress", function (e) {
+                    if(e.keyCode === 13) {
+                        update.click();
+                        e.preventDefault();
+                    }
+                });
+            }
+        </script>
+        <!-- Firebase Create User -->         
+        <script>
+        function logoutUser() {
+            firebase.auth().signOut().then(function() {
+              console.log('Signed Out');
+            }, function(error) {
+              console.error('Sign Out Error', error);
+            });
+        }
+        </script>         
+        <!-- Checks if user is logged in. If not,  redirects to Login page -->         
+        <script>
+        function checkUser() {
+            console.log("Checking User!");
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    console.log(user.uid + " is signed in");
+                    // User is signed in.
+                    // Hide Viewing of DPRs and DTRs if access rights are lower
+                    firebase.database().ref("employees/employed/" + user.uid + "/access").once("value", function(snapshot) {
+                        console.log(snapshot.val());
+                        if(snapshot.val() > 2) {
+                            document.getElementById('view-dpr-button').remove();
+                            document.getElementById('view-dtr-button').remove();
+                        }
+                    });
+                } else {
+                    // No user is signed in.
+                    window.location="login.html";
+                }
+            });
+        }
+        </script>         
+        <script>
+        function listDPR() {
+            // Clear list and view divs
+            var dataList = document.getElementById("data-list");
+            var dataView = document.getElementById("data-view");
+            var dprRef = firebase.database().ref("dpr/date");
+            dataList.innerHTML = "";
+            dataView.innerHTML = "";
+            // Start DPR
+            dprRef.orderByKey().limitToLast(20).on("child_added", function(snapshot) {
+                //console.log(snapshot.val());
+                var randomId;
+                var date = snapshot.key;
+                var jobNum;
+                var submittedBy;
+                snapshot.forEach(function(choldSnapshot) {
+                    choldSnapshot.forEach(function(grandchildSnapshot) {
+                        var dprElement = document.createElement("a");
+                        jobNum = choldSnapshot.key;
+                        //console.log(choldSnapshot.key);
+                        randomId = grandchildSnapshot.key;
+                        //console.log(randomId);
+                        submittedBy = grandchildSnapshot.val().submittedBy;
+                        date = date.replace("-","").replace("-","");
+                        dprElement.href = "javascript:void(0)";
+                        dprElement.onclick = function showData() {
+                            //console.log("Boop: " + randomId);
+                            // Clear previous data
+                            dataView.innerHTML = "";
+                            // Load data for this specific randomId
+                            firebase.database().ref('dpr/randomId/' + randomId).once('value').then(function(snapshot) {
+                                // ...
+                                var headerElement = document.createElement("h3");
+                                var contractorElement = document.createElement("h4");
+                                var techsLabelElement = document.createElement("h4");
+                                var iqrLabelElement = document.createElement("h4");
+                                var iqrElement = document.createElement("input");
+                                var neededLabelElement = document.createElement("h4");
+                                var neededElement = document.createElement("input");
+                                var performedLabelElement = document.createElement("h4");
+                                var progressLabelElement = document.createElement("h4");
+                                var dataElement = document.createElement("a");
+                                // Header data (needs buttons for edit/delete)
+                                headerElement.textContent = "DPR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd;
+                                dataView.append(headerElement);
+                                dataView.append(document.createElement("hr"));
+                                // Contractor Data
+                                contractorElement.textContent = "CONTRACTOR: " + snapshot.val().contractor;
+                                dataView.append(contractorElement);
+                                // Display data for each tech
+                                firebase.database().ref("dpr/randomId/" + randomId + "/techs").orderByKey().once("value", function(childSnapshot) {
+                                    techsLabelElement.textContent = "TECHNICIANS:";
+                                    dataView.append(techsLabelElement);
+                                    var num = 0;
+                                    childSnapshot.forEach(function(grandChildSnapshot) {
+                                        var techElement = document.createElement("input");
+                                        techElement.readOnly = "true";
+                                        techElement.id = "tech-element-" + num;
+                                        techElement.className = "form-control";
+                                        num ++;
+                                        if(grandChildSnapshot.val().journeyman) techElement.value = grandChildSnapshot.val().name + " the Journeyman worked " + grandChildSnapshot.val().hours + " hours";
+                                        else if(grandChildSnapshot.val().apprentice) techElement.value = grandChildSnapshot.val().name + " the Apprentice Step " + grandChildSnapshot.val().step + " worked " + grandChildSnapshot.val().hours + " hours";
+                                        else techElement.value = grandChildSnapshot.val().name + " worked " + grandChildSnapshot.val().hours + " hours";
+                                        dataView.append(techElement);
+                                    });
+                                    if(num == 0) {
+                                        var techElement = document.createElement("input");
+                                        techElement.readOnly = "true";
+                                        techElement.id = "tech-element-0";
+                                        techElement.className = "form-control";
+                                        dataView.append(techElement);
+                                    }
+                                });
+                                // Iqr Data
+                                iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
+                                dataView.append(iqrLabelElement);
+                                iqrElement.readOnly = "true";
+                                iqrElement.id = "iqr-element";
+                                iqrElement.className = "form-control";
+                                iqrElement.value = snapshot.val().iqr;
+                                dataView.append(iqrElement);
+                                // Materials Needed & By data
+                                neededLabelElement.textContent = "MATERIAL/EQUIPMENT NEEDED:";
+                                dataView.append(neededLabelElement);
+                                neededElement.readOnly = "true";
+                                neededElement.id = "needed-element";
+                                neededElement.className = "form-control";
+                                neededElement.value = "By " + snapshot.val().by + " they need: " + snapshot.val().needed;
+                                dataView.append(neededElement);
+                                // Work Performed Data
+                                firebase.database().ref("dpr/randomId/" + randomId + "/work").orderByKey().once("value", function(childSnapshot) {
+                                    var num = 0;
+                                    performedLabelElement.textContent = "WORK PERFORMED:";
+                                    dataView.append(performedLabelElement);
+                                    childSnapshot.forEach(function(grandChildSnapshot) {
+                                        var performedElement = document.createElement("input");
+                                        performedElement.readOnly = "true";
+                                        performedElement.id = "performed-element-" + num;
+                                        performedElement.className = "form-control";
+                                        num ++;
+                                        if((num == 1) && (grandChildSnapshot.val().location == "") && (grandChildSnapshot.val().done == "")) {
+                                            performedElement.value = "No work reported...";
+                                        }
+                                        else performedElement.value = "Work Performed at: " + grandChildSnapshot.val().location + ": " + grandChildSnapshot.val().done;
+                                        dataView.append(performedElement);
+                                    });
+                                });
+                                // Work Progress Data
+                                firebase.database().ref("dpr/randomId/" + randomId + "/progress").orderByKey().once("value", function(childSnapshot) {
+                                    var num = 0;
+                                    var progressExampleElement = document.createElement("h5");
+                                    progressLabelElement.textContent = "PROGRESS TRACKING (in the following format):";
+                                    dataView.append(progressLabelElement);
+                                    progressExampleElement.textContent = "LOCATION - TR BUILD OUT - PATHWAYS - ROUGH IN - TERMINATIONS - TESTING";
+                                    dataView.append(progressExampleElement);
+                                    childSnapshot.forEach(function(grandChildSnapshot) {
+                                        var progressElement = document.createElement("input");
+                                        progressElement.readOnly = "true";
+                                        progressElement.id = "progress-element-" + num;
+                                        progressElement.className = "form-control";
+                                        num ++;
+                                        if((num == 1) && (grandChildSnapshot.val().location == "")) {
+                                            progressElement.value = "No progress reported...";
+                                        }
+                                        else progressElement.value = (grandChildSnapshot.val().location + " - " + grandChildSnapshot.val().tr + "% - " + grandChildSnapshot.val().pathway + "% - " + grandChildSnapshot.val().roughIn + "% - " + grandChildSnapshot.val().terminations + "% - " + grandChildSnapshot.val().testing + "%");
+                                        dataView.append(progressElement);
+                                    });
+                                });
+                                // Hidden Data with randomId (needs ID to call when going to next page)
+                                // Random data
+                                //dataElement.className = "list-group-item";
+                                //dataElement.text = snapshot.val().date;
+                                //dataView.append(dataElement);
+                                var buttonsDiv = document.createElement("div");
+                                var downloadDiv = document.createElement("div");
+                                var deleteDiv = document.createElement("div");
+                                var downloadButton = document.createElement("button");
+                                var deleteButton = document.createElement("button");
+                                downloadDiv.className = "col-xs-6";
+                                downloadButton.className = "btn btn-info btn-lg btn-block";
+                                downloadButton.innerHTML = "DOWNLOAD!";
+                                downloadButton.onclick = function downloadCheck() {
+                                    if(confirm('Are you sure you want to DOWNLOAD this DPR?')) dprDownload(snapshot);
+                                }
+                                downloadDiv.append(downloadButton);
+                                deleteDiv.className = "col-xs-6";
+                                deleteButton.className = "btn btn-danger btn-lg btn-block";
+                                deleteButton.innerHTML = "DELETE!!";
+                                deleteButton.onclick = function deleteCheck() {
+                                    if(confirm('Are you sure you want to DELETE this DPR? (This cannot be undone)')) dprDelete(snapshot);
+                                }
+                                deleteDiv.append(deleteButton);
+                                buttonsDiv.className = "row";
+                                buttonsDiv.append(downloadDiv);
+                                buttonsDiv.append(deleteDiv);
+                                dataView.appendChild(document.createElement("br"));
+                                dataView.appendChild(buttonsDiv);
+                            });
+                        }
+                        dprElement.className = "list-group-item";
+                        dprElement.text = "DPR_" + jobNum + "_" + date + "_" + submittedBy;
+                        //console.log(randomId);
+                        // Onclick will enact the showData() function for the randomId
+                        console.log("adding: " + "DPR_" + jobNum + "_" + date + "_" + submittedBy + " for ID: " + randomId);
+                        dataList.prepend(dprElement);
+                    });
+                });
+            });
+            dprRef.orderByKey().off("child_added");
+            // End DPR
+        }
+        </script>         
+        <script>
+        function listDTR() {
+            // Clear list and view divs
+            var dataList = document.getElementById("data-list");
+            var dataView = document.getElementById("data-view");
+            var dtrRef = firebase.database().ref("dtr/date");
+            dataList.innerHTML = "";
+            dataView.innerHTML = ""; 
+            // Start DTR (This is on top so that the DPR stuff can be placed after)
+            dtrRef.orderByKey().limitToLast(20).on("child_added", function(snapshot) {
+                //console.log(snapshot.key);
+                var randomId = "";
+                var date = snapshot.key;
+                var jobNum;
+                var submittedBy;
+                snapshot.forEach(function(childSnapshot) {
+                    childSnapshot.forEach(function(grandchildSnapshot) {
+                        var dtrElement = document.createElement("a");
+                        jobNum = childSnapshot.key;
+                        randomId = grandchildSnapshot.key;
+                        submittedBy = grandchildSnapshot.val().submittedBy;
+                        //console.log(jobNum + " " + randomId);
+                        date = date.replace("-","").replace("-","");
+                        dtrElement.href = "javascript:void(0)";
+                        dtrElement.onclick = function showData() {
+                            dataView.innerHTML = ""; 
+                            // Load data for this specific randomId
+                            firebase.database().ref('dtr/randomId/' + randomId).once('value').then(function(snapshot) {
+                                // ...
+                                //console.log(snapshot.ref.toString());
+                                var headerElement = document.createElement("h2");
+                                var byLabelElement = document.createElement("h3");
+                                var byElement = document.createElement("input");
+                                var performedLabelElement = document.createElement("h3");
+                                var performedTopHintElement = document.createElement("h5");
+                                var performedBotHintElement = document.createElement("h5");
+                                var iqrLabelElement = document.createElement("h3");
+                                var iqrElement = document.createElement("input");
+                                //var dataElement = document.createElement("a");
+                                // Header data (needs buttons for edit/delete)
+                                headerElement.textContent = snapshot.val().type + " DTR for Job #" + snapshot.val().jobNum + " on " + snapshot.val().date + " from " + snapshot.val().timeStart + " to " + snapshot.val().timeEnd + " or " + snapshot.val().timeTotal + " total hours";
+                                dataView.append(headerElement);
+                                dataView.append(document.createElement("hr"));
+                                // Display submitted by
+                                byLabelElement.textContent = "SUBMITTED BY:";
+                                byLabelElement.style.textDecoration = "underline";
+                                dataView.append(byLabelElement);
+                                byElement.readOnly = "true";
+                                byElement.id = "by-element";
+                                byElement.className = "form-control";
+                                byElement.value = snapshot.val().submittedBy;
+                                dataView.append(byElement);
+                                // Display work performed
+                                performedLabelElement.textContent = "WORK PERFORMED:";
+                                performedLabelElement.style.textDecoration = "underline";
+                                dataView.append(performedLabelElement);
+                                performedTopHintElement.textContent = "WORK PERFORMED: COST-CODE";
+                                dataView.append(performedTopHintElement);
+                                performedBotHintElement.textContent = "HOURS - MATERIALS ISSUED - MATERIALS INSTALLED";
+                                dataView.append(performedBotHintElement);
+                                // ISP Data
+                                if(snapshot.val().type == "ISP") {
+                                    var fieldsList = [
+                                        ["PATHWAYS AND SPACES:",""],["INSTALL CEILING HANGER","3-001"],["INSTALL J-HOOK","3-001"],
+                                        ["INSTALL SLEEVE (DRYWALL)","3-001"],["INSTALL SLEEVE (CONCRETE)","3-001"],["INSTALL CONDUIT","3-001"],
+                                        ["INSTALL CABLE RUNWAY/TRAY","3-001"],["MDF/IDF WORK:",""],["INSTALL BACKBOARD","4-001"],
+                                        ["INSTALL CABLE RUNWAY/TRAY","4-002"],["INSTALL GROUND WIRE","4-002"],["INSTALL RACK/CABINET","4-003"],
+                                        ["IDF EQUIPMENT MOUNTING","4-003"],["INSTALL GROUND WIRE","4-003"],["IDF HORIZ CABLE DRESSING","4-004"],
+                                        ["IDF HORIZ CABLE TERMINATIONS","4-004"],["IDF LABELING","4-005"],["RISERS:",""],
+                                        ["RISER CABLE ROUGH IN","5-001"],["RISER CABLE DRESSING","5-001"],["RISER CABLE TERMINATIONS","4-004"],
+                                        ["HORIZONTAL WORK:",""],["IDF TESTING","4-005"],["INSTALL PULL STRING","6-X0X/7-00X"],
+                                        ["CABLE ROUGH-IN","6-X0X/7-00X"],["FISH WALL","6-X0X/7-00X"],["INSTALL MPLS","6-X0X/7-00X"],
+                                        ["INSTALL WIREMOLD","6-X0X/7-00X"],["TERMINATE JACKS","6-X0X/7-00X"],["INSTALL FACEPLATES","6-X0X/7-00X"],
+                                        ["TESTING","6-X0X/7-00X"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                                        ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],
+                                        ["ISP DEMO","11-001"],["RISER DEMO","11-003"]
+                                    ];
+                                    // use switch, print out 0,7,17,21,32,36
+                                    for(var i = 0; i < 38; i++) {
+                                        switch(i) {
+                                            case 0:
+                                            case 7:
+                                            case 17:
+                                            case 21:
+                                            case 31:
+                                            case 35:
+                                                var tempElement = document.createElement("h4");
+                                                tempElement.textContent = fieldsList[i][0];
+                                                tempElement.style.textDecoration = "underline";
+                                                dataView.append(tempElement);
+                                                break
+                                                default:
+                                                //console.log(childSnapshot.val()[i] + " i: " + i);
+                                                if(snapshot.val().hours[i] != "") {
+                                                    var tempLabel = document.createElement("h5");
+                                                    var tempElement = document.createElement("input");
+                                                    tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
+                                                    tempElement.readOnly = "true";
+                                                    tempElement.id = "performed-element-" + i;
+                                                    tempElement.className = "form-control";	
+                                                    tempElement.value = snapshot.val().hours[i] + " - " + snapshot.val().matIssued[i] + " - " + snapshot.val().matinstalled[i];
+                                                    dataView.append(tempLabel);
+                                                    dataView.append(tempElement);
+                                                }
+                                        }
+                                    }
+                                }
+                                // OSP Data
+                                else if(snapshot.val().type == "OSP") {
+                                    var fieldsList = [
+                                        ["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
+                                        ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK:",""],
+                                        ["DRESS CABLES","2-002"],["INSTALL DUCT SEAL","2-002"],["INSTALL TERMINATION BAGS","2-002"],
+                                        ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
+                                        ["TERMINATIONS","2-002"],["TESTING","2-002"],["MAINTENANCE HOLE GUARD","2-001"],
+                                        ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                                        ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],["OSP DEMO","11-002"]
+                                    ];
+                                    for(var i = 0; i < 22; i++) {
+                                        switch(i) {
+                                            case 0:
+                                            case 5:
+                                            case 16:
+                                            case 20:
+                                                var tempElement = document.createElement("h4");
+                                                tempElement.textContent = fieldsList[i][0];
+                                                tempElement.style.textDecoration = "underline";
+                                                dataView.append(tempElement);
+                                                break
+                                                default:
+                                                if(snapshot.val().hours[i] != "") {
+                                                    var tempLabel = document.createElement("h4");
+                                                    var tempElement = document.createElement("input");
+                                                    tempLabel.textContent = fieldsList[i][0] + ": " + fieldsList[i][1];
+                                                    tempElement.readOnly = "true";
+                                                    tempElement.id = "performed-element-" + i;
+                                                    tempElement.className = "form-control";	
+                                                    tempElement.value = snapshot.val().hours[i] + " - " + snapshot.val().matIssued[i] + " - " + snapshot.val().matinstalled[i];
+                                                    dataView.append(tempLabel);
+                                                    dataView.append(tempElement);
+                                                }
+                                        }
+                                    }
+                                }
+                                // Iqr Data
+                                iqrLabelElement.textContent = "INSTALLATION ISSUES/QUESTION/REMARKS:";
+                                iqrLabelElement.style.textDecoration = "underline";
+                                dataView.append(iqrLabelElement);
+                                iqrElement.readOnly = "true";
+                                iqrElement.id = "iqr-element";
+                                iqrElement.className = "form-control";
+                                iqrElement.value = snapshot.val().iqr;
+                                dataView.append(iqrElement);
+                                // Hidden Data with randomId (needs ID to call when going to next page)
+                                // Random data
+                                //dataElement.className = "list-group-item";
+                                //dataElement.text = snapshot.val().date;
+                                //dataView.append(dataElement);
+                                var buttonsDiv = document.createElement("div");
+                                var downloadDiv = document.createElement("div");
+                                var deleteDiv = document.createElement("div");
+                                var downloadButton = document.createElement("button");
+                                var deleteButton = document.createElement("button");
+                                downloadDiv.className = "col-xs-6";
+                                downloadButton.className = "btn btn-info btn-lg btn-block";
+                                downloadButton.innerHTML = "DOWNLOAD!";
+                                downloadButton.onclick = function downloadCheck() {
+                                    if(confirm('Are you sure you want to DOWNLOAD this DTR?')) dtrDownload(snapshot);
+                                }
+                                downloadDiv.append(downloadButton);
+                                deleteDiv.className = "col-xs-6";
+                                deleteButton.className = "btn btn-danger btn-lg btn-block";
+                                deleteButton.innerHTML = "DELETE!!";
+                                deleteButton.onclick = function deleteCheck() {
+                                    if(confirm('Are you sure you want to DELETE this DTR? (This cannot be undone)')) dtrDelete(snapshot);
+                                }
+                                deleteDiv.append(deleteButton);
+                                buttonsDiv.className = "row";
+                                buttonsDiv.append(downloadDiv);
+                                buttonsDiv.append(deleteDiv);
+                                dataView.append(document.createElement("br"));
+                                dataView.append(buttonsDiv);
+                            });
+                        }
+                        //console.log(randomId);
+                        // Onclick will enact the showData() function for the randomId
+                        dtrElement.className = "list-group-item";
+                        dtrElement.text = "DTR_" + jobNum + "_" + date + "_" + submittedBy;
+                        dataList.insertBefore(dtrElement, dataList.firstChild);
+                    });
+                });
+            });
+            dtrRef.orderByKey().off("child_added");
+            // End DTR
+        }
+        </script>         
+        <script>
+        function listEmployees() {
+            // Clear list and view divs
+            var dataList = document.getElementById("data-list");
+            var dataView = document.getElementById("data-view");
+            var user = firebase.auth().currentUser;
+            dataList.innerHTML = "";
+            dataView.innerHTML = "";
+            var query = firebase.database().ref("employees/employed/").orderByChild("nameFull");
+                query.once("value")
+                    .then(function(snapshot) {
+                    snapshot.forEach(function(childSnapshot) {
+                        var listEmployee = document.createElement("a");
+                        listEmployee.text = childSnapshot.val().nameFull;
+                        listEmployee.className = "list-group-item";
+                        listEmployee.href = "javascript:void(0)";
+                        listEmployee.onclick = function showData() {
+                            dataView.innerHTML = "";
+                            var dataFirst = childSnapshot.val().nameFirst;
+                            var dataLast = childSnapshot.val().nameLast;
+                            var dataInitials = childSnapshot.val().initials;
+                            var dataID = childSnapshot.val().idNum;
+                            var dataCell = childSnapshot.val().cellNum;
+                            var dataContact = childSnapshot.val().contactNum;
+                            var dataCompany = childSnapshot.val().company;
+                            var dataAccess = childSnapshot.val().access;
+                            var dataJourneyman = childSnapshot.val().journeyman;
+                            var dataApprentice = childSnapshot.val().apprentice;
+                            var dataStep = childSnapshot.val().step;
+                            var dataUid = childSnapshot.val().userId;
+                            for(var i = 0; i<8; i++) {
+                                var tempLabel = document.createElement("h4");
+                                var tempElement = document.createElement("input");
+                                // switch statement to easily set up each field
+                                switch(i) {
+                                    case 0:
+                                		tempLabel.textContent = "First Name";	
+                                		tempElement.value = dataFirst;
+                                        tempElement.placeHolder = dataFirst;
+                                        break
+                                    case 1:
+                                		tempLabel.textContent = "Last Name";	
+                                		tempElement.value = dataLast;
+                                        tempElement.placeHolder = dataLast;
+                                        break
+                                    case 2:
+                                		tempLabel.textContent = "Initials";	
+                                		tempElement.value = dataInitials;
+                                        tempElement.placeHolder = dataInitials;
+                                        break
+                                    case 3:
+                                		tempLabel.textContent = "Employee Id #";	
+                                		tempElement.value = dataID;
+                                        tempElement.placeHolder = dataID;
+                                        tempElement.type = "number";
+                                        break
+                                    case 4:
+                                		tempLabel.textContent = "Cell #";	
+                                		tempElement.value = dataCell;
+                                        tempElement.placeHolder = dataCell;
+                                        tempElement.type = "tel";
+                                        break
+                                    case 5:
+                                		tempLabel.textContent = "Contact #";	
+                                		tempElement.value = dataContact;
+                                        tempElement.placeHolder = dataContact;
+                                        tempElement.type = "tel";
+                                        break
+                                    case 6:
+                                		tempLabel.textContent = "Company";	
+                                		tempElement.value = dataCompany;
+                                        tempElement.placeHolder = dataCompany;
+                                        break
+                                    case 7:
+                                    	tempLabel.textContent = "Access Level";
+                                		tempElement.value = dataAccess;
+                                        tempElement.placeHolder = dataAccess;
+                                        tempElement.type = "number";
+                                        break
+                                }
+                                tempLabel.id = "performed-label-" + i;
+                                tempElement.readOnly = "true";
+                                tempElement.id = "performed-element-" + i;
+                                tempElement.className = "form-control";
+                                dataView.append(tempLabel);
+                                dataView.append(tempElement);
+                            }
+                            var classLabel = document.createElement("h4");
+                            // Checkbox for Journeyman
+                            var journeymanLabel = document.createElement("label");
+                            var journeymanElement = document.createElement("input");
+                            var journeymanDescription = document.createTextNode("Journeyman");
+                            classLabel.textContent = "Class";
+                            journeymanElement.type = "checkbox";
+                            journeymanElement.className = "control-label";	
+                            journeymanElement.checked = dataJourneyman;
+                            journeymanElement.disabled = true;
+                            journeymanElement.id = "performed-element-8";
+                            journeymanLabel.className = "checkbox-inline";
+                            journeymanLabel.append(journeymanElement);
+                            journeymanLabel.append(journeymanDescription);
+                            dataView.append(classLabel);
+                            dataView.append(journeymanLabel);
+                            // Checkbox for apprentice
+                            var apprenticeLabel = document.createElement("label");
+                            var apprenticeElement = document.createElement("input");
+                            var apprenticeDescription = document.createTextNode("Apprentice");
+                            apprenticeElement.type = "checkbox";
+                            apprenticeElement.className = "control-label";
+                            console.log("DA: " + dataApprentice);
+                            apprenticeElement.checked = dataApprentice;
+                            apprenticeElement.disabled = true;
+                            apprenticeElement.id = "performed-element-9";
+                            apprenticeLabel.className = "checkbox-inline";
+                            apprenticeLabel.append(apprenticeElement);
+                            apprenticeLabel.append(apprenticeDescription);
+                            dataView.append(apprenticeLabel);
+                            // Input field for step
+                            var stepLabel = document.createElement("h4");
+                            var stepElement = document.createElement("input");
+                            stepLabel.textContent = "Step";	
+                            stepElement.value = dataStep;
+                            stepElement.placeHolder = dataStep;
+                            stepElement.readOnly = "true";
+                            stepElement.id = "performed-element-10";
+                            stepElement.className = "form-control";
+                            stepElement.type = "number";
+                            dataView.append(stepLabel);
+                            dataView.append(stepElement);
+                            // Hidden field for userId
+                            var uidElement = document.createElement("p");
+                            uidElement.id = "performed-element-11";
+                            uidElement.display = "none";
+                            uidElement.value = dataUid;
+                            dataView.append(uidElement);
+                            
+                            firebase.database().ref("employees/employed/" + user.uid + "/access").once("value", function(grandChildSnapshot) {
+                                console.log(snapshot.child("access").val());
+                                if(snapshot.val() < 3) {
+                                    // Button to edit Employee
+                                    var buttonsDiv = document.createElement("div");
+                                    var editDiv = document.createElement("div");
+                                    var deleteDiv = document.createElement("div");
+                                    var editButton = document.createElement("button");
+                                    var deleteButton = document.createElement("button");
+                                    editDiv.className = "col-xs-12";
+                                    editButton.className = "btn btn-info btn-lg btn-block";
+                                    editButton.innerHTML = "EDIT EMPLOYEE!";
+                                    editButton.id = "edit-button";
+                                    editButton.onclick = function editCheck() {
+                                        if(confirm('Are you sure you want to EDIT this employee?')) editEmployee(childSnapshot);
+                                    }
+                                    editDiv.append(editButton);;
+                                    buttonsDiv.className = "row";
+                                    buttonsDiv.id = "buttons-div";
+                                    buttonsDiv.append(editDiv);
+                                    dataView.append(document.createElement("br"));
+                                    dataView.append(buttonsDiv);
+                                }
+                                else {
+                                    document.getElementById("performed-label-7").visibility = "hidden";
+                                    document.getElementById("performed-element-7").visibility = "hidden";
+                                }
+                            });
+                        }
+                        //console.log(childSnapshot.val().nameFull);
+                        dataList.appendChild(listEmployee);
+                    });
+                });
+        }
+        </script>
+        <script>
+		function dprDownload(ref) {
+            var doc = new jsPDF("p", "mm", "a4");
+            var jobName = ref.val().jobName;
+            var jobNum = ref.val().jobNum;
+            var date = ref.val().date;
+            var randomId = ref.key;
+            var uID = ref.val().userID;
+            var initials = ref.val().submittedInitials;
+            var imgData = getImgData();
+            var classification;
+            var query = firebase.database().ref("employees/employed/" + uID);
+            query.once("value")
+                .then(function(snapshot) {
+                    if(snapshot.val().journeyman) classification = "Journeyman";
+                    else classification = "Apprentice Step " + snapshot.val().step;
+                
+                    date = date.replace("-","").replace("-","");
+                    console.log("DPR_" + jobNum + "_" + date + "_" + initials);	
+                    // Logo
+                    doc.addImage(imgData, "JPEG", 94.72, 15.23, 30.56, 15.23);
+                    // Page Title
+                    doc.text('DAILY PROGRESS REPORT', 110, 36, 'center');
+                
+                    // Main Info
+                    var mainCol = [
+                        {datakey: "1"},
+                        {datakey: "2"},
+                        {datakey: "3"},
+                        {datakey: "4"}
+                    ];
+                    var mainRows = [
+                        {"0": "PROJECT NAME: ", "1": jobName, "2": "JOB NUMBER:", "3": jobNum},
+                        {"0": "REPORT SUBMITTED BY: ", "1": ref.val().submittedBy, "2": "DATE: ", "3": ref.val().date},
+                        {"0": "CONTRACTOR: ", "1": ref.val().contractor},
+                        {"0": "START TIME: ", "1": ref.val().timeStart,  "2": "END TIME: ", "3": ref.val().timeEnd}
+                    ];
+                    // Table for Main Info
+                    doc.autoTable(mainCol, mainRows, {
+                        theme: "grid",
+                        startY: 40,
+                        showHeader: "never",
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}},
+                        createdCell: function(cell, dataRows) {
+                            if(dataRows.column.index === 0 || dataRows.column.index === 2) { 
+                                cell.styles.fontStyle = 'bold'; 
+                                cell.styles.fillColor = [26, 188, 156];
+                                cell.styles.textColor = [255, 255, 255];
+                            }
+                        }
+                    });
+                	
+                	// Tech Info
+                	var techCol = [{title: "TECHNICIAN", datakey: "tech"}, 
+                                   {title: "CLASSIFICATION / STEP", datakey: "classStep"}, 
+                                   {title: "HOURS", datakey: "hours"}
+                                  ];
+                    var techRows = [];
+                	for(var i = 0; i<ref.val().techs.length; i++) {
+                        var classStep;
+                        if(ref.val().techs[i].journeyman) classStep = "Journeyman";
+                        else classStep = "Apprentice Step " + ref.val().techs[i].step;
+                        techRows.push({
+                            0:	ref.val().techs[i].name,
+                            1:	classStep,
+                            2:	ref.val().techs[i].hours
+                        });
+                    }
+                	// Table for Techs
+                	doc.autoTable(techCol, techRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY + 5,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                	
+                	// IQR Info
+                	var iqrCol = [{title: "ISTALLATION ISSUES / QUESTIONS / REMARKS:", datakey: "iqr"}];
+                    var iqrRows = [{0: ref.val().iqr}];
+                	// Table for IQR
+                	doc.autoTable(iqrCol, iqrRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Materials Info
+                	var materialsNeeded = ref.val().needed;
+                	if(materialsNeeded == "" || materialsNeeded == null) materialsNeeded = "Nothing requested";
+                	var materialsCol = [{title: "MATERIALS/EQUIPMENT NEEDED (NOTIFY PM ASAP)", datakey: "needed"},
+                                        {title: "DATE NEEDED BY", datakey: "by"}
+                                       ];
+                    var materialsRows = [{0: materialsNeeded, 1: ref.val().by}];
+                	// Table for Materials
+                	doc.autoTable(materialsCol, materialsRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak'},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Work Performed Info
+                	var workCol = [{title: "WORK PERFORMED", datakey: "work"}, 
+                                   {title: "LOCATION (IDF# OR FLOOR)", datakey: "location"}
+                                  ];
+                    var workRows = [];
+                	for(var i = 0; i<ref.val().work.length; i++) {
+                        var workDone;
+                        if(ref.val().work[i].done) workDone = "No work reported...";
+                        else workDone = "Apprentice Step " + ref.val().work[i].step;
+                        workRows.push({
+                            0:	workDone,
+                            1:	ref.val().work[i].location
+                        });
+                    }
+                	// Table for Work Performed
+                	doc.autoTable(workCol, workRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Progress Tracking Title ONLY
+                	var progressCol = [{title: "PROGRESS TRACKING (% Completed)", datakey: "progress"}];
+                    var progressRows = [];
+                	// Table for Progress Tracking Title
+                	doc.autoTable(progressCol, progressRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                	// Progress Tracking Info
+                	var trackingCol = [{title: "LOCATION", datakey: "location"}, 
+                                       {title: "TR BUILD OUT", datakey: "tr"}, 
+                                       {title: "PATHWAYS", datakey: "pathway"}, 
+                                       {title: "ROUGH IN", datakey: "roughIn"}, 
+                                       {title: "TERMINATIONS", datakey: "terminations"}, 
+                                       {title: "TESTING", datakey: "testing"}
+                                      ];
+                    var trackingRows = [];
+                	for(var i = 0; i<ref.val().progress.length; i++) {
+                        var progress = ref.val().progress[i].location;
+                        if(progress == "" || progress == null) progress = "No progress reported...";
+                        trackingRows.push({
+                            0:	progress,
+                            1:	ref.val().progress[i].tr + "%",
+                            2:	ref.val().progress[i].pathway + "%",
+                            3:	ref.val().progress[i].roughIn + "%",
+                            4:	ref.val().progress[i].terminations + "%",
+                            5:	ref.val().progress[i].testing + "%"
+                        });
+                    }
+                	// Table for Work Performed
+                	doc.autoTable(trackingCol, trackingRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY,
+                        styles: {overflow: 'linebreak', fontSize: 8},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                	
+                    // Download document
+                    doc.save("DPR_" + jobNum + "_" + date + "_" + initials);
+                });
+        }
+        </script>
+        <script>
+        function dtrDownload(ref) {
+            var doc = new jsPDF("p", "mm", "a4");
+            var jobName = ref.val().jobName;
+            var jobNum = ref.val().jobNum;
+            var date = ref.val().date;
+            var randomId = ref.key;
+            var uID = ref.val().userID;
+            var initials = ref.val().submittedInitials;
+            var imgData = getImgData();
+            var classification;
+            var query = firebase.database().ref("employees/employed/" + uID);
+            query.once("value")
+                .then(function(snapshot) {
+                    if(snapshot.val().journeyman) classification = "Journeyman";
+                    else classification = "Apprentice Step " + snapshot.val().step;
+                
+                    date = date.replace("-","").replace("-","");
+                    console.log("DTR_" + jobNum + "_" + date + "_" + initials);	
+                    // Logo
+                    doc.addImage(imgData, "JPEG", 94.72, 15.23, 30.56, 15.23);
+                    // Page Title
+                    doc.text('DAILY TECHNICIAN REPORT' + " (" + ref.val().type + ")", 110, 36, 'center');
+                	// Changed font size for the rest of the report
+                	doc.setFontSize(85);
+                
+                    // Main Info
+                    var mainCol = [
+                        {datakey: "1"},
+                        {datakey: "2"},
+                        {datakey: "3"},
+                        {datakey: "4"}
+                    ];
+                    var mainRows = [
+                        {"0": "PROJECT NAME: ", "1": jobName, "2": "JOB NUMBER", "3": jobNum},
+                        {"0": "REPORT SUBMITTED BY: ", "1": ref.val().submittedBy, "2": "DATE: ", "3": ref.val().date},
+                        {"0": "START TIME: ", "1": ref.val().timeStart,  "2": "END TIME: ", "3": ref.val().timeEnd},
+                        {"0": "CLASSIFICATION: ", "1": classification, "2": "TOTAL HOURS: ", "3":  ref.val().timeTotal}
+                    ];
+                    // Table for Main Info
+                    doc.autoTable(mainCol, mainRows, {
+                        theme: "grid",
+                        startY: 40,
+                        showHeader: "never",
+                        fontSize: 8,
+                        styles: {overflow: 'linebreak'},
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}},
+                        createdCell: function(cell, dataRows) {
+                            if (dataRows.column.index === 0 || dataRows.column.index === 2) { 
+                                cell.styles.fontStyle = 'bold'; 
+                                cell.styles.fillColor = [26, 188, 156];
+                                cell.styles.textColor = [255, 255, 255];
+                            }
+                        }
+                    });
+                
+                	// Data Info
+                	var dataCol = [
+                        {title: "WORK PERFORMED", datakey: "performed"},
+                        {title: "COST CODE", datakey: "code"},
+                        {title: "HOURS", datakey: "hours"},
+                        {title: "MATERIALS ISSUED", datakey: "issued"},
+                        {title: "MATERIALS INSTALLED", datakey: "installed"}
+                    ];
+                	var dataRows = [
+                    ];
+                    // ISP Data
+                    if(ref.val().type == "ISP") {
+                        var fieldsList = [
+                            ["PATHWAYS AND SPACES:",""],["INSTALL CEILING HANGER","3-001"],["INSTALL J-HOOK","3-001"],
+                            ["INSTALL SLEEVE (DRYWALL)","3-001"],["INSTALL SLEEVE (CONCRETE)","3-001"],["INSTALL CONDUIT","3-001"],
+                            ["INSTALL CABLE RUNWAY/TRAY","3-001"],["MDF/IDF WORK:",""],["INSTALL BACKBOARD","4-001"],
+                            ["INSTALL CABLE RUNWAY/TRAY","4-002"],["INSTALL GROUND WIRE","4-002"],["INSTALL RACK/CABINET","4-003"],
+                            ["IDF EQUIPMENT MOUNTING","4-003"],["INSTALL GROUND WIRE","4-003"],["IDF HORIZ CABLE DRESSING","4-004"],
+                            ["IDF HORIZ CABLE TERMINATIONS","4-004"],["IDF LABELING","4-005"],["RISERS:",""],
+                            ["RISER CABLE ROUGH IN","5-001"],["RISER CABLE DRESSING","5-001"],["RISER CABLE TERMINATIONS","4-004"],
+                            ["HORIZONTAL WORK:",""],["IDF TESTING","4-005"],["INSTALL PULL STRING","6-X0X/7-00X"],
+                            ["CABLE ROUGH-IN","6-X0X/7-00X"],["FISH WALL","6-X0X/7-00X"],["INSTALL MPLS","6-X0X/7-00X"],
+                            ["INSTALL WIREMOLD","6-X0X/7-00X"],["TERMINATE JACKS","6-X0X/7-00X"],["INSTALL FACEPLATES","6-X0X/7-00X"],
+                            ["TESTING","6-X0X/7-00X"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                            ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],
+                            ["ISP DEMO","11-001"],["RISER DEMO","11-003"]
+                        ];
+                        // use switch, print out 0,7,17,21,32,36
+                        for(var i = 0; i < 38; i++) {
+                            switch(i) {
+                                case 0:
+                                case 7:
+                                case 17:
+                                case 21:
+                                case 31:
+                                case 35:
+                                    dataRows.push({
+                                        0: fieldsList[i][0],
+                                        1: "",
+                                        2: "",
+                                        3: "",
+                                       	4: ""
+                                    });
+                                    break
+                                default:
+                                    //console.log(childSnapshot.val()[i] + " i: " + i);
+                                   // if(ref.val().hours[i] != "") {
+                                        dataRows.push({
+                                            0: fieldsList[i][0],
+                                            1: fieldsList[i][1],
+                                            2: ref.val().hours[i],
+                                            3:ref.val().matIssued[i],
+                                            4: ref.val().matinstalled[i]
+                                        });
+                                   // }
+                            }
+                        }
+                    }
+                    // OSP Data
+                    else if(ref.val().type == "OSP") {
+                        var fieldsList = [
+                            ["OSP (Including Site Work):",""],["MAINTENANCE HOLE SETUP","2-001"],["ROD AND ROPE","2-001"],
+                            ["INSTALL INNDERDUCT","2-001"],["INSTALL CABLE","2-001"],["MAINTENANCE HOLE/OUTDOOR WORK:",""],
+                            ["DRESS CABLES","2-002"],["INSTALL DUCT SEAL","2-002"],["INSTALL TERMINATION BAGS","2-002"],
+                            ["INSTALL LABELING","2-002"],["SPLICING WORK","2-002"],["MOUNT EQUIPMENT","2-002"],
+                            ["TERMINATIONS","2-002"],["TESTING","2-002"],["MAINTENANCE HOLE GUARD","2-001"],
+                            ["TRAFFIC CONTROL","2-001"],["INDIRECT LABOR COSTS:",""],["PUNCHLIST","8-006"],
+                            ["TROUBLESHOOTING","8-006"],["MATERIAL HANDLING","8-007"],["DEMO:",""],["OSP DEMO","11-002"]
+                        ];
+                        for(var i = 0; i < 22; i++) {
+                            switch(i) {
+                                case 0:
+                                case 5:
+                                case 16:
+                                case 20:
+                                    dataRows.push({
+                                        0: fieldsList[i][0],
+                                        1: "",
+                                        2: "",
+                                        3: "",
+                                        4: ""
+                                    });
+                                    break
+                                default:
+                                    //if(ref.val().hours[i] != "") {
+                                        dataRows.push({
+                                            0: fieldsList[i][0],
+                                            1: fieldsList[i][1],
+                                            2: ref.val().hours[i],
+                                            3:ref.val().matIssued[i],
+                                            4: ref.val().matinstalled[i]
+                                        });
+                                   // }
+                            }
+                        }
+                    }
+                	// Table for Data Info
+                	doc.autoTable(dataCol, dataRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY + 5,
+                        styles: {overflow: 'linebreak'},
+                        margin: {horizontal: 20},
+                        fontSize: 8,
+                        columnStyles: {text: {columnWidth: 'auto'}},
+                        createdCell: function(cell, dataRows) {
+                            if(ref.val().type == "ISP") {
+                                if (dataRows.row.index === 0 || dataRows.row.index === 7 || dataRows.row.index === 17 || dataRows.row.index === 21 || dataRows.row.index === 31 || dataRows.row.index === 35) { 
+                                    cell.styles.fontStyle = 'bold'; 
+                                    cell.styles.fillColor = [220, 220, 220];
+                                }
+                            }
+                            else {
+                                if (dataRows.row.index === 0 || dataRows.row.index === 5 || dataRows.row.index === 16 || dataRows.row.index === 20) { 
+                                    cell.styles.fontStyle = 'bold'; 
+                                    cell.styles.fillColor = [220, 220, 220];
+                                }
+                            }
+                        }
+                    });
+                
+                	// IQR Info
+                	var iqrCol = [{title: "ISTALLATION ISSUES / QUESTIONS / REMARKS:", datakey: "iqr"}];
+                    var iqrRows = [{0: ref.val().iqr}];
+                	// Table for IQR
+                	doc.autoTable(iqrCol, iqrRows, {
+                        theme: "grid",
+                        startY: doc.autoTable.previous.finalY + 5,
+                        styles: {overflow: 'linebreak'},
+                        fontSize: 8,
+                        margin: {horizontal: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}}
+                    });
+                
+                    // Download document
+                    doc.save("DTR_" + jobNum + "_" + date + "_" + initials);
+                });
+        }
+        </script>
+        <script>
+        function editEmployee(ref) {
+            var inputs = document.getElementsByTagName("INPUT");
+            for(var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = false;
+                inputs[i].readOnly = false;
+            }
+            document.getElementById("edit-button").remove();
+            // Buttons to update or delete Employee
+            var buttonsDiv = document.getElementById("buttons-div");
+            var updateDiv = document.createElement("div");
+            var deleteDiv = document.createElement("div");
+            var updateButton = document.createElement("button");
+            var deleteButton = document.createElement("button");
+            updateDiv.className = "col-xs-6";
+            updateButton.id = "update-button";
+            updateButton.className = "btn btn-info btn-lg btn-block";
+            updateButton.innerHTML = "UPDATE EMPLOYEE!";
+            updateButton.onclick = function updateCheck() {
+                // Firebase update goes here
+                console.log(document.getElementById("performed-element-11").value);
+                console.log(ref.key);
+                for(var i = 0; i < inputs.length; i++) {
+                    if((i === 9) || (i === 10)) inputs[i].disabled = true;
+                    else inputs[i].readOnly = true;
+                }
+            }
+            updateDiv.append(updateButton);
+            deleteDiv.className = "col-xs-6";
+            deleteButton.className = "btn btn-danger btn-lg btn-block";
+            deleteButton.innerHTML = "DELETE!!";
+            deleteButton.disabled = "true";
+            deleteButton.onclick = function deleteCheck() {
+                if(confirm('Are you sure you want to DELETE this employee? (This cannot be undone)')) deleteEmployee(snapshot);
+            }
+            deleteDiv.append(deleteButton);
+            buttonsDiv.append(updateDiv);
+            buttonsDiv.append(deleteDiv);
+        }
+        </script>
+        <script>
+        function dtrDelete(ref) {
+            var jobNum = ref.val().jobNum;
+            var date = ref.val().date;
+            var randomId = ref.key;
+            var uID = ref.val().userID;
+            var by = ref.val().submittedBy;
+            var dataView = document.getElementById("data-view");
+            firebase.database().ref("dtr/date/" + date + "/" + jobNum + "/" + randomId).remove();
+            firebase.database().ref("dtr/jobNum/" + jobNum + "/" + date + "/" + randomId).remove();
+            firebase.database().ref("dtr/randomId/" + randomId).remove();
+            firebase.database().ref("employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId).remove();
+            console.log("removed: " + "dtr/randomId/" + randomId);
+            console.log("removed: " + "dtr/date/" + date + "/" + jobNum + "/" + randomId);
+            console.log("removed: " + "dtr/date/" + jobNum + "/" + date + "/" + randomId);
+            console.log("removed: " + "employees/employed/" + uID + "/history/dtr/" + date + "/" + jobNum + "/" + randomId);
+            dataView.innerHTML = "Successfully deleted DTR_" + jobNum + "_" + date + "_" + by;
+        }
+        </script>
+        <script>
+        function dprDelete(ref) {
+            var jobNum = ref.val().jobNum;
+            var date = ref.val().date;
+            var randomId = ref.key;
+            var uID = ref.val().userID;
+            var by = ref.val().submittedBy;
+            var dataView = document.getElementById("data-view");
+            firebase.database().ref("dpr/date/" + date + "/" + jobNum + "/" + randomId).remove();
+            firebase.database().ref("dpr/jobNum/" + jobNum + "/" + date + "/" + randomId).remove();
+            firebase.database().ref("dpr/randomId/" + randomId).remove();
+            firebase.database().ref("employees/employed/" + uID + "/history/dpr/" + date + "/" + jobNum + "/" + randomId).remove();
+            console.log("removed: " + "dpr/randomId/" + randomId);
+            console.log("removed: " + "dpr/date/" + date + "/" + jobNum + "/" + randomId);
+            console.log("removed: " + "dpr/date/" + jobNum + "/" + date + "/" + randomId);
+            console.log("removed: " + "employees/employed/" + uID + "/history/dpr/" + date + "/" + jobNum + "/" + randomId);
+            dataView.innerHTML = "Successfully deleted DPR_" + jobNum + "_" + date + "_" + by;
+        }
+        </script>
+        <script>
+        // num is the number of date prior to today ex. 0 = today; 1 = yesterday
+        function getDate(num) {
+            var tempDate =  new Date();
+            var date = new Date(tempDate);
+            date.setDate(tempDate.getDate()-num);
+            year = date.getFullYear();
+            month = date.getMonth() + 1;
+            if(month < 10) {
+            	month = "0" + month;   
+            }
+            day = date.getDate();
+            return year + "-" + month + "-" + day;
+        }
+        </script>
+        <script>
+        function getImgData() {
+            return "data:image/jpeg;base64,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";
+        }
+        </script>
+        <!-- jQuery -->         
+        <script src="../vendor/jquery/jquery.min.js"></script>         
+        <!-- Bootstrap Core JavaScript -->         
+        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>         
+        <!-- Metis Menu Plugin JavaScript -->         
+        <script src="../vendor/metisMenu/metisMenu.min.js"></script>         
+        <!-- Custom Theme JavaScript -->         
+        <script src="../dist/js/sb-admin-2.js"></script>         
+    </body>     
+</html>

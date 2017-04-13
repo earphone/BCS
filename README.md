@@ -5,14 +5,14 @@
 ### To Do
 - [x] Find Database (FIREBASE)
 - [x] Figure out and setup login and logout
-- [/] Setup Database structure
+- [X] Setup Database structure
 - [X] Signup page
 - [X] DPR page
-- [ ] DTR page
-- [ ] Admin page
-- [ ] Profile page
+- [X] DTR page
+- [X] Admin page
+- [X] Profile page
 - [ ] Possible Timesheet page
-- [ ] Download to PDF (preferably create template to look exactly like current version)
+- [X] Download to PDF (preferably create template to look exactly like current version)
 
 ### Challenges
 ##### There were many challenges that had to be overcome over the course of this project
