@@ -21,6 +21,13 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->         
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>         
+        <script>
+            $(document).ready(function () {
+                $("#footer").load("footer.html");
+                $("#navbar").load("navbar.html");
+            });
+        </script>         
         <!-- jspdf -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
         <!-- jspdf-AutoTable -->
@@ -30,46 +37,7 @@
         <div id="wrapper"> 
             <!-- Navigation -->             
             <!-- Page Content -->             
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"> 
-                <div class="navbar-header"> 
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
-                        <span class="sr-only">Toggle navigation</span> 
-                        <span class="icon-bar"></span> 
-                        <span class="icon-bar"></span> 
-                        <span class="icon-bar"></span> 
-                    </button>                     
-                    <a class="navbar-brand" href="index.html"><b>BCS Webapp</b></a> 
-                </div>                 
-                <!-- /.navbar-header -->                 
-                <!-- /.navbar-top-links -->                 
-                <div class="navbar-default sidebar" role="navigation"> 
-                    <div class="sidebar-nav navbar-collapse"> 
-                        <ul class="nav" id="side-menu"> 
-                            <li> 
-                                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> 
-                            </li>                             
-                            <li> 
-                                <a href="dpr.html"><i class="fa fa-list-alt fa-fw"></i> DPR</a> 
-                            </li>                             
-                            <li> 
-                                <a href="dtr.html"><i class="fa fa-list fa-fw"></i> DTR</a> 
-                            </li>                             
-                            <li> 
-                                <a href="profile.html"><i class="fa fa-user fa-fw"></i>&nbsp;Profile</a> 
-                            </li>                             
-                            <li> 
-                                <a href="admin.html"><i class="fa fa-gamepad fa-fw"></i> Admin</a> 
-                            </li>                             
-                            <!-- fa-institution -->                             
-                            <li> 
-                                <a href="login.html" id="logout" onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a> 
-                            </li>                             
-                        </ul>                         
-                    </div>                     
-                    <!-- /.sidebar-collapse -->                     
-                </div>                 
-                <!-- /.navbar-static-side -->                 
-            </nav>             
+            <div id="navbar"></div>             
             <div id="page-wrapper"> 
                 <div class="container-fluid"> 
                     <div class="row"> 
@@ -94,7 +62,9 @@
                     </div>                     
                 </div>                 
                 <!-- /.container-fluid -->                 
+                <br>
             </div>             
+            <div id="footer"></div>
             <!-- /#page-wrapper -->             
         </div>         
         <!-- /#wrapper -->         
@@ -660,10 +630,9 @@
                             uidElement.display = "none";
                             uidElement.value = dataUid;
                             dataView.append(uidElement);
-                            
                             firebase.database().ref("employees/employed/" + user.uid + "/access").once("value", function(grandChildSnapshot) {
-                                console.log(snapshot.val().access);
-                                if(snapshot.val() < 3) {
+                                console.log(grandChildSnapshot.val());
+                                if(grandChildSnapshot.val() < 3) {
                                     // Button to edit Employee
                                     var buttonsDiv = document.createElement("div");
                                     var editDiv = document.createElement("div");
@@ -685,8 +654,8 @@
                                     dataView.append(buttonsDiv);
                                 }
                                 else {
-                                    document.getElementById("performed-label-7").visibility = "hidden";
-                                    document.getElementById("performed-element-7").visibility = "hidden";
+                                    var label = document.getElementById("performed-label-7").style.display = "none";
+                                    var element = document.getElementById("performed-element-7").style.display = "none";
                                 }
                             });
                         }
@@ -1093,12 +1062,23 @@
             updateButton.className = "btn btn-info btn-lg btn-block";
             updateButton.innerHTML = "UPDATE EMPLOYEE!";
             updateButton.onclick = function updateCheck() {
+                var nameFull = inputs[0].value + " " + inputs[1].value;
                 // Firebase update goes here
                 console.log(document.getElementById("performed-element-11").value);
                 console.log(ref.key);
                 for(var i = 0; i < inputs.length; i++) {
                     if((i === 9) || (i === 10)) inputs[i].disabled = true;
                     else inputs[i].readOnly = true;
+                }
+                if((inputs[0].value != inputs[0].placeHolder) || (inputs[1].value != inputs[1].placeHolder)) {
+                    console.log("Place holders: " + inputs[0].placeHolder + " " + inputs[1].placeHolder);
+                    firebase.database().ref("employees/technicians/" + nameFull).set({
+                        apprentice: inputs[9].checked,
+                        journeyman: inputs[8].checked,
+                        name: nameFull,
+                        step: inputs[10].value
+                    });	
+                    firebase.database().ref("employees/technicians/" + inputs[0].placeHolder + " " + inputs[1].placeHolder).remove();
                 }
             }
             updateDiv.append(updateButton);

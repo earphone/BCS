@@ -1069,12 +1069,56 @@
                     if((i === 9) || (i === 10)) inputs[i].disabled = true;
                     else inputs[i].readOnly = true;
                 }
+                if((inputs[0].value != inputs[0].placeHolder) || (inputs[1].value != inputs[1].placeHolder)) {
+                    var nameFull = inputs[0].value + " " + inputs[1].value;
+                    // Update Name of Technician and remove old reference
+                    firebase.database().ref("employees/technicians/" + nameFull).set({
+                        apprentice: inputs[9].checked,
+                        journeyman: inputs[8].checked,
+                        name: nameFull,
+                        step: inputs[10].value
+                    });	
+                    firebase.database().ref("employees/technicians/" + inputs[0].placeHolder + " " + inputs[1].placeHolder).remove();
+                    // Update all values
+                    firebase.database().ref("employees/employed/" + document.getElementById("performed-element-11").value).update({
+                        nameFirst: inputs[0].value,
+                        nameLast: inputs[1].value,
+                        nameFull: nameFull,
+                        initials: inputs[2].value,
+                        idNum: inputs[3].value,
+                        cellNum: inputs[4].value,
+                        contactNum: inputs[5].value,
+                        company: inputs[6].value,
+                        access: inputs[7].value,
+                        journeyman: inputs[8].checked,
+                        apprentice: inputs[9].checked,
+                        step: inputs[10].value
+                    });
+                }
+                else {
+                    // Update all values
+                    console.log("input 11 value: " + document.getElementById("performed-element-11").value);
+                    firebase.database().ref("employees/employed/" + document.getElementById("performed-element-11").value).update({
+                        initials: inputs[2].value,
+                        idNum: inputs[3].value,
+                        cellNum: inputs[4].value,
+                        contactNum: inputs[5].value,
+                        company: inputs[6].value,
+                        access: inputs[7].value,
+                        journeyman: inputs[8].checked,
+                        apprentice: inputs[9].checked,
+                        step: inputs[10].value
+                    });
+                }
+                document.getElementById("update-button").remove();
+                document.getElementById("delete-button").remove();
             }
             updateDiv.append(updateButton);
             deleteDiv.className = "col-xs-6";
             deleteButton.className = "btn btn-danger btn-lg btn-block";
             deleteButton.innerHTML = "DELETE!!";
             deleteButton.disabled = "true";
+            deleteButton.id = "delete-button";
             deleteButton.onclick = function deleteCheck() {
                 if(confirm('Are you sure you want to DELETE this employee? (This cannot be undone)')) deleteEmployee(snapshot);
             }
